@@ -58,27 +58,25 @@
       </div>`,
 
     refah: () => `
-      ${side("رفاه سازمانی", "var(--refah)", ["کیف اعتبار", "خدمات رفاهی", "درخواست‌ها", "گزارش منابع انسانی"], 0)}
+      ${side("بن رفاهیات", "var(--refah)", ["صفحهٔ اصلی", "بن‌های من", "فروشگاه‌های طرف قرارداد", "درخواست‌های خرید", "نیازمندی‌ها"], 1)}
       <div class="app-main">
         <div class="app-top">
-          <div><h4>سلام، همکار گرامی 👋</h4><span class="muted">اعتبار رفاهی سال ۱۴۰۵</span></div>
-          <span class="chip gray">واحد منابع انسانی</span>
+          <div><h4>بن‌های من</h4><span class="muted">اعتبار اولیه، مصرف‌شده و مانده</span></div>
+          <span class="mini-btn" style="background:var(--refah)">▦ استفاده از بن (QR)</span>
         </div>
         <div class="wallet">
-          <div><span>اعتبار باقی‌مانده</span><b>۱۸٬۶۰۰٬۰۰۰ ریال</b><div class="meter"><i></i></div></div>
-          <span class="mini-btn" style="background:rgba(255,255,255,.22)">استفاده از اعتبار</span>
+          <div><span>بن نوروزی ۱۴۰۵ · مانده اعتبار</span><b>۳٬۷۲۰٬۰۰۰ تومان</b><div class="meter"><i></i></div></div>
+          <div style="text-align:left"><span>اعتبار اولیه</span><b style="font-size:16px">۶٬۰۰۰٬۰۰۰</b></div>
         </div>
-        <div class="services">
-          <div class="svc"><i>🛡️</i>بیمه تکمیلی</div>
-          <div class="svc"><i>💳</i>وام و تسهیلات</div>
-          <div class="svc"><i>🛒</i>خرید با تخفیف</div>
-          <div class="svc"><i>✈️</i>سفر و اقامت</div>
-          <div class="svc"><i>🏋️</i>ورزش و سلامت</div>
+        <div class="req">
+          <div><span class="chip wait">درخواست خرید جدید</span><b>فروشگاه نمونه · شعبهٔ مرکزی</b>
+            <span class="muted">فاکتور ۲٬۴۰۰٬۰۰۰ − تخفیف ۱۲٪ = <b>۲٬۱۱۲٬۰۰۰</b> از بن</span></div>
+          <div class="code" aria-label="کد تأیید">۴۸۲۱۷</div>
         </div>
         <div class="rows">
-          <div class="row"><span>درخواست</span><span>تاریخ</span><span>وضعیت</span></div>
-          <div class="row"><b>تسهیلات قرض‌الحسنه</b><span>۱۲ آبان</span><span class="chip ok">تأیید شد</span></div>
-          <div class="row"><b>بلیت سفر مشهد</b><span>۱۰ آبان</span><span class="chip wait">در انتظار</span></div>
+          <div class="row"><span>فروشگاه طرف قرارداد</span><span>تخفیف</span><span>وضعیت</span></div>
+          <div class="row"><b>فروشگاه نمونهٔ ۱</b><span>۱۲٪</span><span class="chip ok">مجاز</span></div>
+          <div class="row"><b>فروشگاه نمونهٔ ۲</b><span>۸٪</span><span class="chip ok">مجاز</span></div>
         </div>
       </div>`,
   };

@@ -1,43 +1,60 @@
 # وب‌سایت اِنو دیجیتال
 
-وب‌سایت معرفی شرکت و سه محصول آن: **سامانهٔ بن الکترونیکی رفاهیات**، **لیموجت** (خرید آنلاین مواد غذایی) و **لیموسی**.
+وب‌سایت شرکتی فارسی (RTL) برای یک شرکت توسعهٔ نرم‌افزار با دو حوزه: محصولات آماده (Limoc، LimoFood، سامانهٔ رفاهیات) و توسعهٔ نرم‌افزار سفارشی.
 
-نشانی: https://amirhooseindamandarya.github.io/enodigital/
+**فناوری:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · کامپوننت‌های سبک shadcn (Radix) · Lucide · Motion · فونت Vazirmatn (میزبانی داخلی)
 
-سایت ایستا (HTML/CSS/JS بدون build)، راست‌چین، مینیمال و واکنش‌گرا. فونت **وزیرمتن** داخل خود سایت میزبانی می‌شود (بدون وابستگی به Google Fonts یا CDN خارجی).
+## اجرا
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # خروجی ایستا در out/
+```
 
 ## ساختار
 
 ```
-index.html                 صفحهٔ اصلی
-products/refah.html        سامانهٔ بن الکترونیکی رفاهیات
-products/limoojet.html     لیموجت
-products/limoc.html        لیموسی
-404.html                   صفحهٔ خطا
-sitemap.xml, robots.txt    سئو
-assets/css/style.css       سیستم طراحی
-assets/js/main.js          منو، انیمیشن نمایش، فرم
-assets/fonts/              وزیرمتن (متغیر، مجوز OFL)
-assets/img/                تصاویر واقعی سامانه (WebP)، آیکون‌ها، تصویر اشتراک‌گذاری
+src/app/                      صفحات (App Router)
+  page.tsx                    صفحهٔ اصلی
+  products/                   همهٔ محصولات + limoc / limofood / benefits
+  services/custom-software/   توسعهٔ نرم‌افزار سفارشی
+  projects/ about/ blog/ contact/
+  sitemap.ts robots.ts not-found.tsx
+src/lib/                      داده‌های ساخت‌یافته (مستقل از JSX)
+  site.ts                     نام شرکت، لوگو، اطلاعات تماس، منو
+  products.ts                 اطلاعات سه محصول
+  content.ts                  خدمات، فرایند، پروژه‌ها، مقالات
+  seo.tsx                     متادیتا و JSON-LD
+src/components/
+  layout/                     هدر (Mega Menu، منوی موبایل)، فوتر، لوگو
+  home/                       بخش‌های صفحهٔ اصلی و انتخاب راهکار
+  product/                    Heroهای اختصاصی و بلوک‌های صفحات محصول
+  mockups/                    ماکاپ‌های مفهومی و تصاویر واقعی رفاهیات
+  forms/lead-form.tsx         فرم تماس / دمو / درخواست پروژه
+  ui/ motion/                 دکمه، آکاردئون، آیکون، انیمیشن نمایش
+src/assets/screens/           اسکرین‌شات‌های واقعی سامانهٔ رفاهیات (دادهٔ آزمایشی)
 ```
 
-## سئو
+## تنظیمات (`.env.example`)
 
-- عنوان و توضیح متا اختصاصی برای هر صفحه، canonical، Open Graph و Twitter Card
-- دادهٔ ساختاریافته (JSON-LD): Organization، WebSite، FAQPage، SoftwareApplication، BreadcrumbList
-- sitemap.xml و robots.txt
-- متن جایگزین (alt) توصیفی برای همهٔ تصاویر، بارگذاری تنبل تصاویر پایین صفحه
+| متغیر | کاربرد |
+|---|---|
+| `NEXT_PUBLIC_BASE_PATH` | مسیر پایه؛ برای GitHub Pages `/enodigital`، برای دامنهٔ اختصاصی خالی |
+| `NEXT_PUBLIC_SITE_URL` | آدرس کامل سایت برای canonical و sitemap |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | نقطهٔ اتصال API فرم‌ها (POST، `multipart/form-data`) |
 
-اگر دامنهٔ اختصاصی وصل شد، آدرس `amirhooseindamandarya.github.io/enodigital` را در همهٔ فایل‌ها (canonical، og، sitemap، robots و 404) با دامنهٔ جدید جایگزین کنید.
+فرم‌ها اعتبارسنجی کامل دارند. تا `NEXT_PUBLIC_FORM_ENDPOINT` تنظیم نشود، **هیچ پیام موفقیت ساختگی نمایش داده نمی‌شود** و کاربر مطلع می‌شود که ارسال آنلاین فعال نیست. فیلدهای ارسالی: `name`, `organization`, `contact`, `topic`/`projectType`/`teamSize`, `message`, `attachment`, `product`, `formType`, `page`.
 
-## اجرای محلی
+## انتشار
 
-```bash
-python3 -m http.server 8000
-```
+گردش‌کار `.github/workflows/deploy.yml` با هر push سایت را می‌سازد و روی GitHub Pages منتشر می‌کند.
+در تنظیمات مخزن: **Settings → Pages → Source = GitHub Actions**.
+برای فرم: **Settings → Secrets and variables → Actions → Variables → `FORM_ENDPOINT`**.
 
-## کارهای باقی‌مانده (در کد با `TODO` مشخص شده‌اند)
+## محتوای قابل جایگزینی (TODO)
 
-- محتوا و اسکرین‌شات واقعی **لیموسی** و **لیموجت**
-- اطلاعات تماس، لوگو و رنگ برند
-- اتصال فرم درخواست دمو به بک‌اند
+- نام نهایی شرکت، لوگو و اطلاعات تماس: `src/lib/site.ts`
+- اسکرین‌شات واقعی Limoc و LimoFood (فعلاً ماکاپ مفهومی با برچسب): `src/components/mockups/`
+- نمونه‌کارهای واقعی و نتایج قابل‌استناد: `src/lib/content.ts` → `projects`
+- داستان و تیم شرکت: `src/app/about/page.tsx`

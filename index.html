@@ -1,246 +1,336 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>اِنو دیجیتال | لیموسی، لیموجت و سامانهٔ بن الکترونیکی رفاهیات</title>
-  <meta name="description" content="اِنو دیجیتال؛ سازندهٔ لیموسی، لیموجت (فروش آنلاین مواد غذایی) و سامانهٔ بن الکترونیکی رفاهیات سازمانی.">
-  <meta name="theme-color" content="#3b4fe0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>اِنو دیجیتال | سامانه بن رفاهی کارکنان و خرید آنلاین</title>
+  <meta name="description" content="اِنو دیجیتال سازندهٔ سامانهٔ بن الکترونیکی رفاهیات کارکنان، فروشگاه آنلاین مواد غذایی لیموجت و لیموسی است. رفاه سازمانی شفاف، خرید روزمره ساده.">
+  <link rel="canonical" href="https://amirhooseindamandarya.github.io/enodigital/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:site_name" content="اِنو دیجیتال">
+  <meta property="og:title" content="اِنو دیجیتال | سامانه بن رفاهی کارکنان و خرید آنلاین">
+  <meta property="og:description" content="رفاه کارکنان را دیجیتال و شفاف کنید؛ از صدور بن تا تسویه با فروشگاه‌ها، در یک سامانه.">
+  <meta property="og:url" content="https://amirhooseindamandarya.github.io/enodigital/">
+  <meta property="og:image" content="https://amirhooseindamandarya.github.io/enodigital/assets/img/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://amirhooseindamandarya.github.io/enodigital/#org",
+        "name": "اِنو دیجیتال",
+        "alternateName": "Eno Digital",
+        "url": "https://amirhooseindamandarya.github.io/enodigital/",
+        "logo": "https://amirhooseindamandarya.github.io/enodigital/assets/img/favicon.svg",
+        "description": "سازندهٔ سامانهٔ بن الکترونیکی رفاهیات کارکنان، فروشگاه آنلاین مواد غذایی لیموجت و لیموسی."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://amirhooseindamandarya.github.io/enodigital/#website",
+        "url": "https://amirhooseindamandarya.github.io/enodigital/",
+        "name": "اِنو دیجیتال",
+        "inLanguage": "fa-IR",
+        "publisher": { "@id": "https://amirhooseindamandarya.github.io/enodigital/#org" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "سامانهٔ بن الکترونیکی رفاهیات چیست؟", "acceptedAnswer": { "@type": "Answer", "text": "پلتفرمی برای مدیریت و مصرف مزایای رفاهی سازمان به‌صورت دیجیتال. سازمان برای کارکنان بن صادر می‌کند، کارکنان آن را در فروشگاه‌های طرف قرارداد خرج می‌کنند و سازمان مبلغ مصرف‌شده را با فروشندگان تسویه می‌کند." } },
+          { "@type": "Question", "name": "مبلغ بن هر کارمند چطور تعیین می‌شود؟", "acceptedAnswer": { "@type": "Answer", "text": "به سه روش: مبلغ یکسان برای همه، ورود مبلغ هر نفر از فایل Excel، یا محاسبهٔ خودکار بر اساس وضعیت تأهل و تعداد فرزندان." } },
+          { "@type": "Question", "name": "چطور از سوءاستفاده از بن جلوگیری می‌شود؟", "acceptedAnswer": { "@type": "Answer", "text": "هر خرید فقط با کد تأیید ۵ رقمی ثبت می‌شود که تنها خود کارمند در پنلش می‌بیند. کارمند می‌تواند درخواست خرید را لغو کند و همهٔ رویدادها در لاگ حسابرسی ثبت می‌شوند." } },
+          { "@type": "Question", "name": "فروشگاه‌ها چطور طلب خود را پیگیری می‌کنند؟", "acceptedAnswer": { "@type": "Answer", "text": "هر فروشنده در کیف پول پنل خود کل طلب، مبلغ دریافت‌شده، مانده و رسید پرداخت‌ها را به تفکیک هر بن می‌بیند." } },
+          { "@type": "Question", "name": "لیموجت چیست؟", "acceptedAnswer": { "@type": "Answer", "text": "لیموجت فروشگاه آنلاین مواد غذایی اِنو دیجیتال است که سفارش اقلام روزمره را آنلاین و ساده می‌کند." } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <a class="skip" href="#main">رفتن به محتوا</a>
 
 <header class="site-header">
-  <div class="container nav">
-    <a href="./" class="logo" aria-label="اِنو دیجیتال - صفحهٔ اصلی">
-      <span class="logo-mark">e</span>
-      <span>اِنو دیجیتال<small>ENO DIGITAL</small></span>
-    </a>
+  <nav class="container nav" aria-label="منوی اصلی">
+    <a href="./" class="logo" aria-label="اِنو دیجیتال، صفحهٔ اصلی"><span class="logo-mark" aria-hidden="true">e</span>اِنو دیجیتال</a>
     <ul class="nav-links">
-      <li class="has-menu">
-        <button type="button" aria-expanded="false">محصولات ▾</button>
-        <div class="menu">
-          <a href="products/limoc.html"><span class="menu-dot" style="background:var(--limoc-soft);color:var(--limoc)">ل</span><span><strong>لیموسی</strong><span>معرفی کوتاه لیموسی</span></span></a>
-          <a href="products/limoojet.html"><span class="menu-dot" style="background:var(--jet-soft);color:var(--jet)">ج</span><span><strong>لیموجت</strong><span>فروش آنلاین مواد غذایی</span></span></a>
-          <a href="products/refah.html"><span class="menu-dot" style="background:var(--refah-soft);color:var(--refah)">ر</span><span><strong>سامانهٔ بن الکترونیکی رفاهیات</strong><span>اعتبار رفاهی کارکنان، مصرف در فروشگاه‌های طرف قرارداد</span></span></a>
-        </div>
-      </li>
-      <li><a href="#products">چطور کار می‌کنیم</a></li>
+      <li><a href="products/refah.html">بن رفاهیات</a></li>
+      <li><a href="products/limoojet.html">لیموجت</a></li>
+      <li><a href="products/limoc.html">لیموسی</a></li>
       <li><a href="#about">درباره ما</a></li>
       <li><a href="#faq">سؤالات متداول</a></li>
-      <li><a href="#contact">تماس</a></li>
+      <li class="nav-cta"><a href="#contact" class="btn btn-dark">درخواست دمو</a></li>
     </ul>
-    <div class="nav-cta">
-      <a href="#contact" class="btn btn-primary btn-sm">درخواست دمو</a>
-      <button class="burger" type="button" aria-label="منو" aria-expanded="false"><span></span></button>
+    <div class="nav-end">
+      <a href="#contact" class="btn btn-dark btn-sm">درخواست دمو</a>
+      <button class="burger" type="button" aria-label="باز کردن منو" aria-expanded="false"><span></span></button>
     </div>
-  </div>
+  </nav>
 </header>
 
 <main id="main">
 
-  <!-- ============ HERO ============ -->
+  <!-- HERO -->
   <section class="hero">
-    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
     <div class="container">
-      <span class="eyebrow"><b>جدید</b> سه محصول، یک تیم، یک استاندارد کیفیت</span>
-      <h1>محصولات دیجیتالی که <span class="grad">کار روزمره را ساده</span> می‌کنند</h1>
-      <p class="lead">اِنو دیجیتال سه محصول تخصصی می‌سازد و پشتیبانی می‌کند: لیموسی، لیموجت برای خرید آنلاین مواد غذایی، و سامانهٔ بن الکترونیکی رفاهیات برای سازمان‌ها، کارکنان و فروشگاه‌های طرف قرارداد.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary">درخواست دمو</a>
-        <a href="#products" class="btn btn-ghost">آشنایی با محصولات</a>
+      <span class="eyebrow"><span class="dot c-refah"></span>سامانهٔ بن الکترونیکی رفاهیات</span>
+      <h1 class="h1">رفاه کارکنان، دیجیتال و شفاف؛ از صدور بن تا تسویه</h1>
+      <p class="lead">اِنو دیجیتال نرم‌افزار می‌سازد تا کارهای تکراری خودکار و همه‌چیز قابل پیگیری شود: سامانهٔ بن رفاهی برای سازمان‌ها، فروشگاه آنلاین لیموجت برای خرید روزمره، و لیموسی.</p>
+      <div class="actions">
+        <a href="#contact" class="btn btn-dark">درخواست دمو برای سازمان</a>
+        <a href="#products" class="btn btn-line">آشنایی با محصولات</a>
+      </div>
+      <div class="hero-note">
+        <span><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>بدون کوپن کاغذی</span>
+        <span><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>تأیید هر خرید توسط خود کارمند</span>
+        <span><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>گزارش آمادهٔ Excel</span>
       </div>
 
-      <div class="tabs" role="tablist" aria-label="محصولات">
-        <button class="tab" role="tab" data-p="limoc" aria-selected="true" aria-controls="m-limoc">لیموسی</button>
-        <button class="tab" role="tab" data-p="jet" aria-selected="false" aria-controls="m-jet">لیموجت</button>
-        <button class="tab" role="tab" data-p="refah" aria-selected="false" aria-controls="m-refah">بن رفاهیات</button>
-      </div>
-      <div class="hero-stage">
-        <div class="app active" id="m-limoc" data-mock="limoc" role="tabpanel"></div>
-        <div class="app" id="m-jet" data-mock="jet" role="tabpanel"></div>
-        <div class="app" id="m-refah" data-mock="refah" role="tabpanel"></div>
+      <div class="hero-visual reveal">
+        <figure class="frame" style="margin:0">
+          <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>پنل مدیریت · داشبورد</span></div>
+          <img src="assets/img/refah-admin-dashboard.webp" width="1300" height="812" alt="داشبورد پنل مدیریت سامانهٔ بن الکترونیکی رفاهیات: بن‌های فعال، اعتبار تخصیص‌یافته، مصرف‌شده و فعالیت ۳۰ روز اخیر" fetchpriority="high">
+        </figure>
+        <div class="phone"><img src="assets/img/refah-employee-voucher.webp" width="520" height="1009" alt="پنل کارکنان: مانده اعتبار بن و دکمهٔ استفاده از بن" loading="lazy"></div>
       </div>
     </div>
   </section>
 
-  <div class="strip">
+  <!-- FACTS -->
+  <section class="sec-tight" aria-label="ویژگی‌های کلیدی">
     <div class="container">
-      <p>آنچه در همهٔ محصولاتمان مشترک است</p>
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-          <span>طراحی بومی و فارسی</span><span>پرداخت امن آنلاین</span><span>نسخهٔ وب و موبایل</span><span>پشتیبانی پاسخ‌گو</span><span>گزارش‌های دقیق</span><span>امنیت داده‌ها</span><span>به‌روزرسانی مداوم</span>
-          <span>طراحی بومی و فارسی</span><span>پرداخت امن آنلاین</span><span>نسخهٔ وب و موبایل</span><span>پشتیبانی پاسخ‌گو</span><span>گزارش‌های دقیق</span><span>امنیت داده‌ها</span><span>به‌روزرسانی مداوم</span>
+      <div class="facts reveal">
+        <div class="fact"><b>۳ پنل</b><span>مدیریت، فروشندگان و کارکنان</span></div>
+        <div class="fact"><b>کد ۵ رقمی</b><span>تأیید هر خرید توسط کارمند</span></div>
+        <div class="fact"><b>۲۸ گزارش</b><span>آماده با خروجی Excel</span></div>
+        <div class="fact"><b>۱۹ ماژول</b><span>دسترسی دقیق برای مدیران</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="sec" id="products" style="padding-top:clamp(40px,5vw,64px)">
+    <div class="container">
+      <div class="sec-head">
+        <p class="kicker">محصولات اِنو</p>
+        <h2 class="h2">سه محصول، هرکدام برای یک نیاز واقعی</h2>
+        <p class="lead">هر محصول تیم و نقشهٔ راه خودش را دارد؛ اما همه با یک استاندارد ساخته می‌شوند: ساده برای کاربر، دقیق برای مدیر.</p>
+      </div>
+      <div class="products">
+        <a class="p-card reveal" href="products/refah.html">
+          <span class="p-tag"><span class="dot c-refah"></span>برای سازمان‌ها</span>
+          <h3>سامانهٔ بن الکترونیکی رفاهیات</h3>
+          <p>اعتبار رفاهی کارکنان را صادر کنید، مصرف در فروشگاه‌های طرف قرارداد را ببینید و طلب فروشنده‌ها را شفاف تسویه کنید.</p>
+          <span class="link">مشاهدهٔ سامانه <svg class="icon icon-sm"><use href="assets/img/icons.svg#arrow"/></svg></span>
+        </a>
+        <a class="p-card reveal" href="products/limoojet.html">
+          <span class="p-tag"><span class="dot c-jet"></span>برای خانواده‌ها و کسب‌وکارها</span>
+          <h3>لیموجت؛ خرید آنلاین مواد غذایی</h3>
+          <p>اقلام روزمرهٔ آشپزخانه را آنلاین سفارش دهید و بدون صف و ترافیک، درِ خانه یا محل کار تحویل بگیرید.</p>
+          <span class="link">آشنایی با لیموجت <svg class="icon icon-sm"><use href="assets/img/icons.svg#arrow"/></svg></span>
+        </a>
+        <a class="p-card reveal" href="products/limoc.html">
+          <span class="p-tag"><span class="dot c-limoc"></span>limoc.ir</span>
+          <h3>لیموسی</h3>
+          <!-- TODO: معرفی یک‌خطی واقعی لیموسی -->
+          <p>محصول دیجیتال اِنو برای ساده‌تر کردن کارهای روزمره؛ با تجربهٔ کاربری فارسی و پشتیبانی تیم اِنو.</p>
+          <span class="link">آشنایی با لیموسی <svg class="icon icon-sm"><use href="assets/img/icons.svg#arrow"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLAGSHIP: REFAH -->
+  <section class="sec sec-soft" id="refah">
+    <div class="container">
+      <div class="sec-head">
+        <p class="kicker"><span class="dot c-refah"></span>سامانهٔ بن الکترونیکی رفاهیات</p>
+        <h2 class="h2">خداحافظی با کوپن کاغذی و جمع‌زنی دستی فاکتورها</h2>
+        <p class="lead">سازمان برای هر کارمند اعتبار مستقل تعریف می‌کند، کارکنان در فروشگاه‌های طرف قرارداد خرید می‌کنند و هر ریال، از صدور تا تسویه، ثبت و قابل پیگیری است.</p>
+      </div>
+
+      <div class="rows">
+        <div class="row reveal">
+          <div class="row-text">
+            <h3 class="h3">صدور بن برای صدها نفر، در یک ویزارد</h3>
+            <p>مشخصات بن، مشمولین، فروشگاه‌ها و شعب مجاز، درصد تخفیف و اطلاع‌رسانی را در پنج مرحله تعیین کنید و قبل از صدور، همه‌چیز را یک‌جا بازبینی کنید.</p>
+            <ul class="ticks">
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>انتخاب مشمولین بر اساس نقش و واحد سازمانی</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>مبلغ یکسان، ورود از Excel یا محاسبه بر اساس تأهل و فرزندان</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>تخفیف اختصاصی برای هر فروشگاه و حتی هر شعبه</li>
+            </ul>
+          </div>
+          <div class="row-media">
+            <figure class="frame" style="margin:0">
+              <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>صدور بن جدید</span></div>
+              <img src="assets/img/refah-voucher-wizard.webp" width="1300" height="812" loading="lazy" alt="ویزارد پنج‌مرحله‌ای صدور بن جدید در پنل مدیریت سامانهٔ رفاهیات">
+            </figure>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ============ PRODUCTS JOURNEY ============ -->
-  <section class="sec" id="products">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="pill">محصولات ما</span>
-        <h2>سه محصول، هرکدام برای یک نیاز واقعی</h2>
-        <p>هر محصول تیم، نقشهٔ راه و پشتیبانی اختصاصی خودش را دارد؛ اما همه روی یک زیرساخت و یک استاندارد کیفیت ساخته شده‌اند.</p>
-      </div>
-
-      <div class="journey">
-        <div class="journey-path"></div>
-
-        <!-- لیموسی -->
-        <!-- TODO: متن و امکانات واقعی لیموسی را جایگزین کنید -->
-        <article class="chapter reveal" id="limoc">
-          <div class="ch-text">
-            <div class="ch-node c-limoc">🍋</div>
-            <div class="tags"><span>#لیموسی</span><span>#limoc.ir</span></div>
-            <h3 class="c-limoc">لیموسی</h3>
-            <p class="desc">لیموسی یک پلتفرم دیجیتال برای مدیریت ساده‌تر و سریع‌تر کارهاست؛ همه‌چیز در یک داشبورد، با گزارش‌های لحظه‌ای.</p>
-            <ol class="steps">
-              <li>ثبت‌نام و راه‌اندازی در چند دقیقه</li>
-              <li>همهٔ اطلاعات در یک داشبورد یکپارچه</li>
-              <li>گزارش‌های لحظه‌ای و قابل دانلود</li>
-              <li>دسترسی از وب و موبایل</li>
-            </ol>
-            <div class="ch-links">
-              <a href="products/limoc.html" class="btn btn-ghost btn-sm">بیشتر بدانید</a>
-              <a href="http://limoc.ir/" target="_blank" rel="noopener" class="btn btn-sm" style="background:var(--limoc);color:#fff">ورود به لیموسی ↗</a>
+        <div class="row rev reveal">
+          <div class="row-text">
+            <h3 class="h3">خرید در فروشگاه، با تأیید خود کارمند</h3>
+            <p>فروشنده کارمند را با QR، کد ملی یا شمارهٔ پرسنلی شناسایی می‌کند و مبلغ فاکتور را وارد می‌کند. سامانه تخفیف و سهم بن و نقد را حساب می‌کند و خرید فقط با کد ۵ رقمی کارمند ثبت می‌شود.</p>
+            <ul class="ticks">
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>فقط بن‌های فعال و مجاز همان فروشگاه نمایش داده می‌شوند</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>کارمند مبلغ نهایی را می‌بیند و می‌تواند درخواست را لغو کند</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>مانده پس از هر خرید فوراً به‌روز می‌شود</li>
+            </ul>
+          </div>
+          <div class="row-media media-soft">
+            <div class="phones">
+              <div class="phone"><img src="assets/img/refah-seller-purchase.webp" width="520" height="1125" loading="lazy" alt="پنل فروشنده: ثبت خرید جدید و انتخاب روش شناسایی مشتری با شمارهٔ پرسنلی، QR، کارت یا کد ملی"></div>
+              <div class="phone"><img src="assets/img/refah-employee-voucher.webp" width="520" height="1009" loading="lazy" alt="پنل کارکنان: جزئیات بن، مانده اعتبار و تاریخ اعتبار"></div>
             </div>
           </div>
-          <div class="app" data-mock="limoc" style="display:grid"></div>
-        </article>
-
-        <!-- لیموجت -->
-        <article class="chapter flip reveal" id="limoojet">
-          <div class="ch-text">
-            <div class="ch-node c-jet">🛒</div>
-            <div class="tags"><span>#فروشگاه_آنلاین</span><span>#مواد_غذایی</span></div>
-            <h3 class="c-jet">لیموجت؛ خرید آنلاین مواد غذایی</h3>
-            <p class="desc">مواد غذایی تازه و باکیفیت را آنلاین سفارش دهید و در سریع‌ترین زمان، درِ خانه یا محل کار تحویل بگیرید.</p>
-            <ol class="steps">
-              <li>دسته‌بندی کامل؛ از میوه و سبزی تا لبنیات و پروتئین</li>
-              <li>جست‌وجوی سریع و سبد خرید هوشمند</li>
-              <li>انتخاب زمان ارسال و پیگیری سفارش</li>
-              <li>پرداخت امن آنلاین و تخفیف‌های ویژه</li>
-            </ol>
-            <div class="ch-links">
-              <a href="products/limoojet.html" class="btn btn-ghost btn-sm">بیشتر بدانید</a>
-              <a href="https://limoojet.com/" target="_blank" rel="noopener" class="btn btn-sm" style="background:var(--jet);color:#fff">خرید از لیموجت ↗</a>
-            </div>
-          </div>
-          <div class="app" data-mock="jet" style="display:grid"></div>
-        </article>
-
-        <!-- رفاه سازمانی -->
-        <article class="chapter reveal" id="refah">
-          <div class="ch-text">
-            <div class="ch-node c-refah">🏢</div>
-            <div class="tags"><span>#بن_الکترونیکی</span><span>#رفاه_کارکنان</span><span>#منابع_انسانی</span></div>
-            <h3 class="c-refah">سامانهٔ بن الکترونیکی رفاهیات</h3>
-            <p class="desc">رفاهیات سازمان، دیجیتال و شفاف: سازمان برای کارکنان «بن» صادر می‌کند، کارکنان آن را در فروشگاه‌های طرف قرارداد خرج می‌کنند و سازمان طلب هر فروشنده را دقیق تسویه می‌کند. بدون کوپن کاغذی و جمع‌زنی دستی.</p>
-            <ol class="steps">
-              <li>صدور بن برای صدها نفر در یک ویزارد پنج‌مرحله‌ای</li>
-              <li>شناسایی کارمند در فروشگاه با QR، کد ملی یا شمارهٔ پرسنلی</li>
-              <li>تأیید هر خرید با کد ۵ رقمی که فقط خود کارمند می‌بیند</li>
-              <li>تسویهٔ شفاف با فروشندگان و ۲۸ گزارش آمادهٔ Excel</li>
-            </ol>
-            <div class="ch-links">
-              <a href="products/refah.html" class="btn btn-ghost btn-sm">بیشتر بدانید</a>
-              <a href="#contact" class="btn btn-sm" style="background:var(--refah);color:#fff">درخواست دمو برای سازمان</a>
-            </div>
-          </div>
-          <div class="app" data-mock="refah" style="display:grid"></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ WHY ============ -->
-  <section class="sec" style="padding-top:24px">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="pill">چرا اِنو دیجیتال؟</span>
-        <h2>محصول را می‌سازیم، کنارش هم می‌مانیم</h2>
-      </div>
-      <div class="why-grid">
-        <div class="card reveal"><div class="ic">⚡</div><h4>راه‌اندازی سریع</h4><p>بدون پیچیدگی فنی؛ در کوتاه‌ترین زمان شروع به کار کنید.</p></div>
-        <div class="card reveal"><div class="ic">🔒</div><h4>امنیت و حریم خصوصی</h4><p>داده‌های شما و مشتریانتان با استانداردهای امنیتی نگهداری می‌شود.</p></div>
-        <div class="card reveal"><div class="ic">🤝</div><h4>پشتیبانی واقعی</h4><p>تیم پشتیبانی فارسی‌زبان، آشنا با نیاز کسب‌وکارهای ایرانی.</p></div>
-        <div class="card reveal"><div class="ic">📈</div><h4>رشد مداوم</h4><p>محصولات بر اساس بازخورد کاربران دائماً بهتر می‌شوند.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ABOUT ============ -->
-  <!-- TODO: داستان و اطلاعات واقعی شرکت -->
-  <section class="sec" id="about" style="padding-top:24px">
-    <div class="container">
-      <div class="story reveal">
-        <div>
-          <span class="pill">دربارهٔ ما</span>
-          <h2>ما محصولاتی می‌سازیم که خودمان به آن‌ها نیاز داشتیم.</h2>
-          <p>اِنو دیجیتال تیمی از مهندسان، طراحان و متخصصان کسب‌وکار است که روی یک هدف تمرکز دارد: ساختن ابزارهای دیجیتالِ ساده، قابل اعتماد و کاربردی برای مردم و سازمان‌ها.</p>
-          <p>لیموسی، لیموجت و سامانهٔ بن الکترونیکی رفاهیات نتیجهٔ همین نگاه‌اند؛ هر کدام پاسخی به یک مسئلهٔ واقعی.</p>
-          <a href="#contact" class="btn btn-ghost">با ما در تماس باشید</a>
         </div>
-        <div class="story-visual" aria-hidden="true">
-          <div class="orbit">
-            <div class="core">eno</div>
-            <div class="sat">🍋</div>
-            <div class="sat">🛒</div>
-            <div class="sat">🏢</div>
+
+        <div class="row reveal">
+          <div class="row-text">
+            <h3 class="h3">تسویهٔ شفاف با فروشگاه‌ها</h3>
+            <p>طلب هر فروشنده مستقیماً از تراکنش‌ها محاسبه می‌شود. پرداخت‌ها را با شمارهٔ پیگیری و رسید ثبت کنید؛ فروشنده همان ارقام را در کیف پول خود می‌بیند.</p>
+            <ul class="ticks">
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>تسویهٔ جزئی یا کامل، به تفکیک هر بن</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>ارقام یکسان در پنل مدیر و فروشنده</li>
+              <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>۲۸ گزارش آماده و لاگ حسابرسی کامل</li>
+            </ul>
+            <a href="products/refah.html" class="btn btn-dark">همهٔ امکانات سامانه</a>
+          </div>
+          <div class="row-media media-soft">
+            <div class="phones">
+              <div class="phone"><img src="assets/img/refah-seller-wallet.webp" width="520" height="1125" loading="lazy" alt="کیف پول فروشنده: مبلغ کل طلب، دریافت‌شده و ماندهٔ طلب از بن‌ها"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ FAQ ============ -->
-  <section class="sec" id="faq" style="padding-top:24px">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="pill">سؤالات متداول</span>
-        <h2>پرسش‌های شما، پاسخ‌های ما</h2>
+  <!-- LIMOOJET -->
+  <section class="sec" id="limoojet">
+    <div class="container split">
+      <div class="reveal">
+        <p class="kicker"><span class="dot c-jet"></span>لیموجت</p>
+        <h2 class="h2">خرید آنلاین مواد غذایی، بدون صف و ترافیک</h2>
+        <p class="lead" style="margin-top:14px">سبد خرید هفتگی را در چند دقیقه کامل کنید؛ از میوه و سبزی تا لبنیات، پروتئین و خشکبار.</p>
+        <!-- TODO: محدودهٔ ارسال، زمان تحویل و مزیت‌های دقیق لیموجت را تأیید کنید -->
+        <div class="mini-feats">
+          <div><svg class="icon"><use href="assets/img/icons.svg#leaf"/></svg><span><b>اقلام تازه</b>انتخاب‌شده برای آشپزخانهٔ شما</span></div>
+          <div><svg class="icon"><use href="assets/img/icons.svg#search"/></svg><span><b>جست‌وجوی سریع</b>دسته‌بندی کامل و ساده</span></div>
+          <div><svg class="icon"><use href="assets/img/icons.svg#truck"/></svg><span><b>ارسال درِ منزل</b>یا محل کار</span></div>
+          <div><svg class="icon"><use href="assets/img/icons.svg#card"/></svg><span><b>پرداخت امن</b>از طریق درگاه بانکی</span></div>
+        </div>
+        <div class="actions start">
+          <a href="https://limoojet.com/" class="btn btn-dark" target="_blank" rel="noopener">خرید از لیموجت <svg class="icon icon-sm"><use href="assets/img/icons.svg#external"/></svg></a>
+          <a href="products/limoojet.html" class="btn btn-line">بیشتر بدانید</a>
+        </div>
       </div>
-      <div class="faq reveal">
-        <details open><summary>چطور می‌توانم از محصولات اِنو استفاده کنم؟</summary><p>برای لیموسی و لیموجت مستقیماً وارد وب‌سایت هر محصول شوید. برای سامانهٔ بن الکترونیکی رفاهیات، فرم درخواست دمو را پر کنید تا کارشناسان ما با شما تماس بگیرند.</p></details>
-        <details><summary>سامانهٔ بن الکترونیکی رفاهیات چطور کار می‌کند؟</summary><p>سازمان در پنل مدیریت برای کارکنان مشمول بن صادر می‌کند و فروشگاه‌های مجاز و درصد تخفیف را تعیین می‌کند. کارمند در فروشگاه شناسایی می‌شود، فروشنده مبلغ فاکتور را وارد می‌کند و کارمند با کد تأیید ۵ رقمی خرید را تأیید می‌کند. سپس سازمان طلب فروشنده را با شمارهٔ پیگیری و رسید تسویه می‌کند.</p></details>
+      <div class="mock reveal" aria-hidden="true">
+        <div class="mock-top">
+          <div class="mock-search"><svg class="icon icon-sm"><use href="assets/img/icons.svg#search"/></svg>جست‌وجو در لیموجت</div>
+          <span class="mock-chip">ارسال امروز</span>
+        </div>
+        <div class="mock-cats"><span class="mock-chip on">میوه و سبزی</span><span class="mock-chip">لبنیات</span><span class="mock-chip">پروتئینی</span><span class="mock-chip">نان و غلات</span><span class="mock-chip">خشکبار</span></div>
+        <div class="mock-goods">
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#leaf"/></svg></div><b>لیموترش تازه</b><div class="pr"><span>۱ کیلو</span><span class="add">+</span></div></div>
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#leaf"/></svg></div><b>گوجه‌فرنگی</b><div class="pr"><span>۱ کیلو</span><span class="add">+</span></div></div>
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#leaf"/></svg></div><b>خیار</b><div class="pr"><span>۱ کیلو</span><span class="add">+</span></div></div>
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#cart"/></svg></div><b>شیر کم‌چرب</b><div class="pr"><span>۱ لیتر</span><span class="add">+</span></div></div>
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#cart"/></svg></div><b>پنیر سفید</b><div class="pr"><span>۴۰۰ گرم</span><span class="add">+</span></div></div>
+          <div class="mock-good"><div class="ph"><svg class="icon"><use href="assets/img/icons.svg#cart"/></svg></div><b>نان سنگک</b><div class="pr"><span>۱ عدد</span><span class="add">+</span></div></div>
+        </div>
+        <div class="mock-cart"><div><b>سبد خرید</b><br><span>۶ قلم کالا</span></div><span style="opacity:1">ادامهٔ خرید ←</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="sec sec-soft" id="about">
+    <div class="container">
+      <div class="sec-head">
+        <p class="kicker">چرا اِنو دیجیتال</p>
+        <h2 class="h2">نرم‌افزار را برای کار واقعی می‌سازیم، نه برای دمو</h2>
+        <p class="lead">اِنو دیجیتال تیمی از مهندسان و طراحان است که روی یک هدف تمرکز دارد: ابزارهای ساده، دقیق و قابل اعتماد برای سازمان‌ها و مردم.</p>
+      </div>
+      <div class="grid-4">
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="assets/img/icons.svg#flag"/></svg></div><h3>بومی ایران</h3><p>فارسی و راست‌چین، تقویم شمسی، نقشهٔ Map.ir و درگاه‌های پیامک داخلی.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="assets/img/icons.svg#shield"/></svg></div><h3>دقیق در امور مالی</h3><p>محاسبات سمت سرور، قفل تراکنش‌های حساس و حذف نرم برای حفظ سابقه.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="assets/img/icons.svg#grid"/></svg></div><h3>موبایل‌محور</h3><p>پنل فروشنده و کارکنان برای کار با گوشی طراحی شده‌اند؛ بدون نصب برنامه.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="assets/img/icons.svg#headset"/></svg></div><h3>همراه شما</h3><p>از راه‌اندازی و ورود اطلاعات تا پشتیبانی روزمره، کنار تیم شما هستیم.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="container">
+      <div class="sec-head center">
+        <p class="kicker" style="justify-content:center">سؤالات متداول</p>
+        <h2 class="h2">پیش از درخواست دمو</h2>
+      </div>
+      <div class="faq">
+        <details open><summary>سامانهٔ بن الکترونیکی رفاهیات چیست؟</summary><p>پلتفرمی برای مدیریت و مصرف مزایای رفاهی سازمان به‌صورت دیجیتال. سازمان برای کارکنان بن صادر می‌کند، کارکنان آن را در فروشگاه‌های طرف قرارداد خرج می‌کنند و سازمان مبلغ مصرف‌شده را با فروشندگان تسویه می‌کند.</p></details>
         <details><summary>مبلغ بن هر کارمند چطور تعیین می‌شود؟</summary><p>به سه روش: مبلغ یکسان برای همه، ورود مبلغ هر نفر از فایل Excel، یا محاسبهٔ خودکار بر اساس وضعیت تأهل و تعداد فرزندان.</p></details>
-        <details><summary>لیموجت به کدام شهرها ارسال دارد؟</summary><p><!-- TODO: محدودهٔ ارسال واقعی -->محدودهٔ ارسال و زمان‌بندی تحویل در وب‌سایت لیموجت و هنگام ثبت سفارش نمایش داده می‌شود.</p></details>
-        <details><summary>آیا امکان یکپارچه‌سازی با سیستم‌های فعلی سازمان وجود دارد؟</summary><p>بله؛ در جلسهٔ دمو نیاز سازمانتان را بررسی می‌کنیم و راهکار اتصال به سیستم‌های موجود را پیشنهاد می‌دهیم.</p></details>
-        <details><summary>پشتیبانی چگونه انجام می‌شود؟</summary><p>از طریق تلفن، ایمیل و تیکت؛ تیم پشتیبانی هر محصول پاسخ‌گوی شماست.</p></details>
+        <details><summary>چطور از سوءاستفاده از بن جلوگیری می‌شود؟</summary><p>هر خرید فقط با کد تأیید ۵ رقمی ثبت می‌شود که تنها خود کارمند در پنلش می‌بیند. کارمند می‌تواند درخواست خرید را لغو کند و همهٔ رویدادها در لاگ حسابرسی ثبت می‌شوند.</p></details>
+        <details><summary>فروشگاه‌ها چطور طلب خود را پیگیری می‌کنند؟</summary><p>هر فروشنده در کیف پول پنل خود کل طلب، مبلغ دریافت‌شده، مانده و رسید پرداخت‌ها را به تفکیک هر بن می‌بیند.</p></details>
+        <details><summary>لیموجت چیست؟</summary><p>لیموجت فروشگاه آنلاین مواد غذایی اِنو دیجیتال است که سفارش اقلام روزمره را آنلاین و ساده می‌کند. برای خرید به <a href="https://limoojet.com/" target="_blank" rel="noopener" style="text-decoration:underline">limoojet.com</a> بروید.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- ============ CONTACT ============ -->
-  <section class="sec" id="contact" style="padding-top:24px;padding-bottom:0">
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-title">
     <div class="container">
-      <div class="contact reveal">
+      <div class="cta reveal">
         <div>
-          <h2>بیایید دربارهٔ <span>کسب‌وکار شما</span> صحبت کنیم.</h2>
-          <p>سؤال، پیشنهاد یا درخواست دمو دارید؟ پیام بگذارید؛ به‌زودی با شما تماس می‌گیریم.</p>
+          <h2 class="h2" id="contact-title">سامانه را با سناریوی سازمان خودتان ببینید</h2>
+          <p class="lead">فرم را پر کنید؛ کارشناسان اِنو برای هماهنگی جلسهٔ دمو با شما تماس می‌گیرند.</p>
+          <ul class="cta-list">
+            <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>مرور کامل سه پنل با دادهٔ نمونه</li>
+            <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>بررسی روش تعیین مبلغ و فروشگاه‌های طرف قرارداد شما</li>
+            <li><svg class="icon"><use href="assets/img/icons.svg#check"/></svg>پاسخ به سؤالات مالی، امنیتی و فنی</li>
+          </ul>
         </div>
         <form class="form" novalidate>
           <div class="two">
-            <input name="name" placeholder="نام و نام خانوادگی" required aria-label="نام و نام خانوادگی">
-            <input name="phone" type="tel" placeholder="شمارهٔ تماس" required aria-label="شمارهٔ تماس" dir="rtl">
+            <label>نام و نام خانوادگی<input name="name" required autocomplete="name"></label>
+            <label>شمارهٔ تماس<input name="phone" type="tel" required autocomplete="tel" inputmode="tel" dir="ltr" style="text-align:right"></label>
           </div>
-          <input name="company" placeholder="نام سازمان / شرکت (اختیاری)" aria-label="نام سازمان">
-          <select name="product" aria-label="محصول مورد نظر">
-            <option value="">محصول مورد نظر</option>
-            <option>لیموسی</option>
-            <option>لیموجت</option>
-            <option>سامانهٔ بن الکترونیکی رفاهیات</option>
-            <option>سایر</option>
-          </select>
-          <textarea name="message" placeholder="چطور می‌توانیم کمک کنیم؟" required aria-label="پیام" maxlength="2000"></textarea>
-          <button class="btn btn-primary" type="submit">ارسال پیام</button>
-          <p class="form-note" role="status">✓ پیام شما ثبت شد. به‌زودی تماس می‌گیریم.</p>
+          <div class="two">
+            <label>نام سازمان<input name="company" autocomplete="organization"></label>
+            <label>تعداد کارکنان
+              <select name="size">
+                <option value="">انتخاب کنید</option>
+                <option>کمتر از ۱۰۰ نفر</option>
+                <option>۱۰۰ تا ۵۰۰ نفر</option>
+                <option>۵۰۰ تا ۲٬۰۰۰ نفر</option>
+                <option>بیش از ۲٬۰۰۰ نفر</option>
+              </select>
+            </label>
+          </div>
+          <label>محصول مورد نظر
+            <select name="product">
+              <option>سامانهٔ بن الکترونیکی رفاهیات</option>
+              <option>لیموجت</option>
+              <option>لیموسی</option>
+              <option>سایر</option>
+            </select>
+          </label>
+          <label>توضیحات (اختیاری)<textarea name="message" maxlength="2000"></textarea></label>
+          <button class="btn" type="submit">ثبت درخواست دمو</button>
+          <p class="form-note" role="status">درخواست شما ثبت شد. به‌زودی با شما تماس می‌گیریم.</p>
+          <p class="form-hint">اطلاعات شما فقط برای هماهنگی دمو استفاده می‌شود.</p>
         </form>
       </div>
     </div>
@@ -251,42 +341,40 @@
   <div class="container">
     <div class="foot">
       <div>
-        <a href="./" class="logo"><span class="logo-mark">e</span><span>اِنو دیجیتال<small>ENO DIGITAL</small></span></a>
-        <p>سازندهٔ محصولات دیجیتال برای مردم و سازمان‌ها.</p>
+        <a href="./" class="logo"><span class="logo-mark" aria-hidden="true">e</span>اِنو دیجیتال</a>
+        <p>سازندهٔ نرم‌افزار برای رفاه کارکنان و خرید روزمره.</p>
       </div>
       <div>
-        <h5>محصولات</h5>
+        <h2>محصولات</h2>
         <ul>
-          <li><a href="products/limoc.html">لیموسی</a></li>
+          <li><a href="products/refah.html">سامانهٔ بن رفاهیات</a></li>
           <li><a href="products/limoojet.html">لیموجت</a></li>
-          <li><a href="products/refah.html">بن الکترونیکی رفاهیات</a></li>
+          <li><a href="products/limoc.html">لیموسی</a></li>
         </ul>
       </div>
       <div>
-        <h5>شرکت</h5>
+        <h2>شرکت</h2>
         <ul>
           <li><a href="#about">درباره ما</a></li>
           <li><a href="#faq">سؤالات متداول</a></li>
-          <li><a href="#contact">تماس با ما</a></li>
+          <li><a href="#contact">درخواست دمو</a></li>
         </ul>
       </div>
       <div>
-        <h5>ارتباط</h5>
+        <h2>تماس</h2>
         <!-- TODO: اطلاعات تماس واقعی -->
         <ul>
-          <li><a href="tel:+98">تلفن: —</a></li>
-          <li><a href="mailto:info@example.com">ایمیل: —</a></li>
-          <li><a href="#">آدرس: —</a></li>
+          <li><a href="#contact">فرم تماس</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© <span data-year>۱۴۰۵</span> اِنو دیجیتال. همهٔ حقوق محفوظ است.</span>
-      <span>ساخته‌شده با ❤️ در ایران</span>
+      <span>تصاویر سامانه با دادهٔ آزمایشی تهیه شده‌اند.</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js" defer></script>
 </body>
 </html>

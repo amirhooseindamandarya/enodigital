@@ -1,137 +1,295 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سامانهٔ بن الکترونیکی رفاهیات | اِنو دیجیتال</title>
-  <meta name="description" content="سامانهٔ بن الکترونیکی رفاهیات: صدور بن رفاهی برای کارکنان، مصرف در فروشگاه‌های طرف قرارداد با کد تأیید ۵ رقمی، تسویهٔ شفاف با فروشندگان و گزارش‌های Excel.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>سامانه بن الکترونیکی رفاهیات کارکنان | اِنو دیجیتال</title>
+  <meta name="description" content="نرم‌افزار رفاه کارکنان: صدور بن الکترونیکی، خرید در فروشگاه‌های طرف قرارداد با کد تأیید ۵ رقمی، تسویهٔ شفاف با فروشندگان و ۲۸ گزارش Excel.">
+  <link rel="canonical" href="https://amirhooseindamandarya.github.io/enodigital/products/refah.html">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="product">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:site_name" content="اِنو دیجیتال">
+  <meta property="og:title" content="سامانه بن الکترونیکی رفاهیات کارکنان">
+  <meta property="og:description" content="از صدور بن برای صدها کارمند تا تسویه با فروشگاه‌ها؛ شفاف، دقیق و قابل پیگیری.">
+  <meta property="og:url" content="https://amirhooseindamandarya.github.io/enodigital/products/refah.html">
+  <meta property="og:image" content="https://amirhooseindamandarya.github.io/enodigital/assets/img/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="../assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "سامانهٔ بن الکترونیکی رفاهیات",
+        "applicationCategory": "BusinessApplication",
+        "applicationSubCategory": "نرم‌افزار رفاه کارکنان",
+        "operatingSystem": "Web",
+        "inLanguage": "fa-IR",
+        "description": "پلتفرم مدیریت و مصرف مزایای رفاهی سازمان: صدور بن برای کارکنان، خرید در فروشگاه‌های طرف قرارداد با کد تأیید، تسویه با فروشندگان و گزارش‌گیری.",
+        "screenshot": "https://amirhooseindamandarya.github.io/enodigital/assets/img/refah-admin-dashboard.webp",
+        "featureList": ["صدور بن با ویزارد پنج‌مرحله‌ای", "شناسایی کارمند با QR، کد ملی یا شمارهٔ پرسنلی", "تأیید خرید با کد ۵ رقمی", "محاسبهٔ خودکار تخفیف و سهم بن و نقد", "تسویه با فروشندگان با شمارهٔ پیگیری و رسید", "۲۸ گزارش با خروجی Excel", "لاگ حسابرسی", "مجوزهای دسترسی در ۱۹ ماژول"],
+        "publisher": { "@type": "Organization", "name": "اِنو دیجیتال", "url": "https://amirhooseindamandarya.github.io/enodigital/" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "خانه", "item": "https://amirhooseindamandarya.github.io/enodigital/" },
+          { "@type": "ListItem", "position": 2, "name": "سامانهٔ بن الکترونیکی رفاهیات", "item": "https://amirhooseindamandarya.github.io/enodigital/products/refah.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "کارکنان چطور وارد سامانه می‌شوند؟", "acceptedAnswer": { "@type": "Answer", "text": "با کد ملی و شمارهٔ همراه. حساب کارکنان را مدیر تعریف می‌کند یا از فایل Excel به‌صورت گروهی وارد می‌کند." } },
+          { "@type": "Question", "name": "آیا فروشگاه برای هر شعبه حساب جدا دارد؟", "acceptedAnswer": { "@type": "Answer", "text": "هر فروشگاه یک حساب فروشنده دارد و هنگام ثبت خرید، شعبه را انتخاب می‌کند. در هر بن می‌توان برای هر شعبه تخفیف اختصاصی تعیین کرد." } },
+          { "@type": "Question", "name": "اگر مانده بن کمتر از مبلغ خرید باشد چه می‌شود؟", "acceptedAnswer": { "@type": "Answer", "text": "سامانه سهم بن و سهم نقدی را جدا محاسبه می‌کند؛ مانده بن مصرف می‌شود و باقی مبلغ به‌صورت نقدی پرداخت می‌شود." } },
+          { "@type": "Question", "name": "بعد از پایان مهلت بن چه اتفاقی می‌افتد؟", "acceptedAnswer": { "@type": "Answer", "text": "سامانه وضعیت بن‌ها را روزانه به‌روز می‌کند و پیش از انقضا یادآوری می‌فرستد. مدیر می‌تواند بن را تمدید یا غیرفعال کند و گزارش‌ها برای جمع‌بندی در دسترس‌اند." } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <a class="skip" href="#main">رفتن به محتوا</a>
+
 <header class="site-header">
-  <div class="container nav">
-    <a href="../index.html" class="logo"><span class="logo-mark">e</span><span>اِنو دیجیتال<small>ENO DIGITAL</small></span></a>
+  <nav class="container nav" aria-label="منوی اصلی">
+    <a href="../" class="logo" aria-label="اِنو دیجیتال، صفحهٔ اصلی"><span class="logo-mark" aria-hidden="true">e</span>اِنو دیجیتال</a>
     <ul class="nav-links">
-      <li><a href="limoc.html">لیموسی</a></li>
+      <li><a href="refah.html" aria-current="page">بن رفاهیات</a></li>
       <li><a href="limoojet.html">لیموجت</a></li>
-      <li><a href="refah.html">بن رفاهیات</a></li>
-      <li><a href="../index.html#about">درباره ما</a></li>
-      <li><a href="../index.html#contact">تماس</a></li>
+      <li><a href="limoc.html">لیموسی</a></li>
+      <li><a href="../#about">درباره ما</a></li>
+      <li><a href="#faq">سؤالات متداول</a></li>
+      <li class="nav-cta"><a href="#contact" class="btn btn-dark">درخواست دمو</a></li>
     </ul>
-    <div class="nav-cta">
-      <a href="../index.html#contact" class="btn btn-primary btn-sm">درخواست دمو</a>
-      <button class="burger" type="button" aria-label="منو" aria-expanded="false"><span></span></button>
+    <div class="nav-end">
+      <a href="#contact" class="btn btn-dark btn-sm">درخواست دمو</a>
+      <button class="burger" type="button" aria-label="باز کردن منو" aria-expanded="false"><span></span></button>
     </div>
-  </div>
+  </nav>
 </header>
 
 <main id="main">
   <section class="p-hero">
-    <span class="blob b1" style="background:var(--refah-soft);opacity:1"></span>
-    <div class="container p-hero-grid">
-      <div>
-        <div class="crumbs"><a href="../index.html">خانه</a> / <a href="../index.html#products">محصولات</a> / بن الکترونیکی رفاهیات</div>
-        <span class="p-badge" style="background:var(--refah-soft);color:var(--refah)">🏢 برای سازمان‌ها، کارکنان و فروشگاه‌ها</span>
-        <h1>سامانهٔ بن الکترونیکی رفاهیات</h1>
-        <p class="lead">سازمان برای هر کارمند مشمول اعتبار رفاهی (بن) صادر می‌کند، کارکنان آن را در فروشگاه‌ها و شعب طرف قرارداد خرج می‌کنند و سازمان مبلغ مصرف‌شده را شفاف با فروشندگان تسویه می‌کند؛ بدون کوپن کاغذی و جمع‌زنی دستی فاکتورها.</p>
-        <div class="hero-actions" style="justify-content:flex-start">
-          <a href="../index.html#contact" class="btn" style="background:var(--refah);color:#fff">درخواست دمو برای سازمان</a>
-          <a href="#how" class="btn btn-ghost">چطور کار می‌کند؟</a>
+    <div class="container">
+      <ol class="crumbs" aria-label="مسیر صفحه"><li><a href="../">خانه</a></li><li><a href="../#products">محصولات</a></li><li aria-current="page">بن الکترونیکی رفاهیات</li></ol>
+      <div class="split">
+        <div>
+          <span class="eyebrow"><span class="dot c-refah"></span>نرم‌افزار رفاه کارکنان</span>
+          <h1 class="h1">سامانهٔ بن الکترونیکی رفاهیات</h1>
+          <p class="lead">سازمان برای هر کارمند مشمول اعتبار رفاهی صادر می‌کند، کارکنان آن را در فروشگاه‌ها و شعب طرف قرارداد خرج می‌کنند و سازمان مبلغ مصرف‌شده را شفاف با فروشندگان تسویه می‌کند.</p>
+          <div class="actions start">
+            <a href="#contact" class="btn btn-dark">درخواست دمو</a>
+            <a href="#how" class="btn btn-line">چطور کار می‌کند؟</a>
+          </div>
         </div>
+        <figure class="frame reveal" style="margin:0">
+          <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>پنل مدیریت · داشبورد</span></div>
+          <img src="../assets/img/refah-admin-dashboard.webp" width="1300" height="812" fetchpriority="high" alt="داشبورد پنل مدیریت سامانهٔ بن الکترونیکی رفاهیات با آمار بن‌ها، اعتبار و تسویه">
+        </figure>
       </div>
-      <div class="app" data-mock="refah"></div>
     </div>
   </section>
 
-  <section class="sec" id="how">
+  <section class="sec-tight" style="padding-top:0" aria-label="ویژگی‌های کلیدی">
     <div class="container">
-      <div class="sec-head reveal"><span class="pill">جریان کار</span><h2>از صدور بن تا تسویه، در شش گام</h2><p>هر خرید به‌صورت یک تراکنش کامل ثبت می‌شود: کارمند، بن، فروشگاه، شعبه، مبلغ و زمان.</p></div>
-      <ol class="flow">
-        <li class="reveal"><b>ثبت اطلاعات پایه</b>کارکنان (تکی یا گروهی از Excel)، فروشگاه‌ها، شعب و قراردادها در پنل مدیریت ثبت می‌شوند.</li>
-        <li class="reveal"><b>صدور بن</b>مدیر مشمولین، اعتبار هر نفر، فروشندگان و شعب مجاز و درصد تخفیف‌ها را تعیین می‌کند.</li>
-        <li class="reveal"><b>کارمند مانده‌اش را می‌بیند</b>در پنل کارکنان، بن‌ها، مانده و فروشگاه‌های طرف قرارداد را روی نقشه پیدا می‌کند.</li>
-        <li class="reveal"><b>شناسایی در فروشگاه</b>فروشنده کارمند را شناسایی و مبلغ فاکتور را وارد می‌کند؛ سامانه تخفیف و سهم بن/نقد را حساب می‌کند.</li>
-        <li class="reveal"><b>تأیید با کد ۵ رقمی</b>کارمند کد را فقط در صورت موافقت به فروشنده می‌گوید؛ تراکنش ثبت و مانده کم می‌شود.</li>
-        <li class="reveal"><b>تسویه و گزارش</b>طلب فروشنده افزایش می‌یابد، مدیر پرداخت را با رسید ثبت می‌کند و گزارش‌ها آماده‌اند.</li>
+      <div class="facts reveal">
+        <div class="fact"><b>۳ پنل</b><span>مدیریت، فروشندگان و کارکنان</span></div>
+        <div class="fact"><b>کد ۵ رقمی</b><span>تأیید هر خرید توسط کارمند</span></div>
+        <div class="fact"><b>۲۸ گزارش</b><span>آماده با خروجی Excel</span></div>
+        <div class="fact"><b>۱۹ ماژول</b><span>دسترسی دقیق برای مدیران</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM / SOLUTION -->
+  <section class="sec">
+    <div class="container">
+      <div class="sec-head">
+        <p class="kicker">چرا دیجیتال؟</p>
+        <h2 class="h2">روند کاغذی رفاهیات کجا هزینه می‌سازد؟</h2>
+        <p class="lead">کوپن کاغذی، امضای حضوری و جمع‌زنی دستی فاکتورها، هم وقت واحد مالی را می‌گیرد و هم پاسخ‌گویی را سخت می‌کند.</p>
+      </div>
+      <div class="compare reveal">
+        <table>
+          <thead><tr><th scope="col">نیاز</th><th scope="col">روند دستی</th><th scope="col">سامانهٔ بن رفاهیات</th></tr></thead>
+          <tbody>
+            <tr><td>مانده اعتبار هر نفر</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>ثبت دستی یا کوپن کاغذی</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>با هر تراکنش خودکار به‌روز می‌شود</span></td></tr>
+            <tr><td>اطمینان از مجاز بودن خرید</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>تشخیص فروشنده یا نمایش کوپن</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>فقط بن‌های فعال و مجاز همان فروشگاه نمایش داده می‌شود</span></td></tr>
+            <tr><td>تأیید خرید توسط کارمند</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>امضا یا شناسایی حضوری</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>کد ۵ رقمی که فقط کارمند می‌بیند، با امکان لغو</span></td></tr>
+            <tr><td>تخفیف هر فروشنده</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>توافق شفاهی یا یادداشت پراکنده</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>ثبت در بن برای هر فروشگاه و شعبه، محاسبه سمت سرور</span></td></tr>
+            <tr><td>پرداخت به فروشنده</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>جمع‌زنی دستی فاکتورها</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>طلب از تراکنش‌ها محاسبه و پرداخت با رسید ثبت می‌شود</span></td></tr>
+            <tr><td>حسابرسی</td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#x"/></svg>پرونده‌های کاغذی</span></td><td><span class="cell"><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>لاگ کامل با کاربر، زمان، IP و دستگاه</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec sec-soft" id="how">
+    <div class="container">
+      <div class="sec-head">
+        <p class="kicker">جریان کار</p>
+        <h2 class="h2">از صدور بن تا تسویه، در شش گام</h2>
+        <p class="lead">هر خرید به‌صورت یک تراکنش کامل ثبت می‌شود: کارمند، بن، فروشگاه، شعبه، مبلغ و زمان.</p>
+      </div>
+      <ol class="steps reveal">
+        <li><b>ثبت اطلاعات پایه</b><p>کارکنان (تکی یا گروهی از Excel)، فروشگاه‌ها، شعب و قراردادها در پنل مدیریت ثبت می‌شوند.</p></li>
+        <li><b>صدور بن</b><p>مشمولین، اعتبار هر نفر، فروشگاه‌ها و شعب مجاز و درصد تخفیف‌ها تعیین می‌شود.</p></li>
+        <li><b>اطلاع کارمند</b><p>کارمند بن و مانده را در پنل خود می‌بیند و فروشگاه‌های طرف قرارداد را روی نقشه پیدا می‌کند.</p></li>
+        <li><b>شناسایی در فروشگاه</b><p>فروشنده کارمند را شناسایی و مبلغ فاکتور را وارد می‌کند؛ تخفیف و سهم بن و نقد خودکار حساب می‌شود.</p></li>
+        <li><b>تأیید با کد ۵ رقمی</b><p>کارمند کد را فقط در صورت موافقت به فروشنده می‌گوید؛ تراکنش ثبت و مانده کم می‌شود.</p></li>
+        <li><b>تسویه و گزارش</b><p>مدیر پرداخت به فروشنده را با رسید ثبت می‌کند و گزارش‌های Excel برای جمع‌بندی آماده‌اند.</p></li>
       </ol>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <!-- PANELS -->
+  <section class="sec">
     <div class="container">
-      <div class="sec-head reveal"><span class="pill">سه پنل، یک بک‌اند</span><h2>هر نقش، پنل مخصوص خودش</h2></div>
-      <div class="panels">
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft)">🏛️</div><h4>پنل مدیریت</h4><p>برای مدیران سازمان، منابع انسانی و واحد مالی.</p>
-          <ul><li>داشبورد بن‌ها، اعتبار، خرید و تسویه</li><li>مدیریت کارکنان، فروشندگان، شعب و قراردادها</li><li>صدور، تمدید و غیرفعال‌سازی بن</li><li>تسویه، مرکز گزارش‌ها و لاگ سیستم</li><li>اعلان‌ها، بنرها، تیکت‌ها، متولدین ماه</li></ul></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft)">🏪</div><h4>پنل فروشندگان</h4><p>موبایل‌محور، برای فروشگاه‌های طرف قرارداد.</p>
-          <ul><li>ثبت خرید با بن در چند ثانیه</li><li>اسکن QR کارمند با دوربین</li><li>سفارش‌ها و مشتریان</li><li>کیف پول: کل طلب، دریافت‌شده و مانده</li><li>تاریخچهٔ تسویه، رسیدها و تیکت پشتیبانی</li></ul></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft)">👤</div><h4>پنل کارکنان</h4><p>موبایل‌محور با حالت روشن و تیره؛ ورود با کد ملی و شمارهٔ همراه.</p>
-          <ul><li>بن‌های من: اعتبار اولیه، مصرف‌شده، مانده</li><li>فروشگاه‌های طرف قرارداد روی نقشه، با تخفیف</li><li>درخواست‌های خرید و کد تأیید</li><li>امتیاز و نظر دربارهٔ فروشگاه‌ها</li><li>نیازمندی‌های کارکنان و ارسال ایده و پیشنهاد</li></ul></div>
+      <div class="sec-head">
+        <p class="kicker">سه پنل، یک سامانه</p>
+        <h2 class="h2">هر نقش، پنل مخصوص خودش</h2>
+        <p class="lead">هر سه پنل فقط از طریق API امن با سامانه کار می‌کنند و ارقام در همهٔ آن‌ها یکسان است.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card reveal">
+          <div class="shot"><img src="../assets/img/refah-voucher-wizard.webp" width="1300" height="812" loading="lazy" alt="پنل مدیریت: صدور بن جدید"></div>
+          <h3>پنل مدیریت</h3>
+          <p>برای مدیران سازمان، منابع انسانی و واحد مالی.</p>
+          <ul>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>داشبورد بن‌ها، اعتبار، خرید و تسویه</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>کارکنان، فروشندگان، شعب و قراردادها</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>صدور، تمدید و غیرفعال‌سازی بن</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>تسویه، مرکز گزارش‌ها و لاگ سیستم</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <div class="shot mobile"><img src="../assets/img/refah-seller-purchase.webp" width="520" height="1125" loading="lazy" alt="پنل فروشنده: ثبت خرید جدید"></div>
+          <h3>پنل فروشندگان</h3>
+          <p>موبایل‌محور، برای فروشگاه‌های طرف قرارداد.</p>
+          <ul>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>ثبت خرید با بن در چند ثانیه</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>اسکن QR کارمند با دوربین گوشی</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>سفارش‌ها، مشتریان و کیف پول</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>تاریخچهٔ تسویه، رسیدها و تیکت</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <div class="shot mobile"><img src="../assets/img/refah-employee-voucher.webp" width="520" height="1009" loading="lazy" alt="پنل کارکنان: جزئیات بن و مانده اعتبار"></div>
+          <h3>پنل کارکنان</h3>
+          <p>موبایل‌محور با حالت روشن و تیره؛ ورود با کد ملی و شمارهٔ همراه.</p>
+          <ul>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>بن‌های من: اعتبار، مصرف‌شده، مانده</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>فروشگاه‌های طرف قرارداد روی نقشه</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>درخواست‌های خرید و کد تأیید</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>امتیاز به فروشگاه‌ها و نیازمندی‌های کارکنان</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="features" style="padding-top:0">
+  <!-- FEATURES -->
+  <section class="sec sec-soft" id="features">
     <div class="container">
-      <div class="sec-head reveal"><span class="pill">امکانات کلیدی</span><h2>رفاهیات سازمان، دقیق و قابل پیگیری</h2></div>
-      <div class="feat-grid">
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🧾</div><h4>صدور بن با ویزارد ۵ مرحله‌ای</h4><p>مشخصات، مشمولین، فروشندگان و شعب مجاز، درصد تخفیف و اطلاع‌رسانی؛ همه در یک مسیر.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">👨‍👩‍👧</div><h4>سه روش تعیین مبلغ</h4><p>مبلغ یکسان، ورود مبلغ هر نفر از Excel، یا محاسبه بر اساس وضعیت تأهل و تعداد فرزندان.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🔍</div><h4>شناسایی سریع در فروشگاه</h4><p>فروشنده کارمند را با QR دو دقیقه‌ای، کد ملی یا شمارهٔ پرسنلی شناسایی می‌کند.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🔐</div><h4>کد تأیید ۵ رقمی</h4><p>هر خرید فقط با کدی ثبت می‌شود که خود کارمند در پنلش می‌بیند؛ امکان لغو درخواست هم دارد.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🧮</div><h4>محاسبهٔ خودکار سمت سرور</h4><p>تخفیف هر فروشنده یا شعبه، سهم بن و سهم نقدی و ماندهٔ جدید به‌صورت خودکار محاسبه می‌شود.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">💸</div><h4>تسویهٔ شفاف با فروشندگان</h4><p>طلب، پرداخت‌شده و ماندهٔ هر فروشنده؛ ثبت پرداخت جزئی یا کامل با شمارهٔ پیگیری و رسید.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">📊</div><h4>۲۸ گزارش آماده</h4><p>مرکز گزارش با فیلتر و انتخاب ستون، و خروجی Excel حتی برای داده‌های حجیم.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🛡️</div><h4>لاگ حسابرسی و مجوزها</h4><p>ثبت همهٔ فعالیت‌ها با کاربر، زمان، IP و دستگاه؛ دسترسی مدیران در ۱۹ ماژول.</p></div>
-        <div class="card reveal"><div class="ic" style="background:var(--refah-soft);color:var(--refah)">🔔</div><h4>اعلان و پیامک</h4><p>اعلان هدفمند داخل پنل و سناریوهای پیامک برای صدور بن، تراکنش و تسویه.</p></div>
+      <div class="sec-head">
+        <p class="kicker">امکانات کلیدی</p>
+        <h2 class="h2">رفاهیات سازمان، دقیق و قابل پیگیری</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#layers"/></svg></div><h3>ویزارد صدور بن</h3><p>مشخصات، مشمولین، فروشندگان و شعب، تخفیف‌ها و اطلاع‌رسانی؛ در پنج مرحله با بازبینی نهایی.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#users"/></svg></div><h3>سه روش تعیین مبلغ</h3><p>مبلغ یکسان، ورود مبلغ هر نفر از Excel، یا محاسبه بر اساس وضعیت تأهل و تعداد فرزندان.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#qr"/></svg></div><h3>شناسایی سریع</h3><p>QR دو دقیقه‌ای از گوشی کارمند، کد ملی یا شمارهٔ پرسنلی.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#lock"/></svg></div><h3>کد تأیید ۵ رقمی</h3><p>هر خرید فقط با کدی ثبت می‌شود که خود کارمند می‌بیند؛ با مهلت، تمدید و امکان لغو.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#calc"/></svg></div><h3>محاسبهٔ خودکار</h3><p>تخفیف هر فروشنده یا شعبه، سهم بن و سهم نقدی و ماندهٔ جدید، همه سمت سرور.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#wallet"/></svg></div><h3>تسویهٔ شفاف</h3><p>طلب، پرداخت‌شده و ماندهٔ هر فروشنده؛ پرداخت جزئی یا کامل با شمارهٔ پیگیری و رسید.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#chart"/></svg></div><h3>۲۸ گزارش آماده</h3><p>فیلتر، انتخاب و ترتیب ستون‌ها و خروجی Excel، حتی برای داده‌های حجیم.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#shield"/></svg></div><h3>لاگ حسابرسی و مجوزها</h3><p>ثبت فعالیت‌ها با کاربر، زمان، IP و دستگاه؛ دسترسی مدیران در ۱۹ ماژول.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#bell"/></svg></div><h3>اعلان و پیامک</h3><p>اعلان هدفمند داخل پنل و سناریوهای پیامک برای صدور بن، تراکنش و تسویه.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <!-- BENEFITS -->
+  <section class="sec">
     <div class="container">
-      <div class="sec-head reveal"><span class="pill">فواید</span><h2>هر گروه چه به دست می‌آورد؟</h2></div>
-      <div class="audience">
-        <div class="card reveal"><div class="ic" style="margin-inline:auto;background:var(--refah-soft)">🏢</div><h4>سازمان و واحد مالی</h4><p>شفافیت کامل در اعتبار تخصیص‌یافته، مصرف‌شده و بدهی به هر فروشنده؛ همهٔ ارقام از یک دفتر تراکنش.</p></div>
-        <div class="card reveal"><div class="ic" style="margin-inline:auto;background:var(--refah-soft)">👥</div><h4>کارکنان</h4><p>دانستن مانده و محل مصرف، دیدن تخفیف هر فروشگاه و کنترل کامل روی هر خرید.</p></div>
-        <div class="card reveal"><div class="ic" style="margin-inline:auto;background:var(--refah-soft)">🏪</div><h4>فروشندگان</h4><p>ثبت سریع و روشن خرید، و دیدن طلب، پرداخت‌ها و رسیدها در کیف پول خود.</p></div>
+      <div class="sec-head">
+        <p class="kicker">فواید</p>
+        <h2 class="h2">هر گروه چه به دست می‌آورد؟</h2>
+      </div>
+      <div class="grid-4">
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#users"/></svg></div><h3>منابع انسانی</h3><p>تعریف سریع مشمولین و مبلغ هر نفر، اعلان‌های هدفمند، متولدین ماه و صندوق ایده‌ها.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#file"/></svg></div><h3>واحد مالی</h3><p>پیگیری تسویه با فروشندگان، رسید و شمارهٔ پیگیری، و ارقامی که همه از یک دفتر تراکنش می‌آیند.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#home"/></svg></div><h3>کارکنان</h3><p>دانستن مانده و محل مصرف، دیدن تخفیف هر فروشگاه و کنترل کامل روی هر خرید.</p></div>
+        <div class="card reveal"><div class="ic"><svg class="icon"><use href="../assets/img/icons.svg#store"/></svg></div><h3>فروشگاه‌ها</h3><p>ثبت سریع و روشن خرید، و دیدن طلب، پرداخت‌ها و رسیدها در کیف پول.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <!-- FAQ -->
+  <section class="sec sec-soft" id="faq">
     <div class="container">
-      <div class="sec-head reveal"><span class="pill">امنیت و یکپارچگی داده</span><h2>طراحی‌شده برای داده‌های مالی</h2></div>
-      <div class="why-grid">
-        <div class="card reveal"><div class="ic">🔑</div><h4>سه هویت جدا</h4><p>مدیر، فروشنده و کارمند هر کدام توکن و مسیر جداگانه دارند.</p></div>
-        <div class="card reveal"><div class="ic">🚫</div><h4>قفل حساب</h4><p>محدودیت نرخ و قفل موقت پس از تلاش‌های ناموفق ورود و کد.</p></div>
-        <div class="card reveal"><div class="ic">🗂️</div><h4>حذف نرم</h4><p>هیچ رکورد کسب‌وکاری فیزیکی حذف نمی‌شود و سابقه همیشه می‌ماند.</p></div>
-        <div class="card reveal"><div class="ic">⚖️</div><h4>محاسبهٔ یکسان</h4><p>ارقام پنل مدیر و فروشنده از یک تابع محاسبه می‌آیند.</p></div>
+      <div class="sec-head center">
+        <p class="kicker" style="justify-content:center">سؤالات متداول</p>
+        <h2 class="h2">دربارهٔ سامانهٔ بن رفاهیات</h2>
+      </div>
+      <div class="faq">
+        <details open><summary>کارکنان چطور وارد سامانه می‌شوند؟</summary><p>با کد ملی و شمارهٔ همراه. حساب کارکنان را مدیر تعریف می‌کند یا از فایل Excel به‌صورت گروهی وارد می‌کند.</p></details>
+        <details><summary>آیا فروشگاه برای هر شعبه حساب جدا دارد؟</summary><p>هر فروشگاه یک حساب فروشنده دارد و هنگام ثبت خرید، شعبه را انتخاب می‌کند. در هر بن می‌توان برای هر شعبه تخفیف اختصاصی تعیین کرد.</p></details>
+        <details><summary>اگر مانده بن کمتر از مبلغ خرید باشد چه می‌شود؟</summary><p>سامانه سهم بن و سهم نقدی را جدا محاسبه می‌کند؛ مانده بن مصرف می‌شود و باقی مبلغ به‌صورت نقدی پرداخت می‌شود.</p></details>
+        <details><summary>بعد از پایان مهلت بن چه اتفاقی می‌افتد؟</summary><p>سامانه وضعیت بن‌ها را روزانه به‌روز می‌کند و پیش از انقضا یادآوری می‌فرستد. مدیر می‌تواند بن را تمدید یا غیرفعال کند و گزارش‌ها برای جمع‌بندی در دسترس‌اند.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="container">
-    <div class="cta-band reveal" style="background:linear-gradient(120deg,var(--refah),var(--brand))">
-      <h2>رفاهیات سازمانتان را دیجیتال کنید</h2>
-      <p>در یک جلسهٔ دمو، سامانه را با نیاز سازمان شما بررسی می‌کنیم.</p>
-      <div class="hero-actions">
-        <a href="../index.html#contact" class="btn btn-ghost">درخواست دمو</a>
-        <a href="#how" class="btn btn-outline">مرور جریان کار</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" style="padding-bottom:0">
+  <!-- CONTACT -->
+  <section class="sec" id="contact" aria-labelledby="contact-title" style="padding-bottom:0">
     <div class="container">
-      <div class="sec-head" style="margin-bottom:28px"><h2 style="font-size:26px">سایر محصولات اِنو</h2></div>
-      <div class="other-products">
-        <a class="card" href="limoc.html"><span class="menu-dot" style="background:var(--limoc-soft);color:var(--limoc)">🍋</span><span><strong>لیموسی</strong><br><span style="color:var(--ink-3);font-size:14px">مشاهدهٔ محصول ←</span></span></a>
-        <a class="card" href="limoojet.html"><span class="menu-dot" style="background:var(--jet-soft);color:var(--jet)">🛒</span><span><strong>لیموجت</strong><br><span style="color:var(--ink-3);font-size:14px">مشاهدهٔ محصول ←</span></span></a>
+      <div class="cta reveal">
+        <div>
+          <h2 class="h2" id="contact-title">رفاهیات سازمانتان را دیجیتال کنید</h2>
+          <p class="lead">در جلسهٔ دمو، سامانه را با سناریوی سازمان شما مرور می‌کنیم.</p>
+          <ul class="cta-list">
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>مرور کامل سه پنل با دادهٔ نمونه</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>بررسی روش تعیین مبلغ و فروشگاه‌های طرف قرارداد شما</li>
+            <li><svg class="icon"><use href="../assets/img/icons.svg#check"/></svg>پاسخ به سؤالات مالی، امنیتی و فنی</li>
+          </ul>
+        </div>
+        <form class="form" novalidate>
+          <div class="two">
+            <label>نام و نام خانوادگی<input name="name" required autocomplete="name"></label>
+            <label>شمارهٔ تماس<input name="phone" type="tel" required autocomplete="tel" inputmode="tel" dir="ltr" style="text-align:right"></label>
+          </div>
+          <div class="two">
+            <label>نام سازمان<input name="company" autocomplete="organization"></label>
+            <label>تعداد کارکنان
+              <select name="size">
+                <option value="">انتخاب کنید</option>
+                <option>کمتر از ۱۰۰ نفر</option>
+                <option>۱۰۰ تا ۵۰۰ نفر</option>
+                <option>۵۰۰ تا ۲٬۰۰۰ نفر</option>
+                <option>بیش از ۲٬۰۰۰ نفر</option>
+              </select>
+            </label>
+          </div>
+          <input type="hidden" name="product" value="سامانهٔ بن الکترونیکی رفاهیات">
+          <label>توضیحات (اختیاری)<textarea name="message" maxlength="2000"></textarea></label>
+          <button class="btn" type="submit">ثبت درخواست دمو</button>
+          <p class="form-note" role="status">درخواست شما ثبت شد. به‌زودی با شما تماس می‌گیریم.</p>
+          <p class="form-hint">اطلاعات شما فقط برای هماهنگی دمو استفاده می‌شود.</p>
+        </form>
       </div>
     </div>
   </section>
@@ -139,12 +297,39 @@
 
 <footer class="site-footer">
   <div class="container">
-    <div class="foot-bottom" style="margin-top:0;border-top:0;padding-top:0">
+    <div class="foot">
+      <div>
+        <a href="../" class="logo"><span class="logo-mark" aria-hidden="true">e</span>اِنو دیجیتال</a>
+        <p>سازندهٔ نرم‌افزار برای رفاه کارکنان و خرید روزمره.</p>
+      </div>
+      <div>
+        <h2>محصولات</h2>
+        <ul>
+          <li><a href="refah.html">سامانهٔ بن رفاهیات</a></li>
+          <li><a href="limoojet.html">لیموجت</a></li>
+          <li><a href="limoc.html">لیموسی</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>شرکت</h2>
+        <ul>
+          <li><a href="../#about">درباره ما</a></li>
+          <li><a href="../#faq">سؤالات متداول</a></li>
+          <li><a href="#contact">درخواست دمو</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>تماس</h2>
+        <ul><li><a href="#contact">فرم تماس</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
       <span>© <span data-year>۱۴۰۵</span> اِنو دیجیتال. همهٔ حقوق محفوظ است.</span>
-      <a href="../index.html">بازگشت به صفحهٔ اصلی</a>
+      <span>تصاویر سامانه با دادهٔ آزمایشی تهیه شده‌اند.</span>
     </div>
   </div>
 </footer>
-<script src="../assets/js/main.js"></script>
+
+<script src="../assets/js/main.js" defer></script>
 </body>
 </html>

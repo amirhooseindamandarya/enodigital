@@ -8,6 +8,8 @@ import { productList } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import logoFull from "@/assets/brand/logo-full.webp";
 
 export const metadata = pageMeta({ title: "درباره ما", description: `${site.name}؛ شرکت توسعهٔ نرم‌افزار با دو حوزهٔ فعالیت: محصولات نرم‌افزاری آماده و توسعهٔ نرم‌افزار سفارشی.`, path: "/about/" });
 
@@ -19,11 +21,24 @@ export default function AboutPage() {
         <div className="container-x relative pb-24 pt-10 sm:pt-14">
           <Breadcrumb dark items={[{ href: "/", label: "خانه" }, { label: "درباره ما" }]} />
           <div className="mt-12 max-w-3xl">
-            <p className="eyebrow text-[#a9b1ff]">درباره {site.name}</p>
+            <p className="eyebrow text-[#f5b82e]">درباره {site.name}</p>
             <h1 className="h-display mt-5 text-white">نرم‌افزار می‌سازیم تا کار، ساده‌تر و قابل پیگیری‌تر شود.</h1>
             {/* TODO: داستان، سال تأسیس و تیم شرکت را اضافه کنید */}
             <p className="mt-6 text-[17px] leading-[2] text-white/70 sm:text-[19px]">{site.name} یک شرکت توسعهٔ نرم‌افزار است که در دو حوزه فعالیت می‌کند: ساخت و پشتیبانی محصولات نرم‌افزاری آماده، و طراحی و توسعهٔ نرم‌افزار سفارشی برای سازمان‌ها و کسب‌وکارها.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white pt-24 sm:pt-28">
+        <div className="container-x">
+          <Reveal className="grid items-center gap-10 rounded-3xl border border-line bg-paper p-8 sm:p-12 md:grid-cols-[0.8fr_1.2fr]">
+            <Image src={logoFull} alt={`لوگوی ${site.name}؛ ${site.legalTagline}`} className="mx-auto h-auto w-full max-w-[340px]" sizes="340px" />
+            <div>
+              <p className="eyebrow text-amber-ink">هویت ما</p>
+              <h2 className="mt-3 text-[26px] font-extrabold leading-[1.5] sm:text-[30px]">{site.legalTagline}</h2>
+              <p className="mt-3 text-[15.5px] leading-8 text-ink-2">نشانهٔ {site.name} از سه لایه ساخته شده است؛ لایه‌هایی که مثل محصولات و خدمات ما، هرکدام نقش خودشان را دارند و در کنار هم یک کل منسجم می‌سازند.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 

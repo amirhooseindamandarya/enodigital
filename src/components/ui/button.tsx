@@ -7,14 +7,14 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "btn-shine bg-indigo text-white shadow-[0_8px_20px_-8px_rgb(88_101_232/0.7)] hover:bg-indigo-600",
+        primary: "btn-shine bg-amber text-navy shadow-[0_10px_24px_-10px_rgb(245_168_0/0.75)] hover:bg-[#ffb81f]",
         dark: "bg-navy text-white hover:bg-navy-3",
         light: "btn-shine bg-white text-navy hover:bg-paper",
         outline: "border border-line-2 bg-white text-ink hover:border-ink-3",
         ghostDark: "border border-white/15 bg-white/[0.04] text-white hover:bg-white/10 hover:border-white/30",
         teal: "btn-shine bg-teal-700 text-white hover:bg-teal",
-        sun: "bg-sun text-navy hover:bg-[#ffd36f]",
-        link: "px-0! h-auto! text-ink hover:text-indigo",
+        sun: "bg-sun text-white hover:bg-sun-700",
+        link: "px-0! h-auto! text-ink hover:text-amber-ink",
         limoc: "btn-shine bg-limoc text-white shadow-[0_10px_24px_-10px_rgb(44_114_72/0.7)] hover:bg-limoc-600",
         limocSun: "btn-shine bg-limoc-sun text-limoc-ink shadow-[0_10px_24px_-10px_rgb(251_195_14/0.8)] hover:bg-[#ffcf35]",
         limocOutline: "border border-limoc/25 bg-white text-limoc-900 hover:border-limoc/60",

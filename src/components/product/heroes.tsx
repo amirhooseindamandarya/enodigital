@@ -92,29 +92,29 @@ export function LimocHero({ crumb }: { crumb: React.ReactNode }) {
 export function LimoFoodHero({ crumb }: { crumb: React.ReactNode }) {
   const p = products.limofood;
   return (
-    <section className="relative overflow-hidden bg-[#fff8ea] pt-[72px]">
-      <div aria-hidden className="pointer-events-none absolute -left-40 top-20 size-[520px] rounded-full bg-sun/25 blur-[120px]" />
+    <section className="relative overflow-hidden bg-[#fff6f5] pt-[72px]">
+      <div aria-hidden className="pointer-events-none absolute -left-40 top-20 size-[520px] rounded-full bg-sun/12 blur-[120px]" />
       <div className="container-x relative pb-16 pt-10 sm:pt-14">
         {crumb}
         <div className="mt-10 grid items-center gap-14 lg:grid-cols-[1fr_1fr]">
           <div>
-            <motion.span {...up()} className="inline-flex items-center gap-2 rounded-full bg-sun/30 px-3 py-1 text-[13px] font-bold text-[#8a5d00]"><Icon name="utensils" className="size-4" />{p.category}</motion.span>
+            <motion.span {...up()} className="inline-flex items-center gap-2 rounded-full bg-sun/10 px-3 py-1 text-[13px] font-bold text-sun-700"><Icon name="utensils" className="size-4" />{p.category}</motion.span>
             <motion.h1 {...up(0.05)} className="h-display mt-5">{p.name}</motion.h1>
             <motion.p {...up(0.1)} className="mt-4 text-[21px] font-bold leading-[1.8] sm:text-[24px]">{p.tagline}</motion.p>
             <motion.p {...up(0.15)} className="lead mt-4">منوی آنلاین، پرداخت اینترنتی، مدیریت سفارش و پیک؛ کانال فروش آنلاین اختصاصی برای {p.audience}.</motion.p>
             <motion.div {...up(0.2)} className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="#demo" variant="dark" size="lg">{p.cta.primary}</ButtonLink>
+              <ButtonLink href="#demo" variant="sun" size="lg">{p.cta.primary}</ButtonLink>
               <ButtonLink href={p.externalUrl!} external variant="outline" size="lg">{p.cta.secondary} <Icon name="external" /></ButtonLink>
             </motion.div>
             <motion.ul {...up(0.25)} className="mt-9 flex flex-wrap gap-2">
               {["منوی آنلاین", "درگاه پرداخت", "بدون کارمزد سفارش", "مدیریت پیک"].map((t) => (
-                <li key={t} className="rounded-full border border-[#f1dfb5] bg-white px-3 py-1 text-[13px] font-semibold text-ink-2">{t}</li>
+                <li key={t} className="rounded-full border border-[#f3d3cf] bg-white px-3 py-1 text-[13px] font-semibold text-ink-2">{t}</li>
               ))}
             </motion.ul>
           </div>
           <div className="relative sm:pb-24">
             <motion.div {...up(0.15)}>
-              <span className="absolute -top-8 end-0 rounded-full border border-[#f1dfb5] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+              <span className="absolute -top-8 end-0 rounded-full border border-[#f3d3cf] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
               <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                 <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} priority sizes="(max-width: 1024px) 100vw, 560px" />
               </BrowserFrame>
@@ -135,7 +135,7 @@ export function BenefitsHero({ crumb }: { crumb: React.ReactNode }) {
   const p = products.benefits;
   return (
     <section className="relative overflow-hidden bg-navy pt-[72px] text-white">
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_80%_0%,rgb(22_184_166/0.18),transparent_70%),radial-gradient(50%_50%_at_0%_100%,rgb(88_101_232/0.15),transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_80%_0%,rgb(22_184_166/0.18),transparent_70%),radial-gradient(50%_50%_at_0%_100%,rgb(245_168_0/0.12),transparent_70%)]" />
       <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
       <div className="container-x relative pb-20 pt-10 sm:pt-14">
         {crumb}

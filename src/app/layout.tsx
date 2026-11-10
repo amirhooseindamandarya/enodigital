@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   title: { default: `${site.name} | ${site.tagline}`, template: `%s | ${site.name}` },
   description: site.description,
   applicationName: site.name,
-  icons: { icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg` },
+  icons: { icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.png`, apple: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/apple-touch-icon.png` },
   robots: { index: true, follow: true, "max-image-preview": "large" } as Metadata["robots"],
 };
 
-export const viewport: Viewport = { themeColor: "#0d1530", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#071c35", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           name: site.name,
           alternateName: site.nameEn,
           url: site.url,
+          logo: `${site.url}/icon-512.png`,
           description: site.description,
         }} />
         <MotionProvider>

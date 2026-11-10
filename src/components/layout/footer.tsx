@@ -25,7 +25,8 @@ export function Footer() {
       <div className="container-x grid gap-12 py-16 lg:grid-cols-[1.4fr_repeat(3,1fr)_1.2fr]">
         <div>
           <Logo dark />
-          <p className="mt-4 max-w-xs text-[14.5px] leading-7 text-white/60">{site.tagline}؛ از محصولات آماده تا راهکارهای اختصاصی.</p>
+          <p className="mt-4 text-[13px] font-semibold text-amber">{site.legalTagline}</p>
+          <p className="mt-2 max-w-xs text-[14.5px] leading-7 text-white/60">{site.tagline}؛ از محصولات آماده تا راهکارهای اختصاصی.</p>
         </div>
         {cols.map((c) => (
           <div key={c.title}>

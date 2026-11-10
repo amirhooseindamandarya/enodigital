@@ -1,15 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
+import mark from "@/assets/brand/logo-mark.png";
+import markWhite from "@/assets/brand/logo-mark-white.png";
+import wordmark from "@/assets/brand/logo-wordmark.webp";
+import wordmarkWhite from "@/assets/brand/logo-wordmark-white.webp";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-/** لوگوی موقت — با فایل لوگوی نهایی جایگزین شود (src/lib/site.ts) */
+/** لوگوی اِنو دیجیتال: نشانه + نوشتار (نسخهٔ روشن و تیره) */
 export function Logo({ dark, className }: { dark?: boolean; className?: string }) {
   return (
-    <Link href="/" aria-label={`${site.name}، صفحهٔ اصلی`} className={cn("flex items-center gap-2.5 text-[18px] font-extrabold", dark ? "text-white" : "text-ink", className)}>
-      <span aria-hidden className="relative grid size-9 place-items-center overflow-hidden rounded-[11px] bg-gradient-to-br from-indigo to-violet font-[system-ui] text-[18px] font-bold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.25)]">
-        {site.logoMark}
-      </span>
-      {site.name}
+    <Link href="/" aria-label={`${site.name}، صفحهٔ اصلی`} className={cn("flex shrink-0 items-center gap-2.5", className)} dir="ltr">
+      <Image src={dark ? markWhite : mark} alt="" width={34} height={35} className="h-[34px] w-auto" priority />
+      <Image src={dark ? wordmarkWhite : wordmark} alt={site.nameEn} width={140} height={39} className="h-[18px] w-auto sm:h-5" priority />
     </Link>
   );
 }

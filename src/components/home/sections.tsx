@@ -19,7 +19,7 @@ export function Intro() {
     <section className="bg-white py-24 sm:py-32">
       <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.25fr] lg:gap-20">
         <Reveal>
-          <p className="eyebrow mb-4 text-indigo">رویکرد ما</p>
+          <p className="eyebrow mb-4 text-amber-ink">رویکرد ما</p>
           <h2 className="h-section">ما فقط نرم‌افزار نمی‌نویسیم؛ راهکارهایی می‌سازیم که به کار می‌آیند.</h2>
           <p className="lead mt-5">هر محصول و هر پروژه از یک مسئلهٔ واقعی شروع می‌شود. اول فرایند را می‌فهمیم، بعد تجربه‌ای طراحی می‌کنیم که کاربر بدون آموزش طولانی از آن استفاده کند، و آن را طوری می‌سازیم که سال‌ها قابل نگهداری بماند.</p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -29,7 +29,7 @@ export function Intro() {
         <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
           {approach.map((a, i) => (
             <Reveal key={a.title} delay={i * 0.06} className="bg-white p-7 sm:p-8">
-              <span className="mb-5 grid size-11 place-items-center rounded-xl bg-paper text-indigo ring-1 ring-line"><Icon name={a.icon} className="size-5" /></span>
+              <span className="mb-5 grid size-11 place-items-center rounded-xl bg-amber/10 text-amber-ink ring-1 ring-amber/20"><Icon name={a.icon} className="size-5" /></span>
               <h3 className="text-[18px] font-extrabold">{a.title}</h3>
               <p className="mt-2 text-[15px] leading-7 text-ink-2">{a.desc}</p>
             </Reveal>
@@ -86,10 +86,10 @@ export function ProductsShowcase() {
               <ProductMeta p={limoc} />
               <Highlights p={limoc} />
               <div className="mt-auto flex flex-wrap gap-3 pt-9">
-                <ButtonLink href={limoc.href}>مشاهدهٔ جزئیات <Icon name="arrow" /></ButtonLink>
+                <ButtonLink href={limoc.href} variant="limoc">مشاهدهٔ جزئیات <Icon name="arrow" /></ButtonLink>
               </div>
             </div>
-            <div className="relative overflow-hidden bg-gradient-to-br from-indigo/[0.07] to-violet/[0.06] p-6 sm:p-10">
+            <div className="relative overflow-hidden bg-gradient-to-br from-limoc/[0.08] to-limoc-sun/[0.10] p-6 sm:p-10">
               <span className="absolute end-5 top-5 z-20 rounded-full border border-line bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
               <BrowserFrame title="لیموسی · پیش‌فاکتور" className="shadow-[var(--shadow-lift)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5 lg:translate-x-[-12%] lg:w-[118%]">
                 <Screenshot src={limocScreens.quote.src} alt={limocScreens.quote.alt} sizes="(max-width: 1024px) 100vw, 55vw" />
@@ -102,8 +102,8 @@ export function ProductsShowcase() {
           {/* لیموفود */}
           <Reveal>
             <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]">
-              <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-[#fff4d9] to-[#fffaf0] sm:h-[340px]">
-                <span className="absolute end-5 top-5 z-20 rounded-full border border-[#f1dfb5] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+              <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-[#fff0ee] to-[#fffafa] sm:h-[340px]">
+                <span className="absolute end-5 top-5 z-20 rounded-full border border-[#f3d3cf] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
                 <div className="absolute -bottom-6 left-[6%] w-[88%] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
                   <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                     <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="(max-width: 1024px) 90vw, 40vw" />
@@ -154,7 +154,7 @@ export function CustomDev() {
       <div aria-hidden className="grid-lines pointer-events-none absolute inset-0 opacity-60" />
       <div className="container-x relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
-          <p className="eyebrow mb-4 text-[#a9b1ff]">توسعهٔ نرم‌افزار سفارشی</p>
+          <p className="eyebrow mb-4 text-[#f5b82e]">توسعهٔ نرم‌افزار سفارشی</p>
           <h2 className="h-section">نیاز شما خارج از چارچوب نرم‌افزارهای آماده است؟</h2>
           <p className="lead mt-5 text-white/65!">ما نیازهای اختصاصی کسب‌وکار شما را بررسی می‌کنیم و متناسب با فرایندها، اهداف و زیرساخت‌های شما راهکار نرم‌افزاری طراحی و توسعه می‌دهیم.</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -166,7 +166,7 @@ export function CustomDev() {
           {services.map((s, i) => (
             <Reveal as="li" key={s.title} delay={i * 0.04}
               className={cn("rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.06]", i === services.length - 1 && "sm:col-span-2")}>
-              <span className="mb-4 grid size-10 place-items-center rounded-xl bg-indigo/20 text-[#b4baff]"><Icon name={s.icon} className="size-5" /></span>
+              <span className="mb-4 grid size-10 place-items-center rounded-xl bg-amber/15 text-[#f5b82e]"><Icon name={s.icon} className="size-5" /></span>
               <h3 className="text-[17px] font-extrabold">{s.title}</h3>
               <p className="mt-1.5 text-[14.5px] leading-7 text-white/60">{s.desc}</p>
             </Reveal>
@@ -187,10 +187,10 @@ export function Process({ id, className }: { id?: string; className?: string }) 
         <SectionHeading eyebrow="فرایند همکاری" title="از شناخت مسئله تا استقرار؛ قدم‌به‌قدم و شفاف" />
         <ol className="relative mt-14 grid gap-8 lg:grid-cols-5 lg:gap-6">
           <span aria-hidden className="absolute right-[19px] top-2 bottom-2 w-px bg-line lg:hidden" />
-          <span aria-hidden className="absolute inset-x-[10%] top-[19px] hidden h-px bg-gradient-to-l from-indigo/50 via-line to-line lg:block" />
+          <span aria-hidden className="absolute inset-x-[10%] top-[19px] hidden h-px bg-gradient-to-l from-amber/70 via-line to-line lg:block" />
           {processSteps.map((s, i) => (
             <Reveal as="li" key={s.title} delay={i * 0.07} className="relative flex gap-5 lg:block">
-              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-full border border-line bg-white text-[14px] font-extrabold text-indigo shadow-[var(--shadow-soft)]">
+              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-full border border-line bg-white text-[14px] font-extrabold text-amber-ink shadow-[var(--shadow-soft)]">
                 {(i + 1).toLocaleString("fa-IR")}
               </span>
               <div className="lg:mt-6">
@@ -272,7 +272,7 @@ export function ArticleCards() {
       {articles.map((a, i) => (
         <Reveal key={a.slug} delay={i * 0.06}>
           <Link href={`/blog/${a.slug}/`} className="group flex h-full flex-col rounded-3xl border border-line bg-white p-7 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-line-2 hover:shadow-[var(--shadow-lift)]">
-            <span className="text-[12.5px] font-bold text-indigo">{a.category}</span>
+            <span className="text-[12.5px] font-bold text-amber-ink">{a.category}</span>
             <h3 className="mt-3 text-[19px] font-extrabold leading-8">{a.title}</h3>
             <p className="mt-3 flex-1 text-[14.5px] leading-7 text-ink-2">{a.excerpt}</p>
             <span className="mt-6 flex items-center justify-between border-t border-line pt-4 text-[13.5px] text-ink-3">
@@ -310,7 +310,7 @@ export function FinalCta({ title = "برای تبدیل ایده‌تان به �
         <Reveal>
           <div className="surface-dark relative overflow-hidden rounded-[2rem] px-7 py-16 text-center sm:px-16 sm:py-20">
             <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
-            <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[640px] -translate-x-1/2 rounded-full bg-indigo/30 blur-[100px]" />
+            <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[640px] -translate-x-1/2 rounded-full bg-amber/25 blur-[100px]" />
             <div className="relative mx-auto max-w-2xl">
               <h2 className="h-section">{title}</h2>
               <p className="lead mt-5 text-white/65!">{lead}</p>

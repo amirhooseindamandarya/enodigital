@@ -30,7 +30,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <header className="bg-paper">
         <div className="container-x max-w-[820px]! pb-14 pt-10 sm:pt-14">
           <Breadcrumb items={[{ href: "/", label: "خانه" }, { href: "/blog/", label: "مقالات" }, { label: a.category }]} />
-          <p className="mt-10 text-[14px] font-bold text-indigo">{a.category} · {a.readMinutes.toLocaleString("fa-IR")} دقیقه مطالعه</p>
+          <p className="mt-10 text-[14px] font-bold text-amber-ink">{a.category} · {a.readMinutes.toLocaleString("fa-IR")} دقیقه مطالعه</p>
           <h1 className="mt-4 text-[30px] font-extrabold leading-[1.45] sm:text-[42px]">{a.title}</h1>
           <p className="lead mt-5">{a.excerpt}</p>
         </div>

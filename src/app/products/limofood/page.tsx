@@ -19,7 +19,7 @@ export default function LimoFoodPage() {
       <ProblemSection p={p} />
 
       {/* تجربهٔ مشتری */}
-      <section className="bg-[#fffaf1] py-24 sm:py-28">
+      <section className="bg-[#fff8f7] py-24 sm:py-28">
         <div className="container-x grid items-center gap-14 lg:grid-cols-[1fr_1.1fr]">
           <Reveal>
             <SectionHeading eyebrow="تجربهٔ سفارش" eyebrowClass="text-sun-700" title="منوی آنلاین فروشگاه شما، با برند خودتان" lead="محصولات با دسته‌بندی، تصویر، وزن و قیمت؛ مشتری انتخاب می‌کند، به سبد اضافه می‌کند و آنلاین پرداخت می‌کند." />
@@ -29,8 +29,8 @@ export default function LimoFoodPage() {
               ))}
             </ul>
           </Reveal>
-          <Reveal delay={0.1} className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-b from-[#ffecc4] to-[#fff6e3] px-6 pt-12 sm:px-12">
-            <span className="absolute end-5 top-4 rounded-full border border-[#f1dfb5] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+          <Reveal delay={0.1} className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-b from-[#ffe3df] to-[#fff6f5] px-6 pt-12 sm:px-12">
+            <span className="absolute end-5 top-4 rounded-full border border-[#f3d3cf] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
             <div className="relative mx-auto h-[460px] max-w-[440px] overflow-hidden rounded-t-2xl border border-b-0 border-line bg-white shadow-[var(--shadow-lift)]">
               <Screenshot src={limofoodScreens.menu.src} alt={limofoodScreens.menu.alt} sizes="440px" />
               <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />

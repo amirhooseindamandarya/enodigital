@@ -78,8 +78,8 @@ export function LeadForm({ variant = "contact", product, dark, submitLabel }: { 
   const input = (err?: string) => cn(
     "block w-full rounded-xl border px-4 text-[15px] outline-none transition-[border-color,box-shadow,background] duration-200",
     dark
-      ? "border-white/12 bg-white/[0.05] text-white placeholder:text-white/35 focus:border-[#a9b1ff] focus:bg-white/[0.08]"
-      : "border-line-2 bg-white text-ink placeholder:text-ink-3 focus:border-indigo focus:shadow-[0_0_0_4px_rgb(88_101_232/0.12)]",
+      ? "border-white/12 bg-white/[0.05] text-white placeholder:text-white/35 focus:border-[#f5b82e] focus:bg-white/[0.08]"
+      : "border-line-2 bg-white text-ink placeholder:text-ink-3 focus:border-amber focus:shadow-[0_0_0_4px_rgb(245_168_0/0.18)]",
     err && (dark ? "border-[#ff8a8a]" : "border-[#e5484d]"),
   );
   const errText = cn("mt-1.5 flex items-center gap-1 text-[13px]", dark ? "text-[#ffb0b0]" : "text-[#c8333a]");
@@ -134,7 +134,7 @@ export function LeadForm({ variant = "contact", product, dark, submitLabel }: { 
             {TOPICS.map((t, i) => (
               <label key={t} className="cursor-pointer">
                 <input type="radio" name="topic" value={t} defaultChecked={i === 0} className="peer sr-only" />
-                <span className={cn("inline-flex h-10 items-center rounded-full border px-4 text-[14px] font-semibold transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-indigo",
+                <span className={cn("inline-flex h-10 items-center rounded-full border px-4 text-[14px] font-semibold transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-amber",
                   dark ? "border-white/15 text-white/70 peer-checked:border-white peer-checked:bg-white peer-checked:text-navy" : "border-line-2 text-ink-2 peer-checked:border-navy peer-checked:bg-navy peer-checked:text-white")}>{t}</span>
               </label>
             ))}
@@ -164,7 +164,7 @@ export function LeadForm({ variant = "contact", product, dark, submitLabel }: { 
 
       <button type="submit" disabled={state === "sending"}
         className={cn("mt-1 inline-flex h-13 items-center justify-center gap-2 rounded-xl px-6 text-[15.5px] font-bold transition-colors disabled:opacity-60",
-          dark ? "bg-white text-navy hover:bg-paper" : "bg-indigo text-white hover:bg-indigo-600")}>
+          dark ? "bg-white text-navy hover:bg-paper" : "bg-amber text-navy hover:bg-[#ffb81f]")}>
         {state === "sending" && <Loader2 className="size-4 animate-spin" aria-hidden />}
         {submitLabel ?? (variant === "project" ? "ثبت درخواست پروژه" : variant === "demo" ? "درخواست دمو" : "ارسال پیام")}
       </button>
@@ -181,7 +181,7 @@ export function LeadForm({ variant = "contact", product, dark, submitLabel }: { 
           </p>
         )}
         {state === "unconfigured" && (
-          <p className={cn("flex items-start gap-2 rounded-xl p-3 text-[14px] leading-7", dark ? "bg-sun/10 text-sun" : "bg-sun/15 text-[#8a5d00]")}>
+          <p className={cn("flex items-start gap-2 rounded-xl p-3 text-[14px] leading-7", dark ? "bg-amber/10 text-amber" : "bg-amber/15 text-amber-ink")}>
             <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
             اطلاعات فرم معتبر است، اما ارسال آنلاین هنوز به سرور متصل نشده و پیامی ارسال نشد.
             {site.contact.phone || site.contact.email ? ` لطفاً از طریق ${site.contact.phone || site.contact.email} با ما تماس بگیرید.` : ""}

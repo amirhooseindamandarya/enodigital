@@ -27,7 +27,7 @@ export default function CustomSoftwarePage() {
           <Breadcrumb dark items={[{ href: "/", label: "خانه" }, { label: "توسعهٔ نرم‌افزار سفارشی" }]} />
           <div className="mt-12 grid items-end gap-12 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
-              <p className="eyebrow text-[#a9b1ff]">توسعهٔ نرم‌افزار سفارشی</p>
+              <p className="eyebrow text-[#f5b82e]">توسعهٔ نرم‌افزار سفارشی</p>
               <h1 className="h-display mt-5 text-white">نرم‌افزاری که با فرایند شما ساخته می‌شود، نه برعکس.</h1>
               <p className="mt-6 max-w-2xl text-[17px] leading-[2] text-white/70 sm:text-[19px]">از شناخت مسئله و تحلیل نیاز تا طراحی، توسعه، استقرار و پشتیبانی، کنار تیم شما هستیم تا سامانه‌ای بسازیم که واقعاً استفاده شود.</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -38,7 +38,7 @@ export default function CustomSoftwarePage() {
             <ul className="grid grid-cols-2 gap-3">
               {services.slice(0, 4).map((s) => (
                 <li key={s.title} className="glass rounded-2xl p-4">
-                  <Icon name={s.icon} className="size-5 text-[#b4baff]" />
+                  <Icon name={s.icon} className="size-5 text-[#f5b82e]" />
                   <p className="mt-3 text-[14.5px] font-bold text-white">{s.title}</p>
                 </li>
               ))}
@@ -84,7 +84,7 @@ export default function CustomSoftwarePage() {
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {approach.map((a, i) => (
               <Reveal key={a.title} delay={i * 0.05} className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
-                <Icon name={a.icon} className="size-6 text-[#b4baff]" />
+                <Icon name={a.icon} className="size-6 text-[#f5b82e]" />
                 <h3 className="mt-5 text-[17px] font-extrabold">{a.title}</h3>
                 <p className="mt-1.5 text-[14.5px] leading-7 text-white/60">{a.desc}</p>
               </Reveal>

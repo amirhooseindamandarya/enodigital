@@ -36,7 +36,7 @@ export function Hero() {
           <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05, ease }}
             className="h-display mt-6 text-white">
             نرم‌افزارهایی برای{" "}
-            <span className="bg-gradient-to-l from-[#9aa3ff] via-white to-white bg-clip-text text-transparent">کسب‌وکارهای رو به رشد.</span>
+            <span className="bg-gradient-to-l from-amber via-[#ffd77a] to-white bg-clip-text text-transparent">کسب‌وکارهای رو به رشد.</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.12, ease }}
             className="mt-6 text-[16.5px] leading-[2] text-white/70 sm:text-[18px]">
@@ -62,7 +62,7 @@ export function Hero() {
         <div className="relative h-[400px] sm:h-[500px] lg:h-[560px]" aria-label="نمای رابط سه محصول" role="img">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease }}
             className="absolute left-0 top-0 w-[88%] sm:w-[80%]">
-            <Tag name="لیموسی" dot="bg-indigo" className="-top-3 right-5" />
+            <Tag name="لیموسی" dot="bg-limoc" className="-top-3 right-5" />
             <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[var(--shadow-float)]">
               <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 88vw, 44vw" />
             </BrowserFrame>

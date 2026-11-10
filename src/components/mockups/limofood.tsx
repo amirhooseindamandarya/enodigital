@@ -22,12 +22,12 @@ const items = [
 export function LimoFoodMenu({ className }: { className?: string }) {
   return (
     <div className={cn("bg-[#fffaf1] pb-3 text-[11px] leading-5 text-ink", className)} aria-hidden>
-      <div className="bg-gradient-to-b from-[#ffca52] to-[#ffb648] px-4 pb-4 pt-9">
+      <div className="bg-gradient-to-b from-[#d7193a] to-[#b3102b] px-4 pb-4 pt-9">
         <div className="flex items-center gap-2.5">
           <span className="grid size-10 place-items-center rounded-xl bg-white text-[16px] font-black text-sun-700 shadow-sm">ر</span>
           <div>
-            <p className="text-[14px] font-extrabold text-navy">رستوران نمونه</p>
-            <p className="text-[10px] text-navy/70">باز است · ارسال با پیک</p>
+            <p className="text-[14px] font-extrabold text-white">رستوران نمونه</p>
+            <p className="text-[10px] text-white/75">باز است · ارسال با پیک</p>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function LimoFoodMenu({ className }: { className?: string }) {
 export function OrderCard({ className, status = "new" }: { className?: string; status?: "new" | "prep" | "send" }) {
   const s = {
     new: { t: "سفارش جدید", c: "bg-sun/25 text-sun-700" },
-    prep: { t: "در حال آماده‌سازی", c: "bg-indigo/10 text-indigo" },
+    prep: { t: "در حال آماده‌سازی", c: "bg-amber/15 text-amber-ink" },
     send: { t: "ارسال با پیک", c: "bg-teal/12 text-teal-700" },
   }[status];
   return (
@@ -90,7 +90,7 @@ export function OrderCard({ className, status = "new" }: { className?: string; s
 
 const cols = [
   { t: "جدید", c: "bg-sun", orders: [["#۲۱۸", "۲ قلم · پرداخت شد"], ["#۲۱۹", "۴ قلم · پرداخت شد"]] },
-  { t: "آماده‌سازی", c: "bg-indigo", orders: [["#۲۱۵", "۳ قلم"], ["#۲۱۶", "۱ قلم"], ["#۲۱۷", "۲ قلم"]] },
+  { t: "آماده‌سازی", c: "bg-amber", orders: [["#۲۱۵", "۳ قلم"], ["#۲۱۶", "۱ قلم"], ["#۲۱۷", "۲ قلم"]] },
   { t: "ارسال", c: "bg-teal", orders: [["#۲۱۲", "پیک: علی"], ["#۲۱۳", "پیک: رضا"]] },
   { t: "تحویل‌شده", c: "bg-ink-3", orders: [["#۲۱۰", "۱۲:۴۰"], ["#۲۱۱", "۱۲:۵۵"]] },
 ];

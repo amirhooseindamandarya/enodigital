@@ -31,7 +31,7 @@ const options: Option[] = [
     desc: "اگر پیگیری مشتری‌ها بین اکسل و واتساپ گم می‌شود، لیموسی مسیر سرنخ تا پیش‌فاکتور، قرارداد، پروژه و پشتیبانی را یکجا نگه می‌دارد.",
     points: ["قیف فروش و یادآوری پیگیری‌ها", "پیش‌فاکتور، قرارداد و پرداخت", "تیکتینگ با SLA و پرتال مشتری"],
     cta: { label: "آشنایی با لیموسی", href: "/products/limoc/" },
-    tone: "text-indigo bg-indigo/10",
+    tone: "text-limoc bg-limoc/10",
     visual: <BrowserFrame title="لیموسی · نمای Kanban فروش" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} sizes="420px" /></BrowserFrame>,
   },
   {
@@ -40,7 +40,7 @@ const options: Option[] = [
     desc: "سفارش را مستقیم از مشتری بگیرید، آنلاین پرداخت شود و از ثبت تا ارسال در یک پنل مدیریت شود.",
     points: ["منوی آنلاین موبایلی", "درگاه پرداخت، بدون کارمزد سفارش", "مدیریت وضعیت سفارش و پیک"],
     cta: { label: "آشنایی با لیموفود", href: "/products/limofood/" },
-    tone: "text-sun-700 bg-sun/20",
+    tone: "text-sun-700 bg-sun/10",
     visual: <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="420px" /></BrowserFrame>,
   },
   {

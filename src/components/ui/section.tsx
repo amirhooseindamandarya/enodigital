@@ -5,7 +5,7 @@ export function SectionHeading({ eyebrow, title, lead, center, dark, className, 
 }) {
   return (
     <div className={cn("max-w-[700px]", center && "mx-auto text-center", className)}>
-      {eyebrow && <p className={cn("eyebrow mb-4", dark ? "text-[#a9b1ff]" : "text-indigo", center && "justify-center", eyebrowClass)}>{eyebrow}</p>}
+      {eyebrow && <p className={cn("eyebrow mb-4", dark ? "text-[#f5b82e]" : "text-amber-ink", center && "justify-center", eyebrowClass)}>{eyebrow}</p>}
       <h2 className="h-section">{title}</h2>
       {lead && <p className={cn("lead mt-4", dark && "text-white/65!")}>{lead}</p>}
     </div>

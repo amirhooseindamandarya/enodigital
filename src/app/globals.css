@@ -25,6 +25,14 @@
   --color-sun-700: #d99a12;
   --color-orange: #f59a54;
 
+  /* برند لیموسی */
+  --color-limoc: #2c7248;
+  --color-limoc-600: #235f3b;
+  --color-limoc-900: #064b2e;
+  --color-limoc-ink: #13261c;
+  --color-limoc-sun: #fbc30e;
+  --color-limoc-cream: #fffbf0;
+
   --radius-xl2: 1.25rem;
   --radius-xl3: 1.75rem;
 
@@ -91,3 +99,23 @@
 
 @keyframes acc-down { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
 @keyframes acc-up { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
+
+/* انیمیشن‌های ظریف */
+@keyframes float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes shine { from { transform: translateX(120%) skewX(-20deg); } to { transform: translateX(-220%) skewX(-20deg); } }
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.45), transparent); transform: translateX(120%) skewX(-20deg); }
+.btn-shine:hover::after { animation: shine 0.9s ease; }
+@media (prefers-reduced-motion: reduce) { .btn-shine:hover::after { animation: none; } }
+
+@layer components {
+  .surface-limoc {
+    background-color: #0f2419;
+    color: #fff;
+    background-image:
+      radial-gradient(55% 50% at 85% 0%, rgb(44 114 72 / 0.45), transparent 70%),
+      radial-gradient(40% 40% at 0% 100%, rgb(251 195 14 / 0.12), transparent 70%);
+  }
+  .surface-limoc h1, .surface-limoc h2, .surface-limoc h3, .surface-limoc h4 { color: #fff; }
+}
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }

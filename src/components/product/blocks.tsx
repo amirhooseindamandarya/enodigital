@@ -131,11 +131,11 @@ export function ProductFaq({ p }: { p: Product }) {
   );
 }
 
-export function DemoSection({ p, title, lead }: { p: Product; title: string; lead: string }) {
+export function DemoSection({ p, title, lead, surface = "surface-dark" }: { p: Product; title: string; lead: string; surface?: string }) {
   return (
     <section id="demo" className="bg-white pb-24 sm:pb-28">
       <div className="container-x">
-        <div className="surface-dark relative grid gap-12 overflow-hidden rounded-[2rem] p-7 sm:p-12 lg:grid-cols-[0.9fr_1.1fr] lg:p-16">
+        <div className={cn(surface, "relative grid gap-12 overflow-hidden rounded-[2rem] p-7 text-white sm:p-12 lg:grid-cols-[0.9fr_1.1fr] lg:p-16")}>
           <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
           <div className="relative">
             <span className={cn("inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[12.5px] font-bold text-white/80")}><i className={cn("size-2 rounded-full", p.theme.dot)} />{p.name}</span>

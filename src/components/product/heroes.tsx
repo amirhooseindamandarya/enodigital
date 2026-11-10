@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { BrowserFrame, MockLabel, PhoneFrame, Screenshot } from "@/components/mockups/frames";
-import { LimocDashboard, LimocCustomer, LimocTicket } from "@/components/mockups/limoc";
+import { limocScreens } from "@/components/mockups/limoc";
 import { OrderCard, limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { products } from "@/lib/products";
@@ -12,34 +12,39 @@ import { products } from "@/lib/products";
 const ease = [0.2, 0.7, 0.2, 1] as const;
 const up = (d = 0) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay: d, ease } });
 
-/* ---------------- Limoc: روشن، Indigo، داشبورد CRM ---------------- */
+/* ---------------- لیموسی: روشن، Indigo، تصاویر واقعی ---------------- */
 export function LimocHero({ crumb }: { crumb: React.ReactNode }) {
   const p = products.limoc;
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#eef0ff] via-[#f6f7ff] to-white pt-[72px]">
       <div className="container-x pb-20 pt-10 sm:pt-14">
         {crumb}
-        <div className="mt-10 grid items-center gap-14 lg:grid-cols-[0.95fr_1.25fr]">
+        <div className="mt-10 grid items-center gap-14 lg:grid-cols-[0.9fr_1.3fr]">
           <div>
             <motion.span {...up()} className="inline-flex items-center gap-2 rounded-full bg-indigo/10 px-3 py-1 text-[13px] font-bold text-indigo"><Icon name="users" className="size-4" />{p.category}</motion.span>
-            <motion.h1 {...up(0.05)} className="h-display mt-5">{p.name}</motion.h1>
-            <motion.p {...up(0.1)} className="mt-4 text-[21px] font-bold leading-[1.8] text-ink sm:text-[24px]">{p.tagline}</motion.p>
-            <motion.p {...up(0.15)} className="lead mt-4">مشتریان، تماس‌ها، قیف فروش، پیش‌فاکتور، قرارداد، پروژه و تیکت‌های پشتیبانی؛ برای {p.audience}.</motion.p>
-            <motion.div {...up(0.2)} className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <motion.h1 {...up(0.05)} className="h-display mt-5">فروش، مشتری، پروژه و پشتیبانی را یکجا مدیریت کنید</motion.h1>
+            <motion.p {...up(0.1)} className="lead mt-5">لیموسی نرم‌افزار ابری ساده برای تیم‌های خدماتی کوچک است؛ از اولین تماس مشتری و پیگیری فروش تا پیش‌فاکتور، قرارداد، پروژه، دریافت وجه و پشتیبانی، همه‌چیز در یک سیستم.</motion.p>
+            <motion.div {...up(0.18)} className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#demo" size="lg">{p.cta.primary}</ButtonLink>
               <ButtonLink href={p.externalUrl!} external variant="outline" size="lg">{p.cta.secondary} <Icon name="external" /></ButtonLink>
             </motion.div>
+            <motion.ul {...up(0.24)} className="mt-8 grid gap-2 text-[14px] text-ink-2 sm:grid-cols-2">
+              {["بدون نیاز به نصب", "قابل استفاده روی موبایل و کامپیوتر", "مناسب تیم‌های ۲ تا ۱۰ نفره", "۶۰ روز استفادهٔ رایگان"].map((t) => (
+                <li key={t} className="flex items-center gap-2"><Icon name="check" className="size-4 text-indigo" strokeWidth={2.5} />{t}</li>
+              ))}
+            </motion.ul>
           </div>
-          <div className="relative">
+          <div className="relative pb-10">
             <motion.div {...up(0.15)}>
-              <MockLabel className="absolute -top-8 end-0" />
-              <BrowserFrame title="Limoc · قیف فروش" className="shadow-[var(--shadow-lift)]"><LimocDashboard /></BrowserFrame>
+              <span className="absolute -top-8 end-0 rounded-full border border-line bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+              <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[var(--shadow-lift)]">
+                <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 100vw, 680px" />
+              </BrowserFrame>
             </motion.div>
-            <motion.div {...up(0.35)} className="absolute -bottom-10 -right-4 hidden w-[44%] overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-lift)] sm:block lg:-right-10">
-              <LimocCustomer />
-            </motion.div>
-            <motion.div {...up(0.45)} className="absolute -left-6 top-[18%] hidden w-[38%] overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-lift)] md:block">
-              <LimocTicket />
+            <motion.div {...up(0.4)} className="absolute -bottom-4 -left-6 hidden w-[52%] sm:block lg:-left-10">
+              <BrowserFrame title="پیش‌فاکتور" className="shadow-[var(--shadow-lift)]">
+                <Screenshot src={limocScreens.quote.src} alt={limocScreens.quote.alt} sizes="360px" />
+              </BrowserFrame>
             </motion.div>
           </div>
         </div>

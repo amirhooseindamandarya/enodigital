@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
-import { LimocDashboard } from "@/components/mockups/limoc";
+import { limocScreens } from "@/components/mockups/limoc";
 import { LimoFoodMenu } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { productList } from "@/lib/products";
@@ -62,9 +62,9 @@ export function Hero() {
         <div className="relative h-[400px] sm:h-[500px] lg:h-[560px]" aria-label="نمای رابط سه محصول" role="img">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease }}
             className="absolute left-0 top-0 w-[88%] sm:w-[80%]">
-            <Tag name="Limoc" dot="bg-indigo" className="-top-3 right-5" />
-            <BrowserFrame title="Limoc · قیف فروش" className="shadow-[var(--shadow-float)]">
-              <LimocDashboard />
+            <Tag name="لیموسی" dot="bg-indigo" className="-top-3 right-5" />
+            <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[var(--shadow-float)]">
+              <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 88vw, 44vw" />
             </BrowserFrame>
           </motion.div>
 
@@ -85,7 +85,7 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
-      <p className="container-x relative pb-6 text-[11.5px] text-white/35">تصویر Limoc و منوی موبایل لیموفود ماکاپ مفهومی است؛ تصویر رفاهیات از نسخهٔ واقعی با دادهٔ آزمایشی است.</p>
+      <p className="container-x relative pb-6 text-[11.5px] text-white/35">منوی موبایل لیموفود ماکاپ مفهومی است؛ تصاویر لیموسی و رفاهیات از نسخهٔ واقعی با دادهٔ نمونه‌اند.</p>
     </section>
   );
 }

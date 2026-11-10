@@ -6,7 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
 import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
-import { LimocCustomer } from "@/components/mockups/limoc";
+import { limocScreens } from "@/components/mockups/limoc";
 import { limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { cn } from "@/lib/utils";
@@ -26,13 +26,13 @@ type Option = {
 
 const options: Option[] = [
   {
-    key: "crm", icon: "users", label: "مدیریت مشتریان و فروش", product: "Limoc",
-    title: "Limoc؛ مشتری، فروش، پروژه و پشتیبانی در یک محیط",
-    desc: "اگر پیگیری مشتری‌ها بین اکسل و پیام‌رسان گم می‌شود، Limoc همهٔ تعاملات را در پروندهٔ هر مشتری نگه می‌دارد.",
+    key: "crm", icon: "users", label: "مدیریت مشتریان و فروش", product: "لیموسی",
+    title: "لیموسی؛ مشتری، فروش، پروژه و پشتیبانی در یک محیط",
+    desc: "اگر پیگیری مشتری‌ها بین اکسل و واتساپ گم می‌شود، لیموسی مسیر سرنخ تا پیش‌فاکتور، قرارداد، پروژه و پشتیبانی را یکجا نگه می‌دارد.",
     points: ["قیف فروش و یادآوری پیگیری‌ها", "پیش‌فاکتور، قرارداد و پرداخت", "تیکتینگ با SLA و پرتال مشتری"],
-    cta: { label: "آشنایی با Limoc", href: "/products/limoc/" },
+    cta: { label: "آشنایی با لیموسی", href: "/products/limoc/" },
     tone: "text-indigo bg-indigo/10",
-    visual: <BrowserFrame title="Limoc · پروندهٔ مشتری" className="shadow-[var(--shadow-lift)]"><LimocCustomer /></BrowserFrame>,
+    visual: <BrowserFrame title="لیموسی · نمای Kanban فروش" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} sizes="420px" /></BrowserFrame>,
   },
   {
     key: "food", icon: "utensils", label: "سفارش‌گیری آنلاین غذا", product: "لیموفود",

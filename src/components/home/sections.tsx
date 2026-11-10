@@ -3,8 +3,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
-import { BrowserFrame, MockLabel, PhoneFrame, Screenshot } from "@/components/mockups/frames";
-import { LimocDashboard } from "@/components/mockups/limoc";
+import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
+import { limocScreens } from "@/components/mockups/limoc";
 import { limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { products, type Product } from "@/lib/products";
@@ -79,7 +79,7 @@ export function ProductsShowcase() {
           <ButtonLink href="/products/" variant="outline" className="self-start lg:self-auto">مقایسهٔ محصولات</ButtonLink>
         </div>
 
-        {/* Limoc — کارت عریض */}
+        {/* لیموسی — کارت عریض */}
         <Reveal className="mt-14">
           <article className="group grid overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)] lg:grid-cols-[1fr_1.35fr]">
             <div className="flex flex-col p-8 sm:p-11">
@@ -90,9 +90,9 @@ export function ProductsShowcase() {
               </div>
             </div>
             <div className="relative overflow-hidden bg-gradient-to-br from-indigo/[0.07] to-violet/[0.06] p-6 sm:p-10">
-              <MockLabel className="absolute end-5 top-5 z-20" />
-              <BrowserFrame title="Limoc · قیف فروش" className="shadow-[var(--shadow-lift)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5 lg:translate-x-[-12%] lg:w-[118%]">
-                <LimocDashboard />
+              <span className="absolute end-5 top-5 z-20 rounded-full border border-line bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+              <BrowserFrame title="لیموسی · پیش‌فاکتور" className="shadow-[var(--shadow-lift)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5 lg:translate-x-[-12%] lg:w-[118%]">
+                <Screenshot src={limocScreens.quote.src} alt={limocScreens.quote.alt} sizes="(max-width: 1024px) 100vw, 55vw" />
               </BrowserFrame>
             </div>
           </article>

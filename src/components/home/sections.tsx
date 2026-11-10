@@ -99,13 +99,13 @@ export function ProductsShowcase() {
         </Reveal>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          {/* LimoFood */}
+          {/* لیموفود */}
           <Reveal>
             <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]">
               <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-[#fff4d9] to-[#fffaf0] sm:h-[340px]">
                 <span className="absolute end-5 top-5 z-20 rounded-full border border-[#f1dfb5] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
                 <div className="absolute -bottom-6 left-[6%] w-[88%] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
-                  <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
+                  <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                     <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="(max-width: 1024px) 90vw, 40vw" />
                   </BrowserFrame>
                 </div>

@@ -35,13 +35,13 @@ const options: Option[] = [
     visual: <BrowserFrame title="Limoc · پروندهٔ مشتری" className="shadow-[var(--shadow-lift)]"><LimocCustomer /></BrowserFrame>,
   },
   {
-    key: "food", icon: "utensils", label: "سفارش‌گیری آنلاین غذا", product: "LimoFood",
-    title: "LimoFood؛ کانال فروش آنلاین اختصاصی رستوران شما",
+    key: "food", icon: "utensils", label: "سفارش‌گیری آنلاین غذا", product: "لیموفود",
+    title: "لیموفود؛ کانال فروش آنلاین اختصاصی رستوران شما",
     desc: "سفارش را مستقیم از مشتری بگیرید، آنلاین پرداخت شود و از ثبت تا ارسال در یک پنل مدیریت شود.",
     points: ["منوی آنلاین موبایلی", "درگاه پرداخت، بدون کارمزد سفارش", "مدیریت وضعیت سفارش و پیک"],
-    cta: { label: "آشنایی با LimoFood", href: "/products/limofood/" },
+    cta: { label: "آشنایی با لیموفود", href: "/products/limofood/" },
     tone: "text-sun-700 bg-sun/20",
-    visual: <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="420px" /></BrowserFrame>,
+    visual: <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="420px" /></BrowserFrame>,
   },
   {
     key: "benefits", icon: "building", label: "مدیریت رفاهیات کارکنان", product: "سامانهٔ رفاهیات",

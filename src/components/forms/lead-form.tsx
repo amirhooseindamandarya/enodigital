@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 type Variant = "contact" | "demo" | "project";
 
 const PROJECT_TYPES = ["وب‌اپلیکیشن", "سیستم مدیریت داخلی", "داشبورد مدیریتی", "API و یکپارچه‌سازی", "توسعه یا پشتیبانی سامانهٔ موجود", "سایر"];
-const TOPICS = ["Limoc", "LimoFood", "سامانهٔ رفاهیات", "نرم‌افزار سفارشی", "سایر"];
+const TOPICS = ["Limoc", "لیموفود", "سامانهٔ رفاهیات", "نرم‌افزار سفارشی", "سایر"];
 const MAX_FILE = 10 * 1024 * 1024;
 const FILE_TYPES = ".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip";
 

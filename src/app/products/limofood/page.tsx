@@ -45,7 +45,7 @@ export default function LimoFoodPage() {
           <SectionHeading eyebrow="کنترل فروش آنلاین" eyebrowClass="text-sun-700" title="همهٔ سفارش‌ها، یک تابلوی عملیات" lead="سفارش‌های جدید، در حال آماده‌سازی، در حال ارسال و تحویل‌شده را یک‌جا ببینید و پیک را به سفارش اختصاص دهید." />
           <Reveal className="relative mt-12">
             <MockLabel className="absolute -top-8 end-0" />
-            <BrowserFrame title="LimoFood · پنل رستوران" className="shadow-[var(--shadow-lift)]"><LimoFoodBoard /></BrowserFrame>
+            <BrowserFrame title="لیموفود · پنل رستوران" className="shadow-[var(--shadow-lift)]"><LimoFoodBoard /></BrowserFrame>
           </Reveal>
         </div>
       </section>
@@ -54,7 +54,7 @@ export default function LimoFoodPage() {
       <HowItWorks p={p} title="راه‌اندازی تا اولین سفارش" />
       <Audience p={p} />
       <ProductFaq p={p} />
-      <DemoSection p={p} title="کانال فروش آنلاین خودتان را راه بیندازید" lead="اطلاعات کسب‌وکارتان را بفرستید تا برای راه‌اندازی LimoFood با شما تماس بگیریم." />
+      <DemoSection p={p} title="کانال فروش آنلاین خودتان را راه بیندازید" lead="اطلاعات کسب‌وکارتان را بفرستید تا برای راه‌اندازی لیموفود با شما تماس بگیریم." />
       <OtherProducts current={p.slug} />
     </>
   );

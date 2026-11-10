@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata = pageMeta({
   title: "محصولات نرم‌افزاری",
-  description: "Limoc برای مدیریت مشتری و فروش، LimoFood برای سفارش‌گیری آنلاین غذا و سامانهٔ بن الکترونیکی رفاهیات کارکنان.",
+  description: "Limoc برای مدیریت مشتری و فروش، لیموفود برای سفارش‌گیری آنلاین غذا و سامانهٔ بن الکترونیکی رفاهیات کارکنان.",
   path: "/products/",
 });
 

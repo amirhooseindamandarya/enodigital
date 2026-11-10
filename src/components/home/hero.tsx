@@ -78,14 +78,14 @@ export function Hero() {
 
           <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.52, ease }}
             className="absolute -bottom-4 right-0 w-[34%] max-w-[220px] sm:w-[32%]">
-            <Tag name="LimoFood" dot="bg-sun" className="-top-3 left-1/2 -translate-x-1/2" />
+            <Tag name="لیموفود" dot="bg-sun" className="-top-3 left-1/2 -translate-x-1/2" />
             <PhoneFrame>
               <LimoFoodMenu />
             </PhoneFrame>
           </motion.div>
         </div>
       </div>
-      <p className="container-x relative pb-6 text-[11.5px] text-white/35">تصاویر Limoc و LimoFood ماکاپ مفهومی و تصویر رفاهیات از نسخهٔ واقعی با دادهٔ آزمایشی است.</p>
+      <p className="container-x relative pb-6 text-[11.5px] text-white/35">تصویر Limoc و منوی موبایل لیموفود ماکاپ مفهومی است؛ تصویر رفاهیات از نسخهٔ واقعی با دادهٔ آزمایشی است.</p>
     </section>
   );
 }

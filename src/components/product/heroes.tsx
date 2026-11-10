@@ -48,7 +48,7 @@ export function LimocHero({ crumb }: { crumb: React.ReactNode }) {
   );
 }
 
-/* ---------------- LimoFood: گرم، منوی موبایلی + کارت سفارش ---------------- */
+/* ---------------- لیموفود: گرم، منوی موبایلی + کارت سفارش ---------------- */
 export function LimoFoodHero({ crumb }: { crumb: React.ReactNode }) {
   const p = products.limofood;
   return (
@@ -75,7 +75,7 @@ export function LimoFoodHero({ crumb }: { crumb: React.ReactNode }) {
           <div className="relative sm:pb-24">
             <motion.div {...up(0.15)}>
               <span className="absolute -top-8 end-0 rounded-full border border-[#f1dfb5] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
-              <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
+              <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                 <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} priority sizes="(max-width: 1024px) 100vw, 560px" />
               </BrowserFrame>
             </motion.div>

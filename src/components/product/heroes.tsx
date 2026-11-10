@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { BrowserFrame, MockLabel, PhoneFrame, Screenshot } from "@/components/mockups/frames";
 import { LimocDashboard, LimocCustomer, LimocTicket } from "@/components/mockups/limoc";
-import { LimoFoodMenu, OrderCard } from "@/components/mockups/limofood";
+import { OrderCard, limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { products } from "@/lib/products";
 
@@ -72,24 +72,16 @@ export function LimoFoodHero({ crumb }: { crumb: React.ReactNode }) {
               ))}
             </motion.ul>
           </div>
-          <div className="relative mx-auto h-[540px] w-full max-w-[520px]">
-            <MockLabel className="absolute end-0 top-0 z-30" />
-            <motion.div {...up(0.15)} className="absolute right-[8%] top-6 w-[54%] max-w-[270px]">
-              <PhoneFrame><LimoFoodMenu /></PhoneFrame>
+          <div className="relative sm:pb-24">
+            <motion.div {...up(0.15)}>
+              <span className="absolute -top-8 end-0 rounded-full border border-[#f1dfb5] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+              <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
+                <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} priority sizes="(max-width: 1024px) 100vw, 560px" />
+              </BrowserFrame>
             </motion.div>
-            <motion.div {...up(0.35)} className="absolute left-0 top-[30%] w-[58%] max-w-[290px]">
+            <motion.div {...up(0.4)} className="absolute -bottom-2 -left-8 hidden w-[48%] max-w-[270px] sm:block">
+              <MockLabel className="mb-2" />
               <OrderCard className="shadow-[var(--shadow-lift)]" status="new" />
-            </motion.div>
-            <motion.div {...up(0.5)} className="absolute bottom-6 left-[6%] w-[52%] max-w-[260px] rounded-2xl border border-line bg-white p-4 shadow-[var(--shadow-lift)]" aria-hidden>
-              <p className="text-[12px] font-bold text-ink-3">وضعیت سفارش #۲۱۸</p>
-              <ol className="mt-3 grid grid-cols-4 gap-1.5 text-center text-[10.5px] font-semibold">
-                {["ثبت", "آماده‌سازی", "ارسال", "تحویل"].map((s, i) => (
-                  <li key={s}>
-                    <span className={i < 3 ? "block h-1.5 rounded-full bg-sun" : "block h-1.5 rounded-full bg-line"} />
-                    <span className={i < 3 ? "mt-1.5 block text-ink" : "mt-1.5 block text-ink-3"}>{s}</span>
-                  </li>
-                ))}
-              </ol>
             </motion.div>
           </div>
         </div>

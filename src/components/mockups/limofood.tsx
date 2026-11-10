@@ -1,8 +1,16 @@
 import { cn } from "@/lib/utils";
+import storeImg from "@/assets/screens/limofood-store.webp";
+import menuImg from "@/assets/screens/limofood-menu.webp";
+
+/** تصاویر واقعی LimoFood (صفحهٔ فروشگاه نمونه روی پلتفرم) */
+export const limofoodScreens = {
+  store: { src: storeImg, alt: "صفحهٔ فروشگاه در LimoFood: بنر فروشگاه، اطلاعات، منوی فروشگاه و دسته‌بندی محصولات" },
+  menu: { src: menuImg, alt: "منوی آنلاین فروشگاه در LimoFood: دسته‌بندی محصولات، قیمت‌ها و افزودن به سبد" },
+};
 
 /**
  * ماکاپ‌های مفهومی LimoFood (منوی موبایلی، کارت سفارش، تابلوی عملیات).
- * TODO: با اسکرین‌شات واقعی محصول جایگزین شود.
+ * TODO: اسکرین‌شات واقعی پنل مدیریت سفارش‌ها و منوی موبایل جایگزین شود.
  */
 const items = [
   { n: "برگر کلاسیک", d: "گوشت گوساله، پنیر چدار، سس مخصوص", p: "۳۸۵٬۰۰۰", c: "from-[#ffe2b8] to-[#ffc98a]" },

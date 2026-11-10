@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
 import { BrowserFrame, MockLabel, PhoneFrame, Screenshot } from "@/components/mockups/frames";
 import { LimocDashboard } from "@/components/mockups/limoc";
-import { LimoFoodMenu, OrderCard } from "@/components/mockups/limofood";
+import { limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { products, type Product } from "@/lib/products";
 import { approach, articles, processSteps, projects, services } from "@/lib/content";
@@ -103,11 +103,12 @@ export function ProductsShowcase() {
           <Reveal>
             <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]">
               <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-[#fff4d9] to-[#fffaf0] sm:h-[340px]">
-                <MockLabel className="absolute end-5 top-5 z-20" />
-                <div className="absolute -bottom-24 right-[10%] w-[200px] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2 sm:w-[220px]">
-                  <PhoneFrame><LimoFoodMenu /></PhoneFrame>
+                <span className="absolute end-5 top-5 z-20 rounded-full border border-[#f1dfb5] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
+                <div className="absolute -bottom-6 left-[6%] w-[88%] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
+                  <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
+                    <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="(max-width: 1024px) 90vw, 40vw" />
+                  </BrowserFrame>
                 </div>
-                <OrderCard className="absolute left-[7%] top-[22%] w-[230px] shadow-[var(--shadow-lift)]" />
               </div>
               <div className="flex flex-1 flex-col p-8 sm:p-10">
                 <ProductMeta p={limofood} />

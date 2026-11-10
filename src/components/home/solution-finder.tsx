@@ -7,7 +7,7 @@ import { Icon, type IconName } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
 import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
 import { LimocCustomer } from "@/components/mockups/limoc";
-import { OrderCard } from "@/components/mockups/limofood";
+import { limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +41,7 @@ const options: Option[] = [
     points: ["منوی آنلاین موبایلی", "درگاه پرداخت، بدون کارمزد سفارش", "مدیریت وضعیت سفارش و پیک"],
     cta: { label: "آشنایی با LimoFood", href: "/products/limofood/" },
     tone: "text-sun-700 bg-sun/20",
-    visual: <OrderCard className="mx-auto w-full max-w-[320px] shadow-[var(--shadow-lift)]" status="prep" />,
+    visual: <BrowserFrame title="LimoFood · صفحهٔ فروشگاه" className="w-full shadow-[var(--shadow-lift)]"><Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="420px" /></BrowserFrame>,
   },
   {
     key: "benefits", icon: "building", label: "مدیریت رفاهیات کارکنان", product: "سامانهٔ رفاهیات",

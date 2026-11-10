@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { BrowserFrame, MockLabel, PhoneFrame, Screenshot } from "@/components/mockups/frames";
+import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
 import { limocScreens } from "@/components/mockups/limoc";
 import { OrderCard, limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
@@ -43,7 +43,7 @@ export function LimocHero({ crumb }: { crumb: React.ReactNode }) {
             <motion.p {...up(0.1)} className="lead mt-6">لیموسی نرم‌افزار ابری ساده برای تیم‌های خدماتی کوچک است؛ از اولین تماس مشتری و پیگیری فروش تا پیش‌فاکتور، قرارداد، پروژه، دریافت وجه و پشتیبانی، همه‌چیز در یک سیستم.</motion.p>
             <motion.div {...up(0.18)} className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#demo" variant="limocSun" size="lg">{p.cta.primary}</ButtonLink>
-              <ButtonLink href={p.externalUrl!} external variant="limocOutline" size="lg">{p.cta.secondary} <Icon name="external" /></ButtonLink>
+              <ButtonLink href="#features" variant="limocOutline" size="lg">{p.cta.secondary}</ButtonLink>
             </motion.div>
             <motion.ul {...up(0.24)} className="mt-8 grid gap-2 text-[14px] text-ink-2 sm:grid-cols-2">
               {["بدون نیاز به نصب", "قابل استفاده روی موبایل و کامپیوتر", "مناسب تیم‌های ۲ تا ۱۰ نفره", "پرتال اختصاصی مشتری"].map((t) => (
@@ -53,7 +53,6 @@ export function LimocHero({ crumb }: { crumb: React.ReactNode }) {
           </div>
           <div className="relative pb-10 [perspective:1600px]">
             <motion.div initial={{ opacity: 0, y: 40, rotateX: 14, rotateY: -8 }} animate={{ opacity: 1, y: 0, rotateX: 0, rotateY: 0 }} transition={{ duration: 1.2, delay: 0.15, ease }}>
-              <span className="absolute -top-8 end-0 rounded-full border border-limoc/20 bg-white px-2.5 py-0.5 text-[11px] font-semibold text-limoc-900">تصویر واقعی محصول</span>
               <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[0_50px_100px_-40px_rgb(6_75_46/0.45)]">
                 <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 100vw, 680px" />
               </BrowserFrame>
@@ -114,14 +113,12 @@ export function LimoFoodHero({ crumb }: { crumb: React.ReactNode }) {
           </div>
           <div className="relative sm:pb-24">
             <motion.div {...up(0.15)}>
-              <span className="absolute -top-8 end-0 rounded-full border border-[#f3d3cf] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
               <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                 <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} priority sizes="(max-width: 1024px) 100vw, 560px" />
               </BrowserFrame>
             </motion.div>
             <motion.div {...up(0.4)} className="absolute -bottom-2 -left-8 hidden w-[48%] max-w-[270px] sm:block">
-              <MockLabel className="mb-2" />
-              <OrderCard className="shadow-[var(--shadow-lift)]" status="new" />
+              <Float delay={0.5} duration={6.5}><OrderCard className="shadow-[var(--shadow-lift)]" status="new" /></Float>
             </motion.div>
           </div>
         </div>
@@ -155,13 +152,12 @@ export function BenefitsHero({ crumb }: { crumb: React.ReactNode }) {
             </BrowserFrame>
           </motion.div>
           <motion.div {...up(0.45)} className="absolute -bottom-10 -right-3 w-[26%] max-w-[210px] sm:-right-8">
-            <PhoneFrame screenClassName="aspect-[9/17.5]"><Screenshot src={benefitsScreens.employeeVoucher.src} alt={benefitsScreens.employeeVoucher.alt} sizes="210px" /></PhoneFrame>
+            <Float delay={0.3} duration={6.5}><PhoneFrame screenClassName="aspect-[9/17.5]"><Screenshot src={benefitsScreens.employeeVoucher.src} alt={benefitsScreens.employeeVoucher.alt} sizes="210px" /></PhoneFrame></Float>
           </motion.div>
           <motion.div {...up(0.55)} className="absolute -bottom-10 -left-3 hidden w-[24%] max-w-[200px] sm:block sm:-left-8">
-            <PhoneFrame screenClassName="aspect-[9/19]"><Screenshot src={benefitsScreens.sellerPurchase.src} alt={benefitsScreens.sellerPurchase.alt} sizes="200px" /></PhoneFrame>
+            <Float delay={1.2} duration={6.5}><PhoneFrame screenClassName="aspect-[9/19]"><Screenshot src={benefitsScreens.sellerPurchase.src} alt={benefitsScreens.sellerPurchase.alt} sizes="200px" /></PhoneFrame></Float>
           </motion.div>
         </div>
-        <p className="mt-16 text-center text-[12px] text-white/40">تصاویر از نسخهٔ واقعی سامانه و با دادهٔ آزمایشی تهیه شده‌اند.</p>
       </div>
     </section>
   );

@@ -1,7 +1,8 @@
 import { Reveal } from "@/components/motion/reveal";
+import { Float, ParallaxShot, TiltCard } from "@/components/motion/fx";
 import { SectionHeading } from "@/components/ui/section";
 import { Icon } from "@/components/ui/icon";
-import { BrowserFrame, MockLabel, Screenshot } from "@/components/mockups/frames";
+import { BrowserFrame, Screenshot } from "@/components/mockups/frames";
 import { LimoFoodBoard, limofoodScreens } from "@/components/mockups/limofood";
 import { LimoFoodHero } from "@/components/product/heroes";
 import { Audience, Breadcrumb, DemoSection, FeatureGrid, HowItWorks, OtherProducts, ProblemSection, ProductFaq, SoftwareJsonLd } from "@/components/product/blocks";
@@ -30,11 +31,10 @@ export default function LimoFoodPage() {
             </ul>
           </Reveal>
           <Reveal delay={0.1} className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-b from-[#ffe3df] to-[#fff6f5] px-6 pt-12 sm:px-12">
-            <span className="absolute end-5 top-4 rounded-full border border-[#f3d3cf] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
-            <div className="relative mx-auto h-[460px] max-w-[440px] overflow-hidden rounded-t-2xl border border-b-0 border-line bg-white shadow-[var(--shadow-lift)]">
+            <ParallaxShot strength={26} tilt={false} className="relative mx-auto h-[460px] max-w-[440px] overflow-hidden rounded-t-2xl border border-b-0 border-line bg-white shadow-[var(--shadow-lift)]">
               <Screenshot src={limofoodScreens.menu.src} alt={limofoodScreens.menu.alt} sizes="440px" />
               <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
-            </div>
+            </ParallaxShot>
           </Reveal>
         </div>
       </section>
@@ -43,10 +43,9 @@ export default function LimoFoodPage() {
       <section className="bg-white py-24 sm:py-28">
         <div className="container-x">
           <SectionHeading eyebrow="کنترل فروش آنلاین" eyebrowClass="text-sun-700" title="همهٔ سفارش‌ها، یک تابلوی عملیات" lead="سفارش‌های جدید، در حال آماده‌سازی، در حال ارسال و تحویل‌شده را یک‌جا ببینید و پیک را به سفارش اختصاص دهید." />
-          <Reveal className="relative mt-12">
-            <MockLabel className="absolute -top-8 end-0" />
+          <ParallaxShot strength={30} className="relative mt-12">
             <BrowserFrame title="لیموفود · پنل رستوران" className="shadow-[var(--shadow-lift)]"><LimoFoodBoard /></BrowserFrame>
-          </Reveal>
+          </ParallaxShot>
         </div>
       </section>
 

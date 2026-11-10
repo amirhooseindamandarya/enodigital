@@ -88,7 +88,7 @@ export function TiltCard({ children, className }: { children: React.ReactNode; c
     <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave}
       className={cn("group/tilt relative transition-transform duration-300 ease-out [transform:perspective(900px)_rotateX(var(--rx,0))_rotateY(var(--ry,0))] motion-reduce:transform-none", className)}>
       <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/tilt:opacity-100 [background:radial-gradient(240px_circle_at_var(--mx,50%)_var(--my,50%),rgb(251_195_14/0.16),transparent_70%)]" />
-      {children}
+      <div className="relative h-full">{children}</div>
     </div>
   );
 }

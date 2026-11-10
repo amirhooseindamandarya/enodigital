@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { TiltCard } from "@/components/motion/fx";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
@@ -37,7 +38,7 @@ export default function CustomSoftwarePage() {
             </div>
             <ul className="grid grid-cols-2 gap-3">
               {services.slice(0, 4).map((s) => (
-                <li key={s.title} className="glass rounded-2xl p-4">
+                <li key={s.title} className="glass rounded-2xl p-4 transition-[transform,background-color] duration-300 hover:-translate-y-1 hover:bg-white/10">
                   <Icon name={s.icon} className="size-5 text-[#f5b82e]" />
                   <p className="mt-3 text-[14.5px] font-bold text-white">{s.title}</p>
                 </li>
@@ -66,10 +67,12 @@ export default function CustomSoftwarePage() {
           <SectionHeading eyebrow="انواع سامانه‌ها" title="چه نوع سامانه‌هایی توسعه می‌دهیم؟" />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {systemTypes.map((s, i) => (
-              <Reveal key={s.title} delay={(i % 3) * 0.05} className="rounded-2xl border border-line bg-white p-7">
-                <span className="mb-5 grid size-11 place-items-center rounded-xl bg-indigo/8 text-indigo"><Icon name={s.icon} className="size-5" /></span>
+              <Reveal key={s.title} delay={(i % 3) * 0.05}>
+                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 transition-[box-shadow,border-color] duration-300 hover:shadow-[var(--shadow-lift)]">
+                <span className="mb-5 grid size-11 place-items-center rounded-xl bg-amber/12 text-amber-ink transition-transform duration-300 group-hover/tilt:scale-110 group-hover/tilt:rotate-[-6deg]"><Icon name={s.icon} className="size-5" /></span>
                 <h3 className="text-[17.5px] font-extrabold">{s.title}</h3>
                 <p className="mt-1.5 text-[14.5px] leading-7 text-ink-2">{s.desc}</p>
+              </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -83,10 +86,12 @@ export default function CustomSoftwarePage() {
           <SectionHeading dark eyebrow="رویکرد ما" title="معماری و تجربهٔ کاربری؛ دو ستون یک سامانهٔ ماندگار" />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {approach.map((a, i) => (
-              <Reveal key={a.title} delay={i * 0.05} className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
+              <Reveal key={a.title} delay={i * 0.05}>
+                <TiltCard className="h-full rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-[box-shadow,border-color] duration-300 hover:border-amber/40">
                 <Icon name={a.icon} className="size-6 text-[#f5b82e]" />
                 <h3 className="mt-5 text-[17px] font-extrabold">{a.title}</h3>
                 <p className="mt-1.5 text-[14.5px] leading-7 text-white/60">{a.desc}</p>
+              </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -98,10 +103,12 @@ export default function CustomSoftwarePage() {
           <SectionHeading eyebrow="مدل همکاری" title="متناسب با مرحلهٔ پروژهٔ شما" />
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {engagementModels.map((m, i) => (
-              <Reveal key={m.title} delay={i * 0.05} className="rounded-2xl border border-line p-7">
+              <Reveal key={m.title} delay={i * 0.05}>
+                <TiltCard className="h-full rounded-2xl border border-line p-7 transition-[box-shadow,border-color] duration-300 hover:shadow-[var(--shadow-lift)]">
                 <span className="text-[13px] font-extrabold text-violet">{`مدل ${(i + 1).toLocaleString("fa-IR")}`}</span>
                 <h3 className="mt-3 text-[18px] font-extrabold">{m.title}</h3>
                 <p className="mt-2 text-[15px] leading-7 text-ink-2">{m.desc}</p>
+              </TiltCard>
               </Reveal>
             ))}
           </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChevronDown, Menu, X, ArrowLeft } from "lucide-react";
 import { productList } from "@/lib/products";
@@ -24,6 +24,8 @@ export function Header() {
   const [mega, setMega] = useState(false);
   const [mobile, setMobile] = useState(false);
   const megaRef = useRef<HTMLLIElement>(null);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 160, damping: 30, mass: 0.3 });
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -55,6 +57,7 @@ export function Header() {
         onDark ? "border-b border-transparent bg-transparent" : "border-b border-line/80 bg-white/90 shadow-[0_1px_0_rgb(13_21_48/0.02)] backdrop-blur-xl",
       )}
     >
+      <motion.div aria-hidden style={{ scaleX: progress }} className="absolute inset-x-0 bottom-[-1px] h-[2px] origin-right bg-gradient-to-l from-amber to-[#ffd36b]" />
       <nav aria-label="منوی اصلی" className="container-x flex h-[72px] items-center justify-between gap-6">
         <Logo dark={onDark} />
 

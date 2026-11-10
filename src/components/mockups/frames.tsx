@@ -29,13 +29,3 @@ export function PhoneFrame({ children, className, screenClassName }: { children:
 export function Screenshot({ src, alt, className, priority, sizes }: { src: StaticImageData; alt: string; className?: string; priority?: boolean; sizes?: string }) {
   return <Image src={src} alt={alt} className={cn("block h-auto w-full", className)} priority={priority} sizes={sizes ?? "(max-width: 768px) 100vw, 60vw"} placeholder="empty" />;
 }
-
-/** برچسب صادقانه برای تصاویر مفهومی */
-export function MockLabel({ children = "ماکاپ مفهومی", className }: { children?: React.ReactNode; className?: string }) {
-  return (
-    <span className={cn("pointer-events-none inline-flex items-center gap-1.5 rounded-full border border-line bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3 backdrop-blur", className)}>
-      <i className="size-1.5 rounded-full bg-ink-3" />
-      {children}
-    </span>
-  );
-}

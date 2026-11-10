@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { Float } from "@/components/motion/fx";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
@@ -24,6 +25,8 @@ export function Hero() {
   return (
     <section className="surface-dark relative overflow-hidden pt-[72px]">
       <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
+      <div aria-hidden className="pointer-events-none absolute -left-40 top-1/3 size-[520px] animate-[drift_18s_ease-in-out_infinite] rounded-full bg-amber/15 blur-[120px] motion-reduce:animate-none" />
+      <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 size-[460px] animate-[drift_22s_ease-in-out_infinite_reverse] rounded-full bg-[#2c62b5]/30 blur-[120px] motion-reduce:animate-none" />
       <div className="container-x relative grid items-center gap-14 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1fr_1.12fr] lg:gap-10 lg:pb-28 lg:pt-24">
         <div className="relative z-10 max-w-[560px]">
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}
@@ -63,29 +66,34 @@ export function Hero() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease }}
             className="absolute left-0 top-0 w-[88%] sm:w-[80%]">
             <Tag name="لیموسی" dot="bg-limoc" className="-top-3 right-5" />
-            <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[var(--shadow-float)]">
-              <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 88vw, 44vw" />
-            </BrowserFrame>
+            <Float duration={8}>
+              <BrowserFrame title="لیموسی · نمای Kanban فروش" className="shadow-[var(--shadow-float)]">
+                <Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} priority sizes="(max-width: 1024px) 88vw, 44vw" />
+              </BrowserFrame>
+            </Float>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.38, ease }}
             className="absolute bottom-0 left-[4%] w-[66%] sm:left-[2%] sm:w-[60%]">
             <Tag name="سامانهٔ رفاهیات" dot="bg-teal" className="-top-3 right-5" />
-            <BrowserFrame title="پنل مدیریت · داشبورد" dark className="shadow-[var(--shadow-float)]">
-              <Screenshot src={benefitsScreens.dashboard.src} alt={benefitsScreens.dashboard.alt} priority sizes="(max-width: 1024px) 66vw, 36vw" />
-            </BrowserFrame>
+            <Float duration={7} delay={1.4}>
+              <BrowserFrame title="پنل مدیریت · داشبورد" dark className="shadow-[var(--shadow-float)]">
+                <Screenshot src={benefitsScreens.dashboard.src} alt={benefitsScreens.dashboard.alt} priority sizes="(max-width: 1024px) 66vw, 36vw" />
+              </BrowserFrame>
+            </Float>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.52, ease }}
             className="absolute -bottom-4 right-0 w-[34%] max-w-[220px] sm:w-[32%]">
             <Tag name="لیموفود" dot="bg-sun" className="-top-3 left-1/2 -translate-x-1/2" />
-            <PhoneFrame>
-              <LimoFoodMenu />
-            </PhoneFrame>
+            <Float duration={6} delay={0.6}>
+              <PhoneFrame>
+                <LimoFoodMenu />
+              </PhoneFrame>
+            </Float>
           </motion.div>
         </div>
       </div>
-      <p className="container-x relative pb-6 text-[11.5px] text-white/35">منوی موبایل لیموفود ماکاپ مفهومی است؛ تصاویر لیموسی و رفاهیات از نسخهٔ واقعی با دادهٔ نمونه‌اند.</p>
     </section>
   );
 }

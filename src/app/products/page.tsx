@@ -38,8 +38,8 @@ export default function ProductsPage() {
         <div className="container-x grid gap-6">
           {productList.map((p, i) => (
             <Reveal key={p.slug} delay={i * 0.05}>
-              <Link href={p.href} className="group grid gap-8 rounded-3xl border border-line bg-white p-7 transition-shadow duration-300 hover:shadow-[var(--shadow-lift)] sm:p-10 md:grid-cols-[auto_1fr_auto] md:items-center">
-                <span className={cn("grid size-16 place-items-center rounded-2xl", p.theme.bg, p.theme.accent)}><Icon name={p.icon} className="size-7" /></span>
+              <Link href={p.href} className="group grid gap-8 rounded-3xl border border-line bg-white p-7 transition-shadow duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)] sm:p-10 md:grid-cols-[auto_1fr_auto] md:items-center">
+                <span className={cn("grid size-16 place-items-center rounded-2xl transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110", p.theme.bg, p.theme.accent)}><Icon name={p.icon} className="size-7" /></span>
                 <div>
                   <p className="text-[13.5px] font-bold text-ink-3">{p.category}</p>
                   <h2 className="mt-1 text-[28px] font-extrabold">{p.name}</h2>

@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { TiltCard } from "@/components/motion/fx";
 import { SectionHeading } from "@/components/ui/section";
 import { Icon } from "@/components/ui/icon";
 import { Breadcrumb } from "@/components/product/blocks";
@@ -67,10 +68,12 @@ export default function AboutPage() {
           <SectionHeading eyebrow="اصول کاری" title="چطور کار می‌کنیم" />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {approach.map((a, i) => (
-              <Reveal key={a.title} delay={i * 0.05} className="rounded-2xl border border-line bg-white p-7">
+              <Reveal key={a.title} delay={i * 0.05}>
+                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 transition-[box-shadow,border-color] duration-300 hover:shadow-[var(--shadow-lift)]">
                 <Icon name={a.icon} className="size-6 text-indigo" />
                 <h3 className="mt-5 text-[17px] font-extrabold">{a.title}</h3>
                 <p className="mt-1.5 text-[14.5px] leading-7 text-ink-2">{a.desc}</p>
+              </TiltCard>
               </Reveal>
             ))}
           </div>

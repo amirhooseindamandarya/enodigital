@@ -14,7 +14,6 @@ import { JsonLd, pageMeta } from "@/lib/seo";
 const p = products.limoc;
 export const metadata = pageMeta({ title: p.seo.title, description: p.seo.description, path: p.href, keywords: p.seo.keywords });
 
-const realTag = "rounded-full border border-limoc/20 bg-white px-2.5 py-0.5 text-[11px] font-semibold text-limoc-900";
 const eyebrow = "text-limoc!";
 const shadow = "shadow-[0_40px_90px_-40px_rgb(6_75_46/0.45)]";
 
@@ -104,7 +103,6 @@ export default function LimocPage() {
             </Stagger>
           </Reveal>
           <ParallaxShot className="relative">
-            <span className={`absolute -top-8 end-0 z-10 ${realTag}`}>تصویر واقعی محصول</span>
             <BrowserFrame title="لیموسی · نمای Kanban فروش" className={shadow}><Screenshot src={limocScreens.kanban.src} alt={limocScreens.kanban.alt} sizes="(max-width: 1024px) 100vw, 700px" /></BrowserFrame>
           </ParallaxShot>
         </div>
@@ -114,7 +112,6 @@ export default function LimocPage() {
       <section className="overflow-hidden bg-white py-24 sm:py-32">
         <div className="container-x grid items-center gap-14 lg:grid-cols-[1.2fr_0.8fr]">
           <ParallaxShot className="relative order-2 lg:order-1">
-            <span className={`absolute -top-8 end-0 z-10 ${realTag}`}>تصویر واقعی محصول</span>
             <BrowserFrame title="لیموسی · پیش‌فاکتور" className={shadow}><Screenshot src={limocScreens.quote.src} alt={limocScreens.quote.alt} sizes="(max-width: 1024px) 100vw, 700px" /></BrowserFrame>
           </ParallaxShot>
           <div className="order-1 lg:order-2">
@@ -153,7 +150,6 @@ export default function LimocPage() {
             <p className="mt-5 text-[14px] leading-7 text-ink-3">مشتری با حساب جداگانهٔ خودش وارد می‌شود و فقط اطلاعات مربوط به خودش را می‌بیند؛ به پنل اصلی و اطلاعات سایر مشتریان دسترسی ندارد.</p>
           </div>
           <ParallaxShot className="relative">
-            <span className={`absolute -top-8 end-0 z-10 ${realTag}`}>تصویر واقعی محصول</span>
             <BrowserFrame title="پرتال مشتریان" className={shadow}><Screenshot src={limocScreens.portal.src} alt={limocScreens.portal.alt} sizes="(max-width: 1024px) 100vw, 700px" /></BrowserFrame>
           </ParallaxShot>
         </div>
@@ -274,7 +270,7 @@ export default function LimocPage() {
             <div className="mt-8 rounded-2xl border border-limoc-sun/50 bg-limoc-sun/20 p-5">
               <p className="font-bold text-limoc-ink">می‌خواهید خودتان امتحان کنید؟</p>
               <p className="mt-1 text-[14px] text-ink-2">لیموسی ۶۰ روز استفادهٔ رایگان دارد.</p>
-              <ButtonLink href={p.externalUrl!} external variant="limoc" size="sm" className="mt-4">شروع در limoc.ir <Icon name="external" /></ButtonLink>
+              <ButtonLink href="#demo" variant="limoc" size="sm" className="mt-4">درخواست فعال‌سازی</ButtonLink>
             </div>
           </div>
           <FaqList items={p.faqs} />

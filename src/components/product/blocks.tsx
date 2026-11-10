@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
+import { Float, ParallaxShot, ScrollLine, TiltCard } from "@/components/motion/fx";
 import { Icon } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
 import { FaqList } from "@/components/ui/accordion";
@@ -41,7 +42,7 @@ export function ProblemSection({ p }: { p: Product }) {
         </Reveal>
         <ul className="grid gap-3">
           {p.problem.points.map((pt, i) => (
-            <Reveal as="li" key={pt} delay={i * 0.05} className="flex items-start gap-4 rounded-2xl border border-line bg-paper/60 p-5">
+            <Reveal as="li" key={pt} delay={i * 0.07} className="flex items-start gap-4 rounded-2xl border border-line bg-paper/60 p-5 transition-[transform,box-shadow] duration-300 hover:-translate-x-1 hover:shadow-[var(--shadow-soft)]">
               <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-white text-[#d6455d] ring-1 ring-line"><Icon name="x" className="size-3.5" strokeWidth={2.5} /></span>
               <span className="text-[16px] leading-8">{pt}</span>
             </Reveal>
@@ -63,12 +64,13 @@ export function FeatureGrid({ p, title, dark, columns = 3 }: { p: Product; title
         <SectionHeading dark={dark} eyebrow="امکانات کلیدی" eyebrowClass={dark ? "text-teal!" : p.theme.accent} title={title ?? `هر آنچه ${p.name} در اختیار تیم شما می‌گذارد`} />
         <ul className={cn("mt-14 grid gap-4 sm:grid-cols-2", columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3")}>
           {p.features.map((f, i) => (
-            <Reveal as="li" key={f.title} delay={(i % 3) * 0.05}
-              className={cn("group rounded-2xl border p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5",
-                dark ? "border-white/10 bg-white/[0.035] hover:border-white/20" : "border-line bg-white hover:border-line-2 hover:shadow-[var(--shadow-soft)]")}>
-              <span className={cn("mb-4 grid size-11 place-items-center rounded-xl", dark ? "bg-teal/15 text-teal" : cn(p.theme.bg, p.theme.accent))}><Icon name={f.icon} className="size-5" /></span>
-              <h3 className={cn("text-[17px] font-extrabold", dark && "text-white")}>{f.title}</h3>
-              <p className={cn("mt-1.5 text-[14.5px] leading-7", dark ? "text-white/60" : "text-ink-2")}>{f.desc}</p>
+            <Reveal as="li" key={f.title} delay={(i % 3) * 0.06}>
+              <TiltCard className={cn("h-full rounded-2xl border p-6 transition-[border-color,box-shadow] duration-300",
+                dark ? "border-white/10 bg-white/[0.035] hover:border-white/25" : "border-line bg-white hover:border-line-2 hover:shadow-[var(--shadow-lift)]")}>
+                <span className={cn("mb-4 grid size-11 place-items-center rounded-xl transition-transform duration-300 group-hover/tilt:-translate-y-0.5 group-hover/tilt:scale-110", dark ? "bg-teal/15 text-teal" : cn(p.theme.bg, p.theme.accent))}><Icon name={f.icon} className="size-5" /></span>
+                <h3 className={cn("text-[17px] font-extrabold", dark && "text-white")}>{f.title}</h3>
+                <p className={cn("mt-1.5 text-[14.5px] leading-7", dark ? "text-white/60" : "text-ink-2")}>{f.desc}</p>
+              </TiltCard>
             </Reveal>
           ))}
         </ul>
@@ -84,10 +86,12 @@ export function Audience({ p, title }: { p: Product; title?: string }) {
         <SectionHeading eyebrow="کاربران و صنایع هدف" eyebrowClass={p.theme.accent} title={title ?? `${p.name} برای چه کسانی است؟`} />
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {p.industries.map((it, i) => (
-            <Reveal key={it.title} delay={i * 0.06} className="rounded-2xl border border-line p-7">
-              <span className={cn("mb-5 grid size-12 place-items-center rounded-2xl", p.theme.bg, p.theme.accent)}><Icon name={it.icon} className="size-6" /></span>
-              <h3 className="text-[18px] font-extrabold">{it.title}</h3>
-              <p className="mt-1 text-[15px] text-ink-2">{it.desc}</p>
+            <Reveal key={it.title} delay={i * 0.08}>
+              <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 transition-shadow duration-300 hover:shadow-[var(--shadow-lift)]">
+                <span className={cn("mb-5 grid size-12 place-items-center rounded-2xl transition-transform duration-300 group-hover/tilt:rotate-[-6deg] group-hover/tilt:scale-110", p.theme.bg, p.theme.accent)}><Icon name={it.icon} className="size-6" /></span>
+                <h3 className="text-[18px] font-extrabold">{it.title}</h3>
+                <p className="mt-1 text-[15px] text-ink-2">{it.desc}</p>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -101,10 +105,11 @@ export function HowItWorks({ p, title }: { p: Product; title?: string }) {
     <section className="bg-paper py-24 sm:py-28">
       <div className="container-x">
         <SectionHeading eyebrow="نحوهٔ کار" eyebrowClass={p.theme.accent} title={title ?? "چطور کار می‌کند؟"} />
-        <ol className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-5">
+        <ScrollLine color={p.theme.solid} className="mt-14 h-1" />
+        <ol className="mt-4 grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-5">
           {p.steps.map((s, i) => (
-            <Reveal as="li" key={s.title} delay={i * 0.05} className="bg-white p-6">
-              <span className={cn("text-[13px] font-extrabold", p.theme.accent)}>{`۰${(i + 1).toLocaleString("fa-IR")}`}</span>
+            <Reveal as="li" key={s.title} delay={i * 0.08} className="group bg-white p-6 transition-colors duration-300 hover:bg-paper">
+              <span className={cn("inline-grid size-9 place-items-center rounded-full text-[13px] font-extrabold transition-transform duration-300 group-hover:scale-110", p.theme.bg, p.theme.accent)}>{(i + 1).toLocaleString("fa-IR")}</span>
               <h3 className="mt-3 text-[16.5px] font-extrabold">{s.title}</h3>
               <p className="mt-1.5 text-[14px] leading-7 text-ink-2">{s.desc}</p>
             </Reveal>

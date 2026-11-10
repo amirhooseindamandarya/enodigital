@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { Float, ParallaxShot, TiltCard } from "@/components/motion/fx";
 import { SectionHeading } from "@/components/ui/section";
 import { Icon } from "@/components/ui/icon";
 import { BrowserFrame, PhoneFrame, Screenshot } from "@/components/mockups/frames";
@@ -41,12 +42,12 @@ export default function BenefitsPage() {
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {panels.map((pn, i) => (
               <Reveal key={pn.name} delay={i * 0.06}>
-                <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white">
+                <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white transition-[box-shadow,transform] duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]">
                   <div className="relative flex h-[280px] items-start justify-center overflow-hidden bg-navy px-6 pt-8">
                     {pn.mobile ? (
-                      <PhoneFrame className="w-[56%]" screenClassName="aspect-[9/17.5]"><Screenshot src={pn.img.src} alt={pn.img.alt} sizes="220px" /></PhoneFrame>
+                      <PhoneFrame className="w-[56%] transition-transform duration-700 group-hover:-translate-y-3" screenClassName="aspect-[9/17.5]"><Screenshot src={pn.img.src} alt={pn.img.alt} sizes="220px" /></PhoneFrame>
                     ) : (
-                      <BrowserFrame dark className="w-[118%] shrink-0 shadow-[var(--shadow-float)]"><Screenshot src={pn.img.src} alt={pn.img.alt} sizes="480px" /></BrowserFrame>
+                      <BrowserFrame dark className="w-[118%] shrink-0 shadow-[var(--shadow-float)] transition-transform duration-700 group-hover:-translate-y-3"><Screenshot src={pn.img.src} alt={pn.img.alt} sizes="480px" /></BrowserFrame>
                     )}
                   </div>
                   <div className="flex-1 p-7">
@@ -72,8 +73,10 @@ export default function BenefitsPage() {
             <SectionHeading eyebrow="تسویه با فروشندگان" eyebrowClass="text-teal-700" title="طلب هر فروشنده، مستقیم از تراکنش‌ها" lead="مدیر پرداخت به فروشنده را با تاریخ، شمارهٔ پیگیری و رسید ثبت می‌کند؛ پرداخت جزئی یا کامل. فروشنده همان ارقام را در کیف پول خود می‌بیند." />
             <p className="mt-6 rounded-2xl border border-line bg-paper p-4 text-[14px] leading-7 text-ink-2">پرداخت به فروشندگان توسط سازمان انجام می‌شود و سامانه آن را ثبت و پیگیری می‌کند؛ پرداخت خودکار بانکی بخشی از سامانه نیست.</p>
           </Reveal>
-          <Reveal delay={0.1} className="flex justify-center rounded-[1.75rem] bg-navy px-6 pt-10">
-            <PhoneFrame className="w-[min(260px,70%)] translate-y-8" screenClassName="aspect-[9/17]"><Screenshot src={benefitsScreens.sellerWallet.src} alt={benefitsScreens.sellerWallet.alt} sizes="260px" /></PhoneFrame>
+          <Reveal delay={0.1} className="flex justify-center overflow-hidden rounded-[1.75rem] bg-navy bg-[radial-gradient(60%_60%_at_50%_0%,rgb(22_184_166/0.25),transparent)] px-6 pt-10">
+            <ParallaxShot strength={24} className="w-[min(260px,70%)] translate-y-8">
+              <PhoneFrame screenClassName="aspect-[9/17]"><Screenshot src={benefitsScreens.sellerWallet.src} alt={benefitsScreens.sellerWallet.alt} sizes="260px" /></PhoneFrame>
+            </ParallaxShot>
           </Reveal>
         </div>
       </section>

@@ -51,7 +51,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col gap-2 py-6 text-[13px] text-white/45 sm:flex-row sm:justify-between">
           <p>© {new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date())} {site.name}. همهٔ حقوق محفوظ است.</p>
-          <p>تصاویر سامانهٔ رفاهیات با دادهٔ آزمایشی تهیه شده‌اند.</p>
+          <p dir="ltr">ENODIGITAL</p>
         </div>
       </div>
     </footer>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
+import { Float, ParallaxShot, ScrollLine, TiltCard } from "@/components/motion/fx";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { SectionHeading } from "@/components/ui/section";
@@ -28,10 +29,12 @@ export function Intro() {
         </Reveal>
         <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
           {approach.map((a, i) => (
-            <Reveal key={a.title} delay={i * 0.06} className="bg-white p-7 sm:p-8">
-              <span className="mb-5 grid size-11 place-items-center rounded-xl bg-amber/10 text-amber-ink ring-1 ring-amber/20"><Icon name={a.icon} className="size-5" /></span>
-              <h3 className="text-[18px] font-extrabold">{a.title}</h3>
-              <p className="mt-2 text-[15px] leading-7 text-ink-2">{a.desc}</p>
+            <Reveal key={a.title} delay={i * 0.08} className="bg-white">
+              <TiltCard className="h-full p-7 sm:p-8">
+                <span className="mb-5 grid size-11 place-items-center rounded-xl bg-amber/10 text-amber-ink ring-1 ring-amber/20 transition-transform duration-300 group-hover/tilt:rotate-[-6deg] group-hover/tilt:scale-110"><Icon name={a.icon} className="size-5" /></span>
+                <h3 className="text-[18px] font-extrabold">{a.title}</h3>
+                <p className="mt-2 text-[15px] leading-7 text-ink-2">{a.desc}</p>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -90,7 +93,6 @@ export function ProductsShowcase() {
               </div>
             </div>
             <div className="relative overflow-hidden bg-gradient-to-br from-limoc/[0.08] to-limoc-sun/[0.10] p-6 sm:p-10">
-              <span className="absolute end-5 top-5 z-20 rounded-full border border-line bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
               <BrowserFrame title="لیموسی · پیش‌فاکتور" className="shadow-[var(--shadow-lift)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5 lg:translate-x-[-12%] lg:w-[118%]">
                 <Screenshot src={limocScreens.quote.src} alt={limocScreens.quote.alt} sizes="(max-width: 1024px) 100vw, 55vw" />
               </BrowserFrame>
@@ -103,7 +105,6 @@ export function ProductsShowcase() {
           <Reveal>
             <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]">
               <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-[#fff0ee] to-[#fffafa] sm:h-[340px]">
-                <span className="absolute end-5 top-5 z-20 rounded-full border border-[#f3d3cf] bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-ink-3">تصویر واقعی محصول</span>
                 <div className="absolute -bottom-6 left-[6%] w-[88%] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
                   <BrowserFrame title="لیموفود · صفحهٔ فروشگاه" className="shadow-[var(--shadow-lift)]">
                     <Screenshot src={limofoodScreens.store.src} alt={limofoodScreens.store.alt} sizes="(max-width: 1024px) 90vw, 40vw" />
@@ -122,7 +123,6 @@ export function ProductsShowcase() {
           <Reveal delay={0.08}>
             <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-navy-3 bg-navy text-white shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]">
               <div className="relative h-[300px] overflow-hidden bg-[radial-gradient(80%_80%_at_50%_0%,rgb(22_184_166/0.22),transparent)] sm:h-[340px]">
-                <span className="absolute end-5 top-5 z-20 rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-white/70 backdrop-blur">تصویر واقعی · دادهٔ آزمایشی</span>
                 <div className="absolute -bottom-6 left-[6%] w-[88%] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
                   <BrowserFrame title="پنل مدیریت · صدور بن" className="shadow-[var(--shadow-float)]">
                     <Screenshot src={benefitsScreens.wizard.src} alt={benefitsScreens.wizard.alt} sizes="(max-width: 1024px) 90vw, 40vw" />
@@ -164,11 +164,12 @@ export function CustomDev() {
         </Reveal>
         <ul className="grid gap-3 sm:grid-cols-2">
           {services.map((s, i) => (
-            <Reveal as="li" key={s.title} delay={i * 0.04}
-              className={cn("rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.06]", i === services.length - 1 && "sm:col-span-2")}>
-              <span className="mb-4 grid size-10 place-items-center rounded-xl bg-amber/15 text-[#f5b82e]"><Icon name={s.icon} className="size-5" /></span>
-              <h3 className="text-[17px] font-extrabold">{s.title}</h3>
-              <p className="mt-1.5 text-[14.5px] leading-7 text-white/60">{s.desc}</p>
+            <Reveal as="li" key={s.title} delay={i * 0.06} className={cn(i === services.length - 1 && "sm:col-span-2")}>
+              <TiltCard className="h-full rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-colors duration-300 hover:border-amber/40 hover:bg-white/[0.06]">
+                <span className="mb-4 grid size-10 place-items-center rounded-xl bg-amber/15 text-[#f5b82e] transition-transform duration-300 group-hover/tilt:scale-110 group-hover/tilt:rotate-[-6deg]"><Icon name={s.icon} className="size-5" /></span>
+                <h3 className="text-[17px] font-extrabold">{s.title}</h3>
+                <p className="mt-1.5 text-[14.5px] leading-7 text-white/60">{s.desc}</p>
+              </TiltCard>
             </Reveal>
           ))}
         </ul>
@@ -186,11 +187,11 @@ export function Process({ id, className }: { id?: string; className?: string }) 
       <div className="container-x">
         <SectionHeading eyebrow="فرایند همکاری" title="از شناخت مسئله تا استقرار؛ قدم‌به‌قدم و شفاف" />
         <ol className="relative mt-14 grid gap-8 lg:grid-cols-5 lg:gap-6">
-          <span aria-hidden className="absolute right-[19px] top-2 bottom-2 w-px bg-line lg:hidden" />
-          <span aria-hidden className="absolute inset-x-[10%] top-[19px] hidden h-px bg-gradient-to-l from-amber/70 via-line to-line lg:block" />
+          <ScrollLine vertical color="bg-amber" className="absolute bottom-2 right-[18px] top-2 w-[3px] lg:hidden" />
+          <ScrollLine color="bg-amber" className="absolute inset-x-[10%] top-[18px] hidden h-[3px] lg:block" />
           {processSteps.map((s, i) => (
             <Reveal as="li" key={s.title} delay={i * 0.07} className="relative flex gap-5 lg:block">
-              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-full border border-line bg-white text-[14px] font-extrabold text-amber-ink shadow-[var(--shadow-soft)]">
+              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-full border-2 border-amber bg-white text-[14px] font-extrabold text-amber-ink shadow-[0_8px_20px_-8px_rgb(245_168_0/0.6)]">
                 {(i + 1).toLocaleString("fa-IR")}
               </span>
               <div className="lg:mt-6">
@@ -270,8 +271,9 @@ export function ArticleCards() {
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {articles.map((a, i) => (
-        <Reveal key={a.slug} delay={i * 0.06}>
-          <Link href={`/blog/${a.slug}/`} className="group flex h-full flex-col rounded-3xl border border-line bg-white p-7 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-line-2 hover:shadow-[var(--shadow-lift)]">
+        <Reveal key={a.slug} delay={i * 0.08}>
+          <Link href={`/blog/${a.slug}/`} className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white p-7 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1.5 hover:border-amber/40 hover:shadow-[var(--shadow-lift)]">
+            <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-right scale-x-0 bg-amber transition-transform duration-500 group-hover:scale-x-100" />
             <span className="text-[12.5px] font-bold text-amber-ink">{a.category}</span>
             <h3 className="mt-3 text-[19px] font-extrabold leading-8">{a.title}</h3>
             <p className="mt-3 flex-1 text-[14.5px] leading-7 text-ink-2">{a.excerpt}</p>

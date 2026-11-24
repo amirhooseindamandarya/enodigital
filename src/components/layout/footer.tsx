@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { productList } from "@/lib/products";
-import { site } from "@/lib/site";
+import { site, socialLinks } from "@/lib/site";
 import { Logo } from "./logo";
 
 const cols = [
@@ -19,7 +19,8 @@ const cols = [
 ];
 
 export function Footer() {
-  const { phone, email, address } = site.contact;
+  const { phone, email, address, hours } = site.contact;
+  const socials = socialLinks();
   return (
     <footer className="bg-navy text-white">
       <div className="container-x grid gap-12 py-16 lg:grid-cols-[1.4fr_repeat(3,1fr)_1.2fr]">
@@ -43,9 +44,17 @@ export function Footer() {
           <ul className="grid gap-3 text-[14.5px] text-white/75">
             {phone && <li><a href={`tel:${phone}`} className="ltr hover:text-white">{phone}</a></li>}
             {email && <li><a href={`mailto:${email}`} className="ltr hover:text-white">{email}</a></li>}
-            {address && <li>{address}</li>}
-            <li><Link href="/contact/" className="hover:text-white">فرم تماس و درخواست مشاوره</Link></li>
+            {address && <li className="leading-7">{address}</li>}
+            {hours && <li className="text-white/55">{hours}</li>}
+            <li><Link href="/contact/" className="inline-flex items-center gap-1.5 font-semibold text-amber hover:text-[#ffc94d]">فرم تماس و درخواست مشاوره</Link></li>
           </ul>
+          {socials.length > 0 && (
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {socials.map((s) => (
+                <li key={s.key}><a href={s.href} target="_blank" rel="noopener" className="inline-flex h-9 items-center rounded-lg border border-white/10 px-3 text-[13px] text-white/75 transition-colors hover:border-white/30 hover:text-white">{s.label}</a></li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className="border-t border-white/10">

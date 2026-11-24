@@ -1,7 +1,12 @@
 import { ButtonLink } from "@/components/ui/button";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export default function NotFound() {
   return (
+    <>
+    <Header />
+    <main id="main">
     <section className="surface-dark grid min-h-[80vh] place-items-center pt-[72px] text-center">
       <div className="container-x">
         <p className="text-[14px] font-bold text-[#f5b82e]">خطای ۴۰۴</p>
@@ -12,5 +17,8 @@ export default function NotFound() {
         </div>
       </div>
     </section>
+    </main>
+    <Footer />
+    </>
   );
 }

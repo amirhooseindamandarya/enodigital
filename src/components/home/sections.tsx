@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { StaticImageData } from "next/image";
 import { Reveal } from "@/components/motion/reveal";
 import { Float, ParallaxShot, ScrollLine, TiltCard } from "@/components/motion/fx";
 import { ButtonLink } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { limocScreens } from "@/components/mockups/limoc";
 import { limofoodScreens } from "@/components/mockups/limofood";
 import { benefitsScreens } from "@/components/mockups/benefits";
 import { products, type Product } from "@/lib/products";
-import { approach, articles, processSteps, projects, services } from "@/lib/content";
+import { approach, articles, processSteps, projects, services, type Project, type ProjectImage } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------ */
@@ -209,43 +210,63 @@ export function Process({ id, className }: { id?: string; className?: string }) 
 /* ------------------------------------------------------------ */
 /* پروژه‌ها                                                      */
 /* ------------------------------------------------------------ */
-export function ProjectCards({ limit }: { limit?: number }) {
-  const list = limit ? projects.slice(0, limit) : projects;
+const projectVisual: Record<ProjectImage, { shot: { src: StaticImageData; alt: string }; bg: string; dark?: boolean }> = {
+  benefits: { shot: benefitsScreens.dashboard, bg: "bg-navy bg-[radial-gradient(70%_60%_at_50%_0%,rgb(22_184_166/0.25),transparent)]", dark: true },
+  limoc: { shot: limocScreens.kanban, bg: "bg-gradient-to-br from-limoc/[0.10] to-limoc-sun/[0.14]" },
+  limofood: { shot: limofoodScreens.store, bg: "bg-gradient-to-b from-[#ffe9e6] to-[#fff8f7]" },
+};
+
+function ProjectCard({ p, wide }: { p: Project; wide?: boolean }) {
+  const visual = p.image ? projectVisual[p.image] : undefined;
+  const external = p.link?.startsWith("http");
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
-      {list.map((p, i) =>
-        p.status === "published" ? (
-          <Reveal key={p.slug} delay={i * 0.06} className="lg:col-span-2">
-            <article className="grid h-full overflow-hidden rounded-3xl border border-line bg-white sm:grid-cols-[1fr_1fr]">
-              <div className="flex flex-col p-7 sm:p-8">
-                <div className="flex flex-wrap gap-1.5">{p.tags.map((t) => <span key={t} className="rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-2">{t}</span>)}</div>
-                <h3 className="mt-4 text-[21px] font-extrabold">{p.name}</h3>
-                <dl className="mt-4 grid gap-3 text-[14.5px] leading-7">
-                  <div><dt className="font-bold text-ink-3">مسئله</dt><dd className="text-ink-2">{p.problem}</dd></div>
-                  <div><dt className="font-bold text-ink-3">راهکار</dt><dd className="text-ink-2">{p.solution}</dd></div>
-                  <div><dt className="font-bold text-ink-3">نتیجه</dt><dd className="text-ink-2">{p.result}</dd></div>
-                </dl>
-                <Link href="/products/benefits/" className="mt-auto inline-flex items-center gap-1.5 pt-6 font-bold text-teal-700 hover:text-teal">مشاهدهٔ محصول <Icon name="arrow" className="size-4" /></Link>
-              </div>
-              <div className="relative min-h-[260px] overflow-hidden bg-navy bg-[radial-gradient(70%_60%_at_50%_0%,rgb(22_184_166/0.25),transparent)]">
-                <div className="absolute -left-8 top-10 w-[125%]">
-                  <BrowserFrame dark className="shadow-[var(--shadow-float)]"><Screenshot src={benefitsScreens.dashboard.src} alt={benefitsScreens.dashboard.alt} sizes="40vw" /></BrowserFrame>
-                </div>
-              </div>
-            </article>
-          </Reveal>
-        ) : (
-          <Reveal key={p.slug} delay={i * 0.06}>
-            <article className="flex h-full min-h-[260px] flex-col justify-between rounded-3xl border-2 border-dashed border-line-2 bg-paper/60 p-7">
-              <span className="w-fit rounded-full border border-line bg-white px-2.5 py-0.5 text-[12px] font-semibold text-ink-3">محتوای قابل جایگزینی</span>
-              <div>
-                <h3 className="text-[18px] font-extrabold text-ink-2">{p.name}</h3>
-                <p className="mt-2 text-[14.5px] leading-7 text-ink-3">{p.problem} {p.solution}</p>
-              </div>
-            </article>
-          </Reveal>
-        ),
+    <article className={cn("group grid h-full overflow-hidden rounded-3xl border border-line bg-white transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]", visual && (wide ? "md:grid-cols-[1fr_1.15fr]" : "md:grid-cols-2"))}>
+      <div className="flex flex-col p-7 sm:p-9">
+        {p.tags.length > 0 && <div className="flex flex-wrap gap-1.5">{p.tags.map((t) => <span key={t} className="rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-2">{t}</span>)}</div>}
+        <h3 className="mt-4 text-[22px] font-extrabold">{p.name}</h3>
+        <dl className="mt-5 grid gap-4 text-[14.5px] leading-7">
+          {([["مسئله", p.problem], ["راهکار", p.solution], ["نتیجه", p.result]] as const).filter(([, v]) => v).map(([k, v]) => (
+            <div key={k} className="border-s-2 border-line ps-4 transition-colors duration-300 group-hover:border-amber/50"><dt className="text-[13px] font-bold text-ink-3">{k}</dt><dd className="text-ink-2">{v}</dd></div>
+          ))}
+        </dl>
+        {p.link && !external && <Link href={p.link} className="mt-auto inline-flex w-fit items-center gap-1.5 pt-7 font-bold text-ink hover:text-amber-ink">مشاهدهٔ جزئیات <Icon name="arrow" className="size-4 transition-transform group-hover:-translate-x-1" /></Link>}
+        {p.link && external && <a href={p.link} target="_blank" rel="noopener" className="mt-auto inline-flex w-fit items-center gap-1.5 pt-7 font-bold text-ink hover:text-amber-ink">مشاهدهٔ جزئیات <Icon name="arrow" className="size-4 transition-transform group-hover:-translate-x-1" /></a>}
+      </div>
+      {visual && (
+        <div className={cn("relative min-h-[260px] overflow-hidden p-6 sm:p-8 md:p-0", visual.bg)}>
+          <div className="md:absolute md:inset-y-10 md:-left-10 md:right-8">
+            <BrowserFrame dark={visual.dark} className="shadow-[var(--shadow-float)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5">
+              <Screenshot src={visual.shot.src} alt={visual.shot.alt} sizes="(max-width: 768px) 90vw, 45vw" />
+            </BrowserFrame>
+          </div>
+        </div>
       )}
+    </article>
+  );
+}
+
+/** کارت دعوت به همکاری؛ جای خالی کنار نمونه‌کارها را پر می‌کند */
+function NextProjectCard() {
+  return (
+    <Link href="/services/custom-software/#request" className="group surface-dark relative flex h-full min-h-[300px] flex-col justify-between overflow-hidden rounded-3xl p-7 sm:p-9">
+      <div aria-hidden className="grid-lines pointer-events-none absolute inset-0 opacity-70" />
+      <div aria-hidden className="pointer-events-none absolute -bottom-24 -left-16 size-64 rounded-full bg-amber/25 blur-[80px] transition-transform duration-700 group-hover:scale-125" />
+      <span className="relative grid size-12 place-items-center rounded-2xl bg-amber/15 text-[#f5b82e] ring-1 ring-amber/25"><Icon name="code" className="size-6" /></span>
+      <div className="relative">
+        <h3 className="text-[22px] font-extrabold text-white">پروژهٔ بعدی می‌تواند مال شما باشد</h3>
+        <p className="mt-2 text-[14.5px] leading-7 text-white/65">نیازتان را بنویسید؛ مسیر اجرا، زمان‌بندی و مدل همکاری را با هم بررسی می‌کنیم.</p>
+        <span className="mt-6 inline-flex items-center gap-1.5 font-bold text-[#f5b82e]">ثبت درخواست پروژه <Icon name="arrow" className="size-4 transition-transform group-hover:-translate-x-1" /></span>
+      </div>
+    </Link>
+  );
+}
+
+/** فهرست کامل نمونه‌کارها (صفحهٔ پروژه‌ها) */
+export function ProjectCards() {
+  if (projects.length === 0) return <NextProjectCard />;
+  return (
+    <div className="grid gap-6">
+      {projects.map((p, i) => <Reveal key={p.slug} delay={i * 0.06}><ProjectCard p={p} wide /></Reveal>)}
     </div>
   );
 }
@@ -258,7 +279,10 @@ export function ProjectsTeaser() {
           <SectionHeading eyebrow="پروژه‌ها" title="نمونه‌کارها" lead="پروژه‌ها را فقط با اطلاعات قابل‌استناد و پس از تأیید کارفرما منتشر می‌کنیم." />
           <ButtonLink href="/projects/" variant="outline" className="self-start lg:self-auto">همهٔ پروژه‌ها</ButtonLink>
         </div>
-        <ProjectCards limit={2} />
+        <div className="grid gap-6 lg:grid-cols-3">
+          {projects[0] && <Reveal className="lg:col-span-2"><ProjectCard p={projects[0]} /></Reveal>}
+          <Reveal delay={0.08} className={cn(!projects[0] && "lg:col-span-3")}><NextProjectCard /></Reveal>
+        </div>
       </div>
     </section>
   );

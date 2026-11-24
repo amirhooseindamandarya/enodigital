@@ -63,7 +63,10 @@
     @apply text-ink;
     line-height: 1.35;
     letter-spacing: -0.01em;
+    /* جلوگیری از تک‌کلمه‌ای ماندن سطر آخر تیترها */
+    text-wrap: balance;
   }
+  p, li, dd { text-wrap: pretty; }
   /* جلوگیری از بیرون‌زدگی ستون‌های grid در موبایل */
   .grid > * { min-width: 0; }
   ::selection { background: rgb(245 168 0 / 0.28); }

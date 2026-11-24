@@ -4,13 +4,14 @@ import { LeadForm } from "@/components/forms/lead-form";
 import { Icon } from "@/components/ui/icon";
 import { productList } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { site, socialLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const metadata = pageMeta({ title: "تماس و درخواست مشاوره", description: "برای دریافت دموی محصولات، مشاوره یا ثبت درخواست پروژهٔ نرم‌افزاری با ما در تماس باشید.", path: "/contact/" });
 
 export default function ContactPage() {
-  const { phone, email, address } = site.contact;
+  const { phone, email, address, hours } = site.contact;
+  const socials = socialLinks();
   return (
     <section className="bg-paper pt-[72px]">
       <div className="container-x pb-24 pt-10 sm:pt-14">
@@ -25,6 +26,12 @@ export default function ContactPage() {
                 {phone && <li className="flex items-center gap-3"><Icon name="phone" className="size-5 text-indigo" /><a href={`tel:${phone}`} className="ltr font-bold">{phone}</a></li>}
                 {email && <li className="flex items-center gap-3"><Icon name="mail" className="size-5 text-indigo" /><a href={`mailto:${email}`} className="ltr font-bold">{email}</a></li>}
                 {address && <li className="flex items-center gap-3"><Icon name="map" className="size-5 text-indigo" />{address}</li>}
+                {hours && <li className="text-[14.5px] text-ink-2">{hours}</li>}
+              </ul>
+            )}
+            {socials.length > 0 && (
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {socials.map((s) => <li key={s.key}><a href={s.href} target="_blank" rel="noopener" className="inline-flex h-10 items-center rounded-xl border border-line bg-white px-4 text-[14px] font-semibold hover:border-line-2">{s.label}</a></li>)}
               </ul>
             )}
 

@@ -1,24 +1,34 @@
+import settings from "@/content/settings.json";
+
 /**
- * تنظیمات شرکت مادر — نام، لوگو و راه‌های ارتباطی از اینجا قابل تغییرند.
- * TODO: نام نهایی شرکت، لوگو و اطلاعات تماس واقعی را جایگزین کنید.
+ * تنظیمات شرکت مادر.
+ * متن‌ها و راه‌های ارتباطی در src/content/settings.json هستند و از پنل مدیریت (/admin) قابل ویرایش‌اند.
  */
 export const site = {
   name: "اِنو دیجیتال",
   nameEn: "ENODIGITAL",
   /** عبارت زیر لوگو */
-  legalTagline: "مجموعه بازرگانی سامانه‌های پیشرو اقتصاد نوین دیجیتال",
-  tagline: "نرم‌افزارهایی برای کسب‌وکارهای رو به رشد",
-  description:
-    "شرکت توسعهٔ نرم‌افزار؛ سازندهٔ لیموسی (مدیریت مشتری و فروش)، لیموفود (سفارش‌گیری آنلاین غذا) و سامانهٔ بن الکترونیکی رفاهیات، و مجری پروژه‌های نرم‌افزاری سفارشی.",
+  legalTagline: settings.legalTagline,
+  tagline: settings.tagline,
+  description: settings.description,
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://amirhooseindamandarya.github.io/enodigital",
-  contact: {
-    // TODO: مقادیر واقعی. تا خالی باشند در سایت نمایش داده نمی‌شوند.
-    phone: "",
-    email: "",
-    address: "",
-  },
+  /** مقادیر خالی در سایت نمایش داده نمی‌شوند */
+  contact: settings.contact,
+  social: settings.social,
   formEndpoint: process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "",
 } as const;
+
+/** پیوند کامل شبکه‌های اجتماعی از نام کاربری یا آدرس */
+export function socialLinks() {
+  const s = site.social;
+  const url = (v: string, base: string) => (/^https?:\/\//.test(v) ? v : base + v.replace(/^@/, ""));
+  return [
+    s.instagram && { key: "instagram", label: "اینستاگرام", href: url(s.instagram, "https://instagram.com/") },
+    s.linkedin && { key: "linkedin", label: "لینکدین", href: url(s.linkedin, "https://www.linkedin.com/company/") },
+    s.telegram && { key: "telegram", label: "تلگرام", href: url(s.telegram, "https://t.me/") },
+    s.whatsapp && { key: "whatsapp", label: "واتساپ", href: url(s.whatsapp.replace(/[^\d]/g, ""), "https://wa.me/") },
+  ].filter(Boolean) as { key: string; label: string; href: string }[];
+}
 
 export const mainNav = [
   { href: "/services/custom-software/", label: "نرم‌افزار سفارشی" },

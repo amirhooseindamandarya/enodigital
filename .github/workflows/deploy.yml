@@ -30,6 +30,9 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /enodigital
           NEXT_PUBLIC_SITE_URL: https://amirhooseindamandarya.github.io/enodigital
           NEXT_PUBLIC_FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          # پنل مدیریت (/admin) تغییرات را روی همین مخزن و همین شاخه commit می‌کند
+          NEXT_PUBLIC_ADMIN_REPO: ${{ github.repository }}
+          NEXT_PUBLIC_ADMIN_BRANCH: ${{ github.ref_name }}
           NEXT_TELEMETRY_DISABLED: 1
       - uses: actions/upload-pages-artifact@v3
         with:

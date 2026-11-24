@@ -51,10 +51,10 @@ export function Hero() {
             <ButtonLink href="/services/custom-software/" variant="ghostDark" size="lg">سفارش نرم‌افزار اختصاصی</ButtonLink>
           </motion.div>
           <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 grid grid-cols-3 gap-3 border-t border-white/10 pt-6 text-[13px] text-white/55">
+            className="mt-10 grid gap-2.5 border-t border-white/10 pt-6 text-[13px] text-white/55 sm:grid-cols-3 sm:gap-3">
             {productList.map((p) => (
-              <li key={p.slug}>
-                <span className="mb-1 flex items-center gap-1.5 font-bold text-white"><i className={cn("size-1.5 rounded-full", p.theme.dot)} />{p.name}</span>
+              <li key={p.slug} className="flex items-baseline gap-2 sm:block">
+                <span className="flex shrink-0 items-center gap-1.5 font-bold text-white sm:mb-1"><i className={cn("size-1.5 rounded-full", p.theme.dot)} />{p.name}</span>
                 <span className="leading-6">{p.audience}</span>
               </li>
             ))}

@@ -74,6 +74,8 @@ export type Project = {
   solution: string;
   result: string;
   image?: ProjectImage | "";
+  /** تصویر بارگذاری‌شده از پنل مدیریت (مسیر داخل public، مثل /uploads/projects/x.webp)؛ بر image مقدم است */
+  upload?: string;
   link?: string;
   tags: string[];
 };

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, ExternalLink, FileText, Plus, RotateCcw, Save, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ExternalLink, FileText, ImagePlus, Plus, RotateCcw, Save, Trash2, X } from "lucide-react";
+import { explainError, prepareImage, uploadFile } from "./github";
 import type { Article, ArticleBlock, Project } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Badge, Btn, Card, Field, Input, Select, Textarea, Toggle, move, slugError, useContentFile, type SaveResult, type Session } from "./ui";
@@ -157,6 +158,50 @@ const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const splitTags = (s: string) => s.split(/[,،]/).map((t) => t.trim()).filter(Boolean);
 
 /* ============================================================ */
+/* بارگذاری تصویر پروژه                                          */
+/* ============================================================ */
+function ImageUpload({ session, value, slug, onChange, notify }: { session: Session; value?: string; slug: string; onChange: (path: string) => void; notify: Notify }) {
+  const [busy, setBusy] = useState(false);
+  /** پیش‌نمایش محلی تصاویری که تازه بارگذاری شده‌اند و هنوز روی سایت منتشر نشده‌اند */
+  const [local, setLocal] = useState<Record<string, string>>({});
+  const preview = value ? local[value] ?? `${base}${value}` : "";
+
+  const pick = async (file?: File) => {
+    if (!file) return;
+    setBusy(true);
+    try {
+      const img = await prepareImage(file);
+      const path = `/uploads/projects/${slug || "project"}-${Date.now().toString(36)}.webp`;
+      await uploadFile(session.cfg, session.token, `public${path}`, img.base64, `پنل مدیریت: بارگذاری تصویر پروژهٔ ${slug}`);
+      setLocal((m) => ({ ...m, [path]: img.url }));
+      onChange(path);
+      notify(`تصویر بارگذاری شد (${Math.round(img.blob.size / 1024).toLocaleString("fa-IR")} کیلوبایت). برای اعمال، «ذخیره و انتشار» را بزنید.`);
+    } catch (e) {
+      notify(explainError(e), "err");
+    } finally { setBusy(false); }
+  };
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-[220px_1fr] sm:items-center">
+      <div className="grid aspect-[16/10] place-items-center overflow-hidden rounded-xl border border-dashed border-line-2 bg-paper">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {preview ? <img src={preview} alt="" className="size-full object-cover object-top" /> : <ImagePlus className="size-7 text-ink-3" aria-hidden />}
+      </div>
+      <div>
+        <div className="flex flex-wrap gap-2">
+          <label className={cn("inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-line-2 bg-white px-4 text-[14px] font-bold hover:border-ink-3", busy && "pointer-events-none opacity-60")}>
+            <ImagePlus className="size-4" aria-hidden />{busy ? "در حال بارگذاری…" : value ? "تعویض تصویر" : "انتخاب تصویر"}
+            <input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={busy} onChange={(e) => { pick(e.target.files?.[0]); e.target.value = ""; }} />
+          </label>
+          {value && <Btn variant="ghost" onClick={() => onChange("")} disabled={busy}><X aria-hidden />حذف تصویر</Btn>}
+        </div>
+        <p className="mt-2 text-[12.5px] leading-6 text-ink-3">PNG، JPG یا WebP. تصویر خودکار کوچک و به WebP تبدیل می‌شود. اسکرین‌شات افقی بهترین نتیجه را دارد. اگر تصویر اختصاصی انتخاب شود، به‌جای «تصویر آماده» نمایش داده می‌شود.</p>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================ */
 /* پروژه‌ها                                                      */
 /* ============================================================ */
 export function ProjectsEditor({ session, notify, onDirty }: { session: Session; notify: Notify; onDirty: (d: boolean) => void }) {
@@ -208,7 +253,11 @@ export function ProjectsEditor({ session, notify, onDirty }: { session: Session;
                 <Field label="مسئله" className="sm:col-span-2"><Textarea value={p.problem} onChange={(e) => update({ problem: e.target.value })} placeholder="کارفرما با چه مشکلی روبه‌رو بود؟" /></Field>
                 <Field label="راهکار" className="sm:col-span-2"><Textarea value={p.solution} onChange={(e) => update({ solution: e.target.value })} placeholder="چه چیزی ساختیم و چطور؟" /></Field>
                 <Field label="نتیجه" className="sm:col-span-2"><Textarea value={p.result} onChange={(e) => update({ result: e.target.value })} placeholder="نتیجهٔ قابل‌استناد؛ مثلاً کاهش زمان پردازش از ۳ روز به ۲ ساعت" /></Field>
-                <Field label="تصویر کارت">
+                <div className="sm:col-span-2">
+                  <span className="mb-1.5 block text-[13.5px] font-bold text-ink-2">تصویر اختصاصی</span>
+                  <ImageUpload session={session} value={p.upload} slug={p.slug} notify={notify} onChange={(v) => update({ upload: v || undefined })} />
+                </div>
+                <Field label="تصویر آماده" hint={p.upload ? "تا وقتی تصویر اختصاصی دارید، این گزینه استفاده نمی‌شود." : undefined}>
                   <Select value={p.image ?? ""} onChange={(e) => update({ image: e.target.value as Project["image"] })}>
                     <option value="">بدون تصویر</option>
                     <option value="benefits">سامانهٔ رفاهیات (داشبورد)</option>

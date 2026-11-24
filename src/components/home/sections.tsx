@@ -217,7 +217,7 @@ const projectVisual: Record<ProjectImage, { shot: { src: StaticImageData; alt: s
 };
 
 function ProjectCard({ p, wide }: { p: Project; wide?: boolean }) {
-  const visual = p.image ? projectVisual[p.image] : undefined;
+  const visual = p.upload ? { upload: p.upload, bg: "bg-gradient-to-br from-paper to-[#eef2f8]", dark: false } : p.image ? projectVisual[p.image] : undefined;
   const external = p.link?.startsWith("http");
   return (
     <article className={cn("group grid h-full overflow-hidden rounded-3xl border border-line bg-white transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]", visual && (wide ? "md:grid-cols-[1fr_1.15fr]" : "md:grid-cols-2"))}>
@@ -236,7 +236,10 @@ function ProjectCard({ p, wide }: { p: Project; wide?: boolean }) {
         <div className={cn("relative min-h-[260px] overflow-hidden p-6 sm:p-8 md:p-0", visual.bg)}>
           <div className="md:absolute md:inset-y-10 md:-left-10 md:right-8">
             <BrowserFrame dark={visual.dark} className="shadow-[var(--shadow-float)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:-translate-y-1.5">
-              <Screenshot src={visual.shot.src} alt={visual.shot.alt} sizes="(max-width: 768px) 90vw, 45vw" />
+              {"upload" in visual
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${visual.upload}`} alt={`تصویر پروژهٔ ${p.name}`} loading="lazy" decoding="async" className="block h-auto w-full" />
+                : <Screenshot src={visual.shot.src} alt={visual.shot.alt} sizes="(max-width: 768px) 90vw, 45vw" />}
             </BrowserFrame>
           </div>
         </div>

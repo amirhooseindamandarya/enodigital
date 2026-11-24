@@ -189,7 +189,7 @@ function Shell({ session, onLogout }: { session: Session; onLogout: () => void }
         </main>
       </div>
 
-      <div aria-live="polite" className="pointer-events-none fixed inset-x-4 bottom-4 z-50 grid justify-items-center gap-2 sm:inset-x-auto sm:start-6">
+      <div aria-live="polite" className="pointer-events-none fixed inset-x-4 top-20 z-50 grid justify-items-center gap-2 sm:inset-x-auto sm:end-6">
         {toasts.map((t) => (
           <div key={t.id} role={t.tone === "err" ? "alert" : "status"}
             className={cn("pointer-events-auto flex max-w-md items-start gap-2.5 rounded-xl px-4 py-3 text-[14px] font-semibold leading-6 shadow-[var(--shadow-lift)]", t.tone === "ok" ? "bg-navy text-white" : "bg-sun text-white")}>

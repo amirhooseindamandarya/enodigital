@@ -104,3 +104,37 @@ export async function latestRuns(cfg: RepoConfig, token: string) {
   const res = await gh<{ workflow_runs: DeployRun[] }>(token, `${repoPath(cfg)}/actions/runs?branch=${encodeURIComponent(cfg.branch)}&per_page=6`);
   return res.workflow_runs;
 }
+
+/** افزودن یک فایل دودویی جدید به مخزن (مثلاً تصویر). content باید base64 باشد. */
+export async function uploadFile(cfg: RepoConfig, token: string, path: string, base64: string, message: string) {
+  await gh(token, `${repoPath(cfg)}/contents/${path}`, {
+    method: "PUT",
+    body: JSON.stringify({ message, content: base64, branch: cfg.branch }),
+  });
+}
+
+/**
+ * آماده‌سازی تصویر در مرورگر: کوچک کردن تا عرض ۱۶۰۰ پیکسل و تبدیل به WebP
+ * تا حجم مخزن و سایت کم بماند.
+ */
+export async function prepareImage(file: File, maxWidth = 1600): Promise<{ blob: Blob; base64: string; url: string }> {
+  if (!file.type.startsWith("image/")) throw new Error("فقط فایل تصویری قابل بارگذاری است.");
+  if (file.size > 15 * 1024 * 1024) throw new Error("حجم تصویر بیش از ۱۵ مگابایت است.");
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, maxWidth / bitmap.width);
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  let blob: Blob | null = null;
+  for (const q of [0.85, 0.7, 0.55]) {
+    blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, "image/webp", q));
+    if (blob && blob.size < 900 * 1024) break;
+  }
+  if (!blob) throw new Error("تبدیل تصویر ممکن نشد.");
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  let bin = "";
+  for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+  return { blob, base64: btoa(bin), url: URL.createObjectURL(blob) };
+}

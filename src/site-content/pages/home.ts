@@ -1,4 +1,4 @@
-import { F, M, P, items, page, s, t } from "../helpers";
+import { F, M, P, items, page, s, t, ul } from "../helpers";
 
 export const home = page("home", "خانه", "", ["خانه", "Home", "الرئيسية"], {
   fa: ["اِنو دیجیتال | توسعهٔ نرم‌افزار و محصولات SaaS", "نرم‌افزار برای کسب‌وکارهای رو به رشد: لیموسی برای مشتری و فروش، لیموفود برای سفارش آنلاین غذا، سامانهٔ رفاهیات و نرم‌افزار سفارشی."],
@@ -53,33 +53,33 @@ export const home = page("home", "خانه", "", ["خانه", "Home", "الرئ�
         label: t("مدیریت مشتریان و فروش", "Customers & sales", "العملاء والمبيعات"), badge: t("لیموسی", "Limoc", "ليموسي"),
         title: t("لیموسی؛ مشتری، فروش، پروژه و پشتیبانی در یک محیط", "Limoc: customers, sales, projects and support in one place", "ليموسي: العملاء والمبيعات والمشاريع والدعم في مكان واحد"),
         desc: t("اگر پیگیری مشتری‌ها بین اکسل و واتساپ گم می‌شود، لیموسی مسیر سرنخ تا پیش‌فاکتور، قرارداد، پروژه و پشتیبانی را یکجا نگه می‌دارد.", "If customer follow-ups get lost between spreadsheets and WhatsApp, Limoc keeps the whole path — lead, quote, contract, project and support — in one place.", "إذا كانت متابعات العملاء تضيع بين Excel وواتساب، فإن ليموسي يجمع المسار كله من العميل المحتمل إلى عرض السعر والعقد والمشروع والدعم."),
-        points: items(["قیف فروش و یادآوری پیگیری‌ها", "Sales pipeline and follow-up reminders", "مسار المبيعات وتذكيرات المتابعة"], ["پیش‌فاکتور، قرارداد و پرداخت", "Quotes, contracts and payments", "عروض الأسعار والعقود والمدفوعات"], ["تیکتینگ با SLA و پرتال مشتری", "SLA ticketing and a customer portal", "تذاكر وفق SLA وبوابة للعملاء"]),
-        cta: { label: t("آشنایی با لیموسی", "Meet Limoc", "تعرّف على ليموسي"), page: P("limoc") },
+        points: ul(["قیف فروش و یادآوری پیگیری‌ها", "Sales pipeline and follow-up reminders", "مسار المبيعات وتذكيرات المتابعة"], ["پیش‌فاکتور، قرارداد و پرداخت", "Quotes, contracts and payments", "عروض الأسعار والعقود والمدفوعات"], ["تیکتینگ با SLA و پرتال مشتری", "SLA ticketing and a customer portal", "تذاكر وفق SLA وبوابة للعملاء"]),
+        cta_label: t("آشنایی با لیموسی", "Meet Limoc", "تعرّف على ليموسي"), cta_page: P("limoc"),
       },
       {
         icon: "utensils", theme: "limofood", visual: "browser", image: M("limofood-store"), frame_title: t("لیموفود · صفحهٔ فروشگاه", "LimoFood · Store page", "ليموفود · صفحة المتجر"),
         label: t("سفارش‌گیری آنلاین غذا", "Online food ordering", "الطلب الإلكتروني للطعام"), badge: t("لیموفود", "LimoFood", "ليموفود"),
         title: t("لیموفود؛ کانال فروش آنلاین اختصاصی رستوران شما", "LimoFood: your restaurant’s own online sales channel", "ليموفود: قناة البيع الإلكترونية الخاصة بمطعمك"),
         desc: t("سفارش را مستقیم از مشتری بگیرید، آنلاین پرداخت شود و از ثبت تا ارسال در یک پنل مدیریت شود.", "Take orders directly from customers, get paid online and manage everything from order to delivery in one panel.", "استقبل الطلبات مباشرة من العملاء، واقبض إلكترونياً، وأدر كل شيء من التسجيل حتى التوصيل في لوحة واحدة."),
-        points: items(["منوی آنلاین موبایلی", "Mobile-first online menu", "قائمة إلكترونية للجوال"], ["درگاه پرداخت، بدون کارمزد سفارش", "Online payment, no per-order commission", "دفع إلكتروني دون عمولة على الطلب"], ["مدیریت وضعیت سفارش و پیک", "Order status and courier management", "إدارة حالة الطلب والتوصيل"]),
-        cta: { label: t("آشنایی با لیموفود", "Meet LimoFood", "تعرّف على ليموفود"), page: P("limofood") },
+        points: ul(["منوی آنلاین موبایلی", "Mobile-first online menu", "قائمة إلكترونية للجوال"], ["درگاه پرداخت، بدون کارمزد سفارش", "Online payment, no per-order commission", "دفع إلكتروني دون عمولة على الطلب"], ["مدیریت وضعیت سفارش و پیک", "Order status and courier management", "إدارة حالة الطلب والتوصيل"]),
+        cta_label: t("آشنایی با لیموفود", "Meet LimoFood", "تعرّف على ليموفود"), cta_page: P("limofood"),
       },
       {
         icon: "building", theme: "benefits", visual: "phone", image: M("refah-employee-voucher"),
         label: t("مدیریت رفاهیات کارکنان", "Employee benefits", "مزايا الموظفين"), badge: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا"),
         title: t("سامانهٔ بن الکترونیکی رفاهیات", "Electronic employee-benefits vouchers", "منصة القسائم الإلكترونية لمزايا الموظفين"),
         desc: t("اعتبار رفاهی کارکنان را تخصیص دهید، مصرف در فروشگاه‌های طرف قرارداد را ببینید و شفاف تسویه کنید.", "Allocate benefit credit, see how it’s spent at partner stores and settle transparently.", "خصّص رصيد المزايا، وتابع استهلاكه في المتاجر المتعاقدة، وسوِّ الحسابات بشفافية."),
-        points: items(["صدور بن و اعتبار شخصی هر کارمند", "Vouchers and personal credit for each employee", "إصدار القسائم ورصيد لكل موظف"], ["تأیید خرید با کد ۵ رقمی", "Purchases confirmed with a 5-digit code", "تأكيد الشراء برمز من 5 أرقام"], ["تسویه با فروشندگان و گزارش Excel", "Merchant settlement and Excel reports", "التسوية مع التجار وتقارير Excel"]),
-        cta: { label: t("آشنایی با سامانهٔ رفاهیات", "Explore the platform", "تعرّف على المنصة"), page: P("benefits") },
+        points: ul(["صدور بن و اعتبار شخصی هر کارمند", "Vouchers and personal credit for each employee", "إصدار القسائم ورصيد لكل موظف"], ["تأیید خرید با کد ۵ رقمی", "Purchases confirmed with a 5-digit code", "تأكيد الشراء برمز من 5 أرقام"], ["تسویه با فروشندگان و گزارش Excel", "Merchant settlement and Excel reports", "التسوية مع التجار وتقارير Excel"]),
+        cta_label: t("آشنایی با سامانهٔ رفاهیات", "Explore the platform", "تعرّف على المنصة"), cta_page: P("benefits"),
       },
       {
         icon: "code", theme: "custom", visual: "steps",
         label: t("نرم‌افزار اختصاصی", "Custom software", "برمجيات مخصصة"), badge: t("خدمات توسعه", "Development services", "خدمات التطوير"),
         title: t("راهکار نرم‌افزاری متناسب با فرایند شما", "Software built around your process", "حل برمجي يناسب إجراءات عملك"),
         desc: t("وقتی فرایندتان خاص است، از تحلیل نیاز تا طراحی، توسعه، استقرار و پشتیبانی همراه شما هستیم.", "When your process is unique, we’re with you from requirements to design, development, deployment and support.", "عندما تكون إجراءاتك خاصة، نرافقك من تحليل الاحتياج إلى التصميم والتطوير والنشر والدعم."),
-        points: items(["تحلیل نیازمندی‌ها و طراحی UI/UX", "Requirements analysis and UI/UX design", "تحليل المتطلبات وتصميم UI/UX"], ["وب‌اپلیکیشن و سیستم‌های داخلی", "Web apps and internal systems", "تطبيقات الويب والأنظمة الداخلية"], ["API و یکپارچه‌سازی سامانه‌ها", "APIs and system integration", "واجهات برمجية وتكامل الأنظمة"]),
-        steps: items(["شناخت مسئله", "Understand the problem", "فهم المشكلة"], ["تحلیل و پیشنهاد راهکار", "Analysis and proposal", "التحليل واقتراح الحل"], ["طراحی", "Design", "التصميم"], ["توسعه و آزمون", "Build and test", "التطوير والاختبار"], ["استقرار و پشتیبانی", "Deploy and support", "النشر والدعم"]),
-        cta: { label: t("ثبت درخواست پروژه", "Request a project", "اطلب مشروعاً"), page: P("custom-software"), anchor: "request" },
+        points: ul(["تحلیل نیازمندی‌ها و طراحی UI/UX", "Requirements analysis and UI/UX design", "تحليل المتطلبات وتصميم UI/UX"], ["وب‌اپلیکیشن و سیستم‌های داخلی", "Web apps and internal systems", "تطبيقات الويب والأنظمة الداخلية"], ["API و یکپارچه‌سازی سامانه‌ها", "APIs and system integration", "واجهات برمجية وتكامل الأنظمة"]),
+        steps: ul(["شناخت مسئله", "Understand the problem", "فهم المشكلة"], ["تحلیل و پیشنهاد راهکار", "Analysis and proposal", "التحليل واقتراح الحل"], ["طراحی", "Design", "التصميم"], ["توسعه و آزمون", "Build and test", "التطوير والاختبار"], ["استقرار و پشتیبانی", "Deploy and support", "النشر والدعم"]),
+        cta_label: t("ثبت درخواست پروژه", "Request a project", "اطلب مشروعاً"), cta_page: P("custom-software"), cta_anchor: "request",
       },
     ],
   }),

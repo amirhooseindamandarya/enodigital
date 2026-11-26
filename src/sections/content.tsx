@@ -8,7 +8,7 @@ import { LimoFoodBoard } from "@/components/mockups/limofood";
 import { num, ui } from "@/cms/i18n";
 import { publishedPosts } from "@/cms/resolve";
 import { cn } from "@/lib/utils";
-import { Arrow, Buttons, Check, Framed, Heading, Img, Section, SmartLink, sf, th, type C, type Product, type Project, type SectionProps } from "./kit";
+import { Arrow, Buttons, Check, Framed, Heading, Img, Section, SmartLink, lis, sf, th, type C, type Product, type Project, type SectionProps } from "./kit";
 
 /* ---------------- معرفی با کارت‌ها ---------------- */
 export function IntroCards({ c }: SectionProps) {
@@ -41,9 +41,9 @@ export function IntroCards({ c }: SectionProps) {
 function Highlights({ p, dark }: { p: Product; dark?: boolean }) {
   return (
     <ul className="mt-6 grid gap-2.5">
-      {p.highlights.map((h, i) => (
+      {lis(p.highlights).map((h, i) => (
         <li key={i} className={cn("flex items-start gap-2.5 text-[15px]", dark ? "text-white/80" : "text-ink")}>
-          <Check theme={p.theme} className={cn("mt-1", dark && "bg-white/10")} />{h.text}
+          <Check theme={p.theme} className={cn("mt-1", dark && "bg-white/10")} />{h}
         </li>
       ))}
     </ul>
@@ -132,7 +132,7 @@ export function ProductList({ c, ctx }: SectionProps) {
                   <h2 className="mt-1 text-[28px] font-extrabold">{p.name}</h2>
                   <p className="mt-2 max-w-2xl text-[16px] leading-8 text-ink-2">{p.tagline}</p>
                   <ul className="mt-4 flex flex-wrap gap-2">
-                    {p.highlights.map((h, j) => <li key={j} className="rounded-full bg-paper px-3 py-1 text-[13px] font-semibold text-ink-2">{h.text}</li>)}
+                    {lis(p.highlights).map((h, j) => <li key={j} className="rounded-full bg-paper px-3 py-1 text-[13px] font-semibold text-ink-2">{h}</li>)}
                   </ul>
                 </div>
                 <span className="inline-flex items-center gap-2 font-bold text-ink">{c.link_label} <Arrow nudge className="size-4" /></span>
@@ -206,7 +206,7 @@ function ProjectCard({ p, wide, ctx }: { p: Project; wide?: boolean; ctx: Sectio
   return (
     <article className={cn("group grid h-full overflow-hidden rounded-3xl border border-line bg-white transition-shadow duration-500 hover:shadow-[var(--shadow-lift)]", p.image && (wide ? "md:grid-cols-[1fr_1.15fr]" : "md:grid-cols-2"))}>
       <div className="flex flex-col p-7 sm:p-9">
-        {p.tags.length > 0 && <div className="flex flex-wrap gap-1.5">{p.tags.map((t, i) => <span key={i} className="rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-2">{t.text}</span>)}</div>}
+        {lis(p.tags).length > 0 && <div className="flex flex-wrap gap-1.5">{lis(p.tags).map((t, i) => <span key={i} className="rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-2">{t}</span>)}</div>}
         <h3 className="mt-4 text-[22px] font-extrabold">{p.name}</h3>
         <dl className="mt-5 grid gap-4 text-[14.5px] leading-7">
           {rows.map(([k, v]) => (
@@ -462,7 +462,7 @@ export function FeatureGroups({ c }: SectionProps) {
               <h3 className="relative mt-5 text-[18px] font-extrabold text-ink">{g.title}</h3>
               {g.desc && <p className="relative mt-1 text-[14.5px] leading-7 text-ink-2">{g.desc}</p>}
               <ul className="relative mt-4 grid gap-2">
-                {(g.items as { text: string }[]).map((it, j) => <li key={j} className="flex items-center gap-2 text-[14.5px]"><Check theme={c.theme} />{it.text}</li>)}
+                {lis(g.items).map((it, j) => <li key={j} className="flex items-center gap-2 text-[14.5px]"><Check theme={c.theme} />{it}</li>)}
               </ul>
             </TiltCard>
           </StaggerItem>
@@ -502,7 +502,7 @@ export function PanelsShowcase({ c }: SectionProps) {
                 <h3 className="text-[19px] font-extrabold">{pn.name}</h3>
                 {pn.audience && <p className="text-[14px] text-ink-3">{pn.audience}</p>}
                 <ul className="mt-5 grid gap-2.5">
-                  {(pn.items as { text: string }[]).map((it, j) => <li key={j} className="flex items-start gap-2.5 text-[14.5px] leading-7"><Icon name="check" className={cn("mt-1.5 size-4 shrink-0", t.accent)} strokeWidth={2.5} />{it.text}</li>)}
+                  {lis(pn.items).map((it, j) => <li key={j} className="flex items-start gap-2.5 text-[14.5px] leading-7"><Icon name="check" className={cn("mt-1.5 size-4 shrink-0", t.accent)} strokeWidth={2.5} />{it}</li>)}
                 </ul>
               </div>
             </article>

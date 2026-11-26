@@ -30,12 +30,12 @@ export type SectionProps = { c: C; ctx: SectionCtx };
 export type LinkItem = { label: string; href: string; external?: boolean; style?: string; new_tab?: boolean };
 export type Product = {
   key: string; name: string; category: string; audience: string; tagline: string; value: string;
-  highlights: { text: string }[]; icon: IconName; theme: ThemeKey; page?: { key: string; href: string };
+  highlights: string; icon: IconName; theme: ThemeKey; page?: { key: string; href: string };
   cta_label: string; image?: ResolvedImage; image_title: string; dark_card?: boolean;
 };
 export type Project = {
   key: string; published?: boolean; name: string; problem: string; solution: string; result: string;
-  tags: { text: string }[]; image?: ResolvedImage; frame?: "dark" | "light"; page?: { href: string }; url?: string;
+  tags: string; image?: ResolvedImage; frame?: "dark" | "light"; page?: { href: string }; url?: string;
 };
 export type Globals = {
   brand: C; header: C; footer: C;
@@ -43,6 +43,25 @@ export type Globals = {
   products: { items: Product[] };
   projects: { items: Project[] };
 };
+
+/* ------------------------------------------------------------------ */
+/* فهرست‌های richtext و پیوندهای تخت                                   */
+/* ------------------------------------------------------------------ */
+const decode = (s: string) => s.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").trim();
+/** آیتم‌های یک فهرست نقطه‌دار (richtext) به‌صورت آرایهٔ متن */
+export function lis(html?: string): string[] {
+  if (!html) return [];
+  const items = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => decode(m[1])).filter(Boolean);
+  return items.length ? items : html.split(/<br\s*\/?>|<\/p>|\n/i).map(decode).filter(Boolean);
+}
+/** پیوند از فیلدهای تخت با پیشوند (مثل cta_label، cta_page، cta_anchor، cta_url) */
+export function flatLink(o: C, prefix: string): LinkItem {
+  const page = o[`${prefix}_page`] as { href: string } | undefined;
+  const anchor = (o[`${prefix}_anchor`] as string | undefined)?.replace(/^#/, "");
+  const url = o[`${prefix}_url`] as string | undefined;
+  const href = page ? page.href + (anchor ? `#${anchor}` : "") : anchor ? `#${anchor}` : url ?? "";
+  return { label: o[`${prefix}_label`] ?? "", href, external: !page && !anchor && !!url };
+}
 
 /* ------------------------------------------------------------------ */
 /* تم‌ها و سطح‌ها                                                       */

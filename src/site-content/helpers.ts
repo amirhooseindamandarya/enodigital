@@ -26,3 +26,10 @@ export function page(
     sections,
   };
 }
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+/** فهرست نقطه‌دار سه‌زبانه برای فیلد richtext (به‌جای repeater تودرتو) */
+export const ul = (...rows: [string, string, string][]) => {
+  const html = (i: 0 | 1 | 2) => `<ul>${rows.map((r) => `<li>${esc(r[i])}</li>`).join("")}</ul>`;
+  return t(html(0), html(1), html(2));
+};

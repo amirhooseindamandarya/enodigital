@@ -24,22 +24,10 @@ export const productsPage = page("products", "محصولات", "products", ["م�
       { label: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا"), theme: "benefits" },
     ],
     rows: [
-      { label: t("مخاطب", "Audience", "الجمهور"), cells: items(
-        ["تیم‌های خدماتی ۲ تا ۱۰ نفره", "Service teams of 2–10 people", "فرق الخدمات من 2 إلى 10 أشخاص"],
-        ["رستوران‌ها، کافه‌ها و کسب‌وکارهای غذایی", "Restaurants, cafés and food businesses", "المطاعم والمقاهي وأعمال الأغذية"],
-        ["سازمان‌ها، واحدهای منابع انسانی و مالی", "Organisations, HR and finance teams", "المؤسسات وإدارات الموارد البشرية والمالية"]) },
-      { label: t("مسئله‌ای که حل می‌کند", "Problem it solves", "المشكلة التي يحلها"), cells: items(
-        ["پراکندگی اطلاعات مشتری، فروش و پشتیبانی", "Customer, sales and support information scattered everywhere", "تشتت معلومات العملاء والمبيعات والدعم"],
-        ["وابستگی فروش آنلاین به پلتفرم‌های واسطه", "Online sales that depend on delivery marketplaces", "اعتماد البيع الإلكتروني على المنصات الوسيطة"],
-        ["مدیریت کاغذی بن و تسویهٔ دستی با فروشگاه‌ها", "Paper vouchers and manual settlement with stores", "قسائم ورقية وتسوية يدوية مع المتاجر"]) },
-      { label: t("قابلیت‌های شاخص", "Key capabilities", "أبرز الإمكانات"), cells: items(
-        ["قیف فروش Kanban، پیش‌فاکتور آنلاین، پشتیبانی با SLA و پرتال مشتریان", "Kanban pipeline, online quotes, SLA support and a customer portal", "مسار Kanban وعروض أسعار إلكترونية ودعم وفق SLA وبوابة للعملاء"],
-        ["منوی آنلاین، درگاه پرداخت بدون کارمزد سفارش، مدیریت سفارش و پیک", "Online menu, payments with no per-order commission, order and courier management", "قائمة إلكترونية ودفع دون عمولة على الطلب وإدارة الطلبات والتوصيل"],
-        ["صدور بن، تأیید خرید با کد ۵ رقمی، تسویه با فروشندگان و ۲۸ گزارش", "Vouchers, 5-digit purchase confirmation, merchant settlement and 28 reports", "إصدار القسائم وتأكيد الشراء برمز من 5 أرقام والتسوية مع التجار و28 تقريراً"]) },
-      { label: t("اقدام بعدی", "Next step", "الخطوة التالية"), cells: items(
-        ["درخواست دموی لیموسی", "Request a Limoc demo", "اطلب عرضاً تجريبياً لليموسي"],
-        ["درخواست مشاورهٔ راه‌اندازی", "Request a setup consultation", "اطلب استشارة الإطلاق"],
-        ["درخواست دمو برای سازمان", "Request a demo for your organisation", "اطلب عرضاً تجريبياً لمؤسستك"]) },
+      { label: t("مخاطب", "Audience", "الجمهور"), cell_1: t("تیم‌های خدماتی ۲ تا ۱۰ نفره", "Service teams of 2–10 people", "فرق الخدمات من 2 إلى 10 أشخاص"), cell_2: t("رستوران‌ها، کافه‌ها و کسب‌وکارهای غذایی", "Restaurants, cafés and food businesses", "المطاعم والمقاهي وأعمال الأغذية"), cell_3: t("سازمان‌ها، واحدهای منابع انسانی و مالی", "Organisations, HR and finance teams", "المؤسسات وإدارات الموارد البشرية والمالية") },
+      { label: t("مسئله‌ای که حل می‌کند", "Problem it solves", "المشكلة التي يحلها"), cell_1: t("پراکندگی اطلاعات مشتری، فروش و پشتیبانی", "Customer, sales and support information scattered everywhere", "تشتت معلومات العملاء والمبيعات والدعم"), cell_2: t("وابستگی فروش آنلاین به پلتفرم‌های واسطه", "Online sales that depend on delivery marketplaces", "اعتماد البيع الإلكتروني على المنصات الوسيطة"), cell_3: t("مدیریت کاغذی بن و تسویهٔ دستی با فروشگاه‌ها", "Paper vouchers and manual settlement with stores", "قسائم ورقية وتسوية يدوية مع المتاجر") },
+      { label: t("قابلیت‌های شاخص", "Key capabilities", "أبرز الإمكانات"), cell_1: t("قیف فروش Kanban، پیش‌فاکتور آنلاین، پشتیبانی با SLA و پرتال مشتریان", "Kanban pipeline, online quotes, SLA support and a customer portal", "مسار Kanban وعروض أسعار إلكترونية ودعم وفق SLA وبوابة للعملاء"), cell_2: t("منوی آنلاین، درگاه پرداخت بدون کارمزد سفارش، مدیریت سفارش و پیک", "Online menu, payments with no per-order commission, order and courier management", "قائمة إلكترونية ودفع دون عمولة على الطلب وإدارة الطلبات والتوصيل"), cell_3: t("صدور بن، تأیید خرید با کد ۵ رقمی، تسویه با فروشندگان و ۲۸ گزارش", "Vouchers, 5-digit purchase confirmation, merchant settlement and 28 reports", "إصدار القسائم وتأكيد الشراء برمز من 5 أرقام والتسوية مع التجار و28 تقريراً") },
+      { label: t("اقدام بعدی", "Next step", "الخطوة التالية"), cell_1: t("درخواست دموی لیموسی", "Request a Limoc demo", "اطلب عرضاً تجريبياً لليموسي"), cell_2: t("درخواست مشاورهٔ راه‌اندازی", "Request a setup consultation", "اطلب استشارة الإطلاق"), cell_3: t("درخواست دمو برای سازمان", "Request a demo for your organisation", "اطلب عرضاً تجريبياً لمؤسستك") },
     ],
     footer_text: t("مطمئن نیستید کدام محصول مناسب شماست؟", "Not sure which product is right for you?", "لست متأكداً أي منتج يناسبك؟"),
     footer_link: { label: t("مشاوره بگیرید", "Talk to us", "احصل على استشارة"), page: P("contact") },

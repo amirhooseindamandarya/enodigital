@@ -5,7 +5,7 @@
  */
 import type { SectionTypeDef } from "@/cms/types";
 import {
-  T, TA, RT, anchor, bool, buttons, formRef, grp, heading, icon, img, int, link, list, plain, rep, sel, surface, theme, url,
+  T, TA, RT, anchor, bool, buttons, formRef, heading, icon, img, int, link, list, pageRef, plain, rep, sel, surface, theme, url,
 } from "@/cms/fields";
 
 const card = () => [icon(), T("title", "عنوان", { req: true }), TA("desc", "توضیح")];
@@ -131,9 +131,11 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
       ...heading(),
       rep("tabs", "زبانه‌ها", [
         icon(), T("label", "عنوان زبانه", { req: true }), T("badge", "برچسب"), T("title", "عنوان", { req: true }), TA("desc", "توضیح"),
-        list("points", "نکات"), link("cta", "دکمه"), theme(),
+        RT("points", "نکات", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" }),
+        T("cta_label", "متن دکمه"), pageRef("cta_page", "صفحهٔ دکمه"), plain("cta_anchor", "لنگر دکمه (#)"), url("cta_url", "آدرس بیرونی دکمه"),
+        theme(),
         sel("visual", "تصویر", [{ value: "browser", label: "قاب مرورگر" }, { value: "phone", label: "قاب موبایل" }, { value: "steps", label: "فهرست مراحل" }]),
-        img("image", "تصویر"), T("frame_title", "عنوان قاب"), list("steps", "مراحل (برای حالت فهرست مراحل)"),
+        img("image", "تصویر"), T("frame_title", "عنوان قاب"), RT("steps", "مراحل (برای حالت فهرست مراحل)", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" }),
       ], { req: true }),
     ],
   },
@@ -173,8 +175,8 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
     description: "جدول ستونی برای مقایسه",
     fields: [
       T("title", "عنوان", { req: true }),
-      rep("columns", "ستون‌ها", [T("label", "عنوان ستون", { req: true }), theme()], { req: true }),
-      rep("rows", "ردیف‌ها", [T("label", "عنوان ردیف", { req: true }), list("cells", "خانه‌ها (به ترتیب ستون‌ها)")], { req: true }),
+      rep("columns", "ستون‌ها (حداکثر ۴)", [T("label", "عنوان ستون", { req: true }), theme()], { req: true }),
+      rep("rows", "ردیف‌ها", [T("label", "عنوان ردیف", { req: true }), T("cell_1", "خانهٔ ستون ۱"), T("cell_2", "خانهٔ ستون ۲"), T("cell_3", "خانهٔ ستون ۳"), T("cell_4", "خانهٔ ستون ۴")], { req: true }),
       T("footer_text", "متن پایین جدول"), link("footer_link", "دکمهٔ پایین جدول"),
     ],
   },
@@ -245,7 +247,7 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
     description: "گروه‌های امکانات با فهرست زیرمجموعه و کادر تصویر",
     fields: [
       ...heading(),
-      rep("groups", "گروه‌ها", [icon(), T("title", "عنوان", { req: true }), TA("desc", "توضیح"), list("items", "موارد")], { req: true }),
+      rep("groups", "گروه‌ها", [icon(), T("title", "عنوان", { req: true }), TA("desc", "توضیح"), RT("items", "موارد", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" })], { req: true }),
       T("highlight_title", "عنوان کادر تصویر"), TA("highlight_desc", "توضیح کادر تصویر"),
       img("highlight_image", "تصویر کادر"), T("highlight_frame_title", "عنوان قاب"),
       theme(),
@@ -275,7 +277,7 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
       rep("panels", "پنل‌ها", [
         T("name", "نام پنل", { req: true }), T("audience", "کاربران"), img("image", "تصویر"),
         sel("device", "قاب", [{ value: "browser", label: "مرورگر" }, { value: "phone", label: "موبایل" }]),
-        list("items", "امکانات"),
+        RT("items", "امکانات", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" }),
       ], { req: true }),
       theme(),
     ],
@@ -351,7 +353,7 @@ export const globalFields = {
       T("audience", "مخاطب"),
       TA("tagline", "شعار"),
       TA("value", "ارزش پیشنهادی"),
-      list("highlights", "ویژگی‌های شاخص"),
+      RT("highlights", "ویژگی‌های شاخص", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" }),
       icon(), theme(),
       { key: "page", label: "صفحهٔ محصول", type: "page_reference" as const },
       T("cta_label", "متن دکمهٔ اصلی"),
@@ -365,7 +367,7 @@ export const globalFields = {
       bool("published", "منتشرشده"),
       T("name", "عنوان", { req: true }),
       TA("problem", "مسئله"), TA("solution", "راهکار"), TA("result", "نتیجه"),
-      list("tags", "برچسب‌ها"),
+      RT("tags", "برچسب‌ها", { desc: "فهرست نقطه‌دار؛ هر مورد یک آیتم" }),
       img("image", "تصویر"),
       sel("frame", "قاب تصویر", [{ value: "dark", label: "تیره" }, { value: "light", label: "روشن" }]),
       { key: "page", label: "صفحهٔ مرتبط", type: "page_reference" as const },

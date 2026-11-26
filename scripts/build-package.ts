@@ -121,7 +121,7 @@ function validateObject(where: string, fields: FieldDef[], obj: Record<string, u
   for (const f of fields) validateValue(`${where}.${f.key}`, f, obj[f.key]);
 }
 
-function validateFieldDefs(where: string, fields: FieldDef[]) {
+function validateFieldDefs(where: string, fields: FieldDef[], nested = false) {
   const seen = new Set<string>();
   for (const f of fields) {
     if (!FIELD_KEY.test(f.key)) err(where, `کلید فیلد نامعتبر: ${f.key}`);
@@ -129,7 +129,10 @@ function validateFieldDefs(where: string, fields: FieldDef[]) {
     seen.add(f.key);
     if (!f.label) err(`${where}.${f.key}`, "label لازم است");
     if ((f.type === "select" || f.type === "multiselect") && !f.options?.length) err(`${where}.${f.key}`, "options لازم است");
-    if ((f.type === "repeater" || f.type === "group")) validateFieldDefs(`${where}.${f.key}`, f.children ?? []);
+    if (f.type === "repeater" || f.type === "group") {
+      if (nested) err(`${where}.${f.key}`, "repeater/group داخل repeater/group دیگر پشتیبانی نمی‌شود");
+      validateFieldDefs(`${where}.${f.key}`, f.children ?? [], true);
+    }
   }
 }
 

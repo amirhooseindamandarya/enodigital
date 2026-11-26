@@ -6,7 +6,7 @@ import { FaqList } from "@/components/ui/accordion";
 import { JsonLd } from "@/lib/seo";
 import { num, ui } from "@/cms/i18n";
 import { cn } from "@/lib/utils";
-import { Breadcrumb, Buttons, Check, Heading, Section, SmartLink, sf, th, type SectionProps } from "./kit";
+import { Breadcrumb, Buttons, Check, Heading, Section, SmartLink, sf, th, type C, type SectionProps } from "./kit";
 import { buttonVariants } from "@/components/ui/button";
 
 /* ---------------- سربرگ صفحه ---------------- */
@@ -408,7 +408,7 @@ export function CycleDiagram({ c, ctx }: SectionProps) {
 /* ---------------- جدول مقایسه ---------------- */
 export function ComparisonTable({ c }: SectionProps) {
   const cols = c.columns as { label: string; theme: string }[];
-  const rows = c.rows as { label: string; cells: { text: string }[] }[];
+  const rows = c.rows as C[];
   const link = c.footer_link as { label: string; href: string };
   return (
     <section className="bg-white py-24">
@@ -419,7 +419,7 @@ export function ComparisonTable({ c }: SectionProps) {
             <thead>
               <tr className="bg-paper">
                 <td className="p-5" />
-                {cols.map((col, i) => (
+                {cols.slice(0, 4).map((col, i) => (
                   <th key={i} scope="col" className="p-5 text-start"><span className="flex items-center gap-2 font-extrabold"><i className={cn("size-2 rounded-full", th(col.theme).dot)} />{col.label}</span></th>
                 ))}
               </tr>
@@ -428,7 +428,7 @@ export function ComparisonTable({ c }: SectionProps) {
               {rows.map((r, i) => (
                 <tr key={i} className="border-t border-line align-top">
                   <th scope="row" className="w-44 p-5 text-start text-[14px] font-bold text-ink-3">{r.label}</th>
-                  {cols.map((_, j) => <td key={j} className="p-5 leading-7 text-ink-2">{r.cells[j]?.text}</td>)}
+                  {cols.slice(0, 4).map((_, j) => <td key={j} className="p-5 leading-7 text-ink-2">{r[`cell_${j + 1}`]}</td>)}
                 </tr>
               ))}
             </tbody>

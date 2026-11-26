@@ -1,8 +1,8 @@
 import type { GlobalGroupDef } from "@/cms/types";
 import { t } from "@/cms/fields";
+import { ul } from "./helpers";
 import { globalFields, globalNames } from "@/sections/schemas";
 
-const L = (fa: string, en: string, ar: string) => ({ text: t(fa, en, ar) });
 
 const content: Record<keyof typeof globalFields, Record<string, unknown>> = {
   brand: {
@@ -68,11 +68,9 @@ const content: Record<keyof typeof globalFields, Record<string, unknown>> = {
           "Manage sales, customers, projects and support together — from first contact to quote, contract, project, payment and support.",
           "أدر المبيعات والعملاء والمشاريع والدعم في مكان واحد؛ من أول اتصال إلى عرض السعر والعقد والمشروع والتحصيل والدعم.",
         ),
-        highlights: [
-          L("قیف فروش Kanban و پیگیری مشتری", "Kanban sales pipeline and follow-ups", "مسار مبيعات Kanban ومتابعة العملاء"),
-          L("پیش‌فاکتور آنلاین با تأیید مشتری", "Online quotes the customer can approve", "عروض أسعار إلكترونية يوافق عليها العميل"),
-          L("پشتیبانی با SLA و پرتال مشتریان", "SLA-based support and a customer portal", "دعم وفق SLA وبوابة للعملاء"),
-        ],
+        highlights: ul(["قیف فروش Kanban و پیگیری مشتری", "Kanban sales pipeline and follow-ups", "مسار مبيعات Kanban ومتابعة العملاء"],
+          ["پیش‌فاکتور آنلاین با تأیید مشتری", "Online quotes the customer can approve", "عروض أسعار إلكترونية يوافق عليها العميل"],
+          ["پشتیبانی با SLA و پرتال مشتریان", "SLA-based support and a customer portal", "دعم وفق SLA وبوابة للعملاء"]),
         icon: "users",
         theme: "limoc",
         page: { page: "limoc" },
@@ -96,11 +94,9 @@ const content: Record<keyof typeof globalFields, Record<string, unknown>> = {
           "Launch your own online sales channel and take orders directly from your customers.",
           "أطلق قناة البيع الإلكترونية الخاصة بك واستقبل الطلبات مباشرة من عملائك.",
         ),
-        highlights: [
-          L("منوی آنلاین و سفارش مستقیم", "Online menu and direct ordering", "قائمة إلكترونية وطلب مباشر"),
-          L("درگاه پرداخت، بدون کارمزد سفارش", "Online payment, no per-order commission", "دفع إلكتروني دون عمولة على الطلب"),
-          L("مدیریت سفارش، پیک و گزارش‌ها", "Orders, couriers and reports in one place", "إدارة الطلبات والتوصيل والتقارير"),
-        ],
+        highlights: ul(["منوی آنلاین و سفارش مستقیم", "Online menu and direct ordering", "قائمة إلكترونية وطلب مباشر"],
+          ["درگاه پرداخت، بدون کارمزد سفارش", "Online payment, no per-order commission", "دفع إلكتروني دون عمولة على الطلب"],
+          ["مدیریت سفارش، پیک و گزارش‌ها", "Orders, couriers and reports in one place", "إدارة الطلبات والتوصيل والتقارير"]),
         icon: "utensils",
         theme: "limofood",
         page: { page: "limofood" },
@@ -124,11 +120,9 @@ const content: Record<keyof typeof globalFields, Record<string, unknown>> = {
           "Allocate employee benefit credit digitally, see how it’s spent and settle transparently with merchants.",
           "خصّص رصيد المزايا للموظفين رقمياً، وتابع الاستهلاك، وسوِّ الحسابات مع المتاجر بشفافية.",
         ),
-        highlights: [
-          L("صدور بن و تخصیص اعتبار شخصی", "Vouchers with personal credit per employee", "إصدار القسائم وتخصيص رصيد لكل موظف"),
-          L("تأیید خرید با کد ۵ رقمی کارمند", "Purchases confirmed with a 5-digit employee code", "تأكيد الشراء برمز من 5 أرقام"),
-          L("تسویه با فروشندگان و ۲۸ گزارش Excel", "Merchant settlement and 28 Excel reports", "التسوية مع التجار و28 تقريراً بصيغة Excel"),
-        ],
+        highlights: ul(["صدور بن و تخصیص اعتبار شخصی", "Vouchers with personal credit per employee", "إصدار القسائم وتخصيص رصيد لكل موظف"],
+          ["تأیید خرید با کد ۵ رقمی کارمند", "Purchases confirmed with a 5-digit employee code", "تأكيد الشراء برمز من 5 أرقام"],
+          ["تسویه با فروشندگان و ۲۸ گزارش Excel", "Merchant settlement and 28 Excel reports", "التسوية مع التجار و28 تقريراً بصيغة Excel"]),
         icon: "building",
         theme: "benefits",
         page: { page: "benefits" },
@@ -161,7 +155,7 @@ const content: Record<keyof typeof globalFields, Record<string, unknown>> = {
           "Quantitative results have not been measured and published yet.",
           "لم تُقَس النتائج الكمية ولم تُنشر بعد.",
         ),
-        tags: [L("Laravel", "Laravel", "Laravel"), L("React", "React", "React"), L("سازمانی", "Enterprise", "مؤسسي")],
+        tags: ul(["Laravel", "Laravel", "Laravel"], ["React", "React", "React"], ["سازمانی", "Enterprise", "مؤسسي"]),
         image: { media: "refah-admin-dashboard" },
         frame: "dark",
         page: { page: "benefits" },

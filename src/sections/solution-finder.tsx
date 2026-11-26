@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { num } from "@/cms/i18n";
 import { cn } from "@/lib/utils";
-import { Arrow, Framed, Heading, SmartLink, th, type C, type SectionProps } from "./kit";
+import { Arrow, Framed, Heading, SmartLink, flatLink, lis, th, type C, type SectionProps } from "./kit";
 
 export function SolutionFinder({ c, ctx }: SectionProps) {
   const tabs = c.tabs as C[];
@@ -27,6 +27,7 @@ export function SolutionFinder({ c, ctx }: SectionProps) {
   };
   if (!o) return null;
   const t = th(o.theme);
+  const cta = flatLink(o, "cta");
 
   return (
     <section className="bg-white py-24 sm:py-32">
@@ -54,17 +55,17 @@ export function SolutionFinder({ c, ctx }: SectionProps) {
                 <h3 className="mt-4 text-[24px] font-extrabold leading-snug sm:text-[28px]">{o.title}</h3>
                 {o.desc && <p className="mt-3 text-[15.5px] leading-8 text-ink-2">{o.desc}</p>}
                 <ul className="mt-5 grid gap-2">
-                  {(o.points as { text: string }[]).map((p, i) => <li key={i} className="flex items-center gap-2.5 text-[15px]"><Icon name="check" className="size-4 shrink-0 text-teal-700" strokeWidth={2.5} />{p.text}</li>)}
+                  {lis(o.points).map((p, i) => <li key={i} className="flex items-center gap-2.5 text-[15px]"><Icon name="check" className="size-4 shrink-0 text-teal-700" strokeWidth={2.5} />{p}</li>)}
                 </ul>
-                {o.cta?.href && <SmartLink href={o.cta.href} className={cn(buttonVariants({ variant: "dark" }), "mt-8")}>{o.cta.label} <Arrow /></SmartLink>}
+                {cta.href && cta.label && <SmartLink href={cta.href} external={cta.external} className={cn(buttonVariants({ variant: "dark" }), "mt-8")}>{cta.label} <Arrow /></SmartLink>}
               </div>
               <div className="flex min-h-[260px] items-center justify-center">
                 {o.visual === "steps" ? (
                   <div className="mx-auto grid w-full max-w-[340px] gap-2.5" aria-hidden>
-                    {(o.steps as { text: string }[]).map((s, i) => (
+                    {lis(o.steps).map((s, i) => (
                       <div key={i} className="flex items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 shadow-[var(--shadow-soft)]">
                         <span className={cn("grid size-7 place-items-center rounded-full text-[12px] font-bold", i < 2 ? "bg-violet text-white" : "bg-paper text-ink-3")}>{num(i + 1, ctx.locale)}</span>
-                        <span className="text-[14px] font-semibold">{s.text}</span>
+                        <span className="text-[14px] font-semibold">{s}</span>
                       </div>
                     ))}
                   </div>

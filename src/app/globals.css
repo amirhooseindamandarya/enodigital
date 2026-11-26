@@ -59,6 +59,9 @@
     font-feature-settings: "ss01";
     text-rendering: optimizeLegibility;
   }
+  /* ss01 در Vazirmatn ارقام لاتین را فارسی می‌کند؛ فقط برای فارسی */
+  html:not([lang="fa"]) body { font-feature-settings: normal; }
+  html[lang="en"] body { line-height: 1.7; letter-spacing: 0; }
   h1, h2, h3, h4 {
     @apply text-ink;
     line-height: 1.35;
@@ -127,3 +130,19 @@
 @keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.08); } }
+
+/* متن قالب‌دار (richtext از CMS و متن مقالات) */
+@layer components {
+  .prose-rich { @apply text-[17px] leading-[2.1] text-ink-2; }
+  .prose-rich > * + * { margin-top: 1.4rem; }
+  .prose-rich h2 { @apply pt-4 text-[23px] font-extrabold text-ink; }
+  .prose-rich h3 { @apply pt-2 text-[19px] font-extrabold text-ink; }
+  .prose-rich h4 { @apply text-[17px] font-bold text-ink; }
+  .prose-rich a { @apply font-semibold text-ink underline decoration-amber decoration-2 underline-offset-4; }
+  .prose-rich strong { @apply font-bold text-ink; }
+  .prose-rich ul { @apply grid gap-2.5; }
+  .prose-rich ul > li { position: relative; padding-inline-start: 1.75rem; }
+  .prose-rich ul > li::before { content: ""; position: absolute; inset-inline-start: 0.25rem; top: 0.85em; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--color-amber); }
+  .prose-rich ol { @apply list-decimal ps-6; }
+  .prose-rich blockquote { @apply border-s-4 border-amber ps-5 text-ink; }
+}

@@ -1,11 +1,19 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/lib/site";
-import { productList } from "@/lib/products";
-import { articles } from "@/lib/content";
+import { getSite, SITE_URL } from "@/cms/site";
+import { allPaths, alternatesFor, matchPath } from "@/cms/routes";
+import { localeMeta } from "@/cms/i18n";
 
 export const dynamic = "force-static";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["/", "/products/", ...productList.map((p) => p.href), "/services/custom-software/", "/projects/", "/about/", "/blog/", ...articles.map((a) => `/blog/${a.slug}/`), "/contact/"];
-  return paths.map((p) => ({ url: `${site.url}${p}`, lastModified: new Date(), priority: p === "/" ? 1 : p.startsWith("/products") ? 0.9 : 0.7 }));
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const site = await getSite();
+  return allPaths(site)
+    .map((p) => ({ p, m: matchPath(site, p) }))
+    .filter(({ m }) => m.kind === "page" || m.kind === "post")
+    .map(({ p, m }) => ({
+      url: `${SITE_URL}/${p.length ? p.join("/") + "/" : ""}`,
+      lastModified: new Date(),
+      priority: p.length === 0 ? 1 : m.kind === "post" ? 0.6 : 0.8,
+      alternates: { languages: Object.fromEntries(alternatesFor(site, m).map((a) => [localeMeta[a.locale].htmlLang, `${SITE_URL}${a.href}`])) },
+    }));
 }

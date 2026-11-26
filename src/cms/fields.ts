@@ -74,15 +74,16 @@ export const surface = () => sel("surface", "پس‌زمینه", SURFACES);
 export const anchor = () => plain("anchor", "شناسهٔ لنگر (برای پیوند #)", { desc: "حروف کوچک انگلیسی؛ مثل demo یا features" });
 
 /** دکمه/پیوند: صفحهٔ داخلی (با لنگر اختیاری)، یا فقط لنگر، یا آدرس بیرونی */
-export const linkChildren = (): FieldDef[] => [
-  T("label", "متن", { req: true }),
+export const linkChildren = (reqLabel = true): FieldDef[] => [
+  T("label", "متن", { req: reqLabel }),
   pageRef("page", "صفحهٔ داخلی"),
   plain("anchor", "لنگر (#)", { desc: "مثلاً demo؛ با صفحهٔ داخلی یا به‌تنهایی" }),
   url("url", "آدرس بیرونی"),
 ];
 export const buttons = (key = "buttons", label = "دکمه‌ها") =>
   rep(key, label, [...linkChildren(), sel("style", "نوع", BUTTON_STYLES), bool("new_tab", "باز شدن در زبانهٔ جدید")]);
-export const link = (key: string, label: string) => grp(key, label, linkChildren());
+/** پیوند اختیاری (group): خالی ماندنش مجاز است، پس متنش الزامی نیست */
+export const link = (key: string, label: string) => grp(key, label, linkChildren(false));
 
 /** ساخت مقدار ترجمه‌پذیر در دادهٔ محتوا */
 export const t = (fa: string, en: string, ar: string): Localized => ({ fa, en, ar });

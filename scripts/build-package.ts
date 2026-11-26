@@ -76,6 +76,8 @@ function checkText(where: string, s: string, rich = false) {
 function validateValue(where: string, f: FieldDef, v: unknown) {
   if (v === undefined || v === null || v === "") {
     if (f.required) err(where, "فیلد الزامی خالی است");
+    // پنل گروهِ خالی را هم با فیلدهای الزامی‌اش می‌سنجد
+    if (f.type === "group") validateObject(where, f.children ?? [], {});
     return;
   }
   if (f.translatable) {

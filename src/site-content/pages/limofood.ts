@@ -1,5 +1,6 @@
 import { OTHER } from "./limoc";
 import { F, M, items, page, s, t } from "../helpers";
+import { PRICING } from "./pricing";
 
 const PRIMARY = t("درخواست مشاورهٔ راه‌اندازی", "Request a setup consultation", "اطلب استشارة الإطلاق");
 const SITE = { label: t("مشاهدهٔ وب‌سایت محصول", "Visit the product website", "زيارة موقع المنتج"), url: "https://limoojet.ir/", new_tab: true };
@@ -96,6 +97,7 @@ export const limofood = page("limofood", "لیموفود", "limofood", ["لیم�
     ],
     theme: "limofood", surface: "white",
   }),
+  PRICING("limofood", "limofood", "white"),
   s("lead_form", "درخواست مشاوره", {
     layout: "banner", badge: t("لیموفود", "LimoFood", "ليموفود"),
     title: t("کانال فروش آنلاین خودتان را راه بیندازید", "Launch your own online sales channel", "أطلق قناة البيع الإلكترونية الخاصة بك"),

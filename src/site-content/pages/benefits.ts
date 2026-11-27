@@ -1,5 +1,6 @@
 import { OTHER } from "./limoc";
 import { F, M, items, page, s, t, ul } from "../helpers";
+import { PRICING } from "./pricing";
 
 const PRIMARY = t("درخواست دمو برای سازمان", "Request a demo for your organisation", "اطلب عرضاً تجريبياً لمؤسستك");
 
@@ -114,6 +115,7 @@ export const benefits = page("benefits", "سامانهٔ رفاهیات", "benef
     ],
     theme: "benefits", surface: "white",
   }),
+  PRICING("benefits", "benefits", "paper"),
   s("lead_form", "درخواست دمو", {
     layout: "banner", badge: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا"),
     title: t("رفاهیات سازمانتان را دیجیتال کنید", "Take your organisation’s benefits digital", "حوّل مزايا مؤسستك إلى نظام رقمي"),

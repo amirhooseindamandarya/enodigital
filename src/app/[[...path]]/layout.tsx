@@ -10,6 +10,7 @@ import { allPaths, alternatesFor, matchPath } from "@/cms/routes";
 import { localeMeta, pathFor, ui } from "@/cms/i18n";
 import { pageHref, resolveGlobals, resolveMenu } from "@/cms/resolve";
 import { th, type Globals } from "@/sections/kit";
+import { at } from "@/account/i18n";
 
 const vazir = localFont({ src: "../../fonts/Vazirmatn-Variable.woff2", weight: "100 900", display: "swap", variable: "--font-vazir", preload: true });
 
@@ -58,6 +59,7 @@ export default async function RootLayout({ children, params }: { children: React
             cta={header.cta?.href ? { label: header.cta.label, href: header.cta.href } : undefined}
             mega={{ eyebrow: header.mega_eyebrow, title: header.mega_title, desc: header.mega_desc, buttons: header.mega_buttons }}
             languages={alternatesFor(site, m)}
+            account={{ href: `${locale === "fa" ? "" : `/${locale}`}/account/`, label: at("account", locale) }}
             t={{ mainNav: ui("mainNav", locale), openMenu: ui("openMenu", locale), closeMenu: ui("closeMenu", locale), siteNav: ui("siteNav", locale), language: ui("language", locale), home: ui("home", locale) }}
           />
           <main id="main">{children}</main>

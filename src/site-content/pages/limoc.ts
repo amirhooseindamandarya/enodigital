@@ -1,4 +1,5 @@
 import { F, M, P, items, page, s, t, ul } from "../helpers";
+import { PRICING } from "./pricing";
 
 const demo = { anchor: "demo" };
 const PRIMARY = t("درخواست دموی لیموسی", "Request a Limoc demo", "اطلب عرضاً تجريبياً لليموسي");
@@ -194,6 +195,7 @@ export const limoc = page("limoc", "لیموسی", "limoc", ["لیموسی", "Li
     aside_link: { label: t("درخواست فعال‌سازی", "Request activation", "اطلب التفعيل"), anchor: "demo" },
     theme: "limoc", surface: "cream",
   }),
+  PRICING("limoc", "limoc", "cream"),
   s("lead_form", "درخواست دمو", {
     layout: "banner", badge: t("لیموسی", "Limoc", "ليموسي"),
     title: t("لیموسی را با فرایند فروش تیم خودتان ببینید", "See Limoc with your own sales process", "شاهد ليموسي مع إجراءات البيع لدى فريقك"),

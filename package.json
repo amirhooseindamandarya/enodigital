@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/postbuild.mjs",
-    "start": "npx serve out",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
     "lint": "tsc --noEmit",
-    "package": "tsx scripts/build-package.ts"
+    "package": "tsx scripts/build-package.ts",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
@@ -15,18 +17,23 @@
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.4",
     "lucide-react": "^0.525.0",
     "motion": "^12.23.0",
     "next": "^15.5.29",
+    "postgres": "^4.1.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "drizzle-kit": "^0.31.11",
     "fflate": "^0.8.2",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.6",

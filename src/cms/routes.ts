@@ -55,7 +55,6 @@ export function allPaths(site: SiteData): string[][] {
     const segs = r.from.split("/").filter(Boolean);
     if (segs.length && !out.some((p) => p.join("/") === segs.join("/"))) out.push(segs);
   }
-  out.push(["404"]);
   return out;
 }
 

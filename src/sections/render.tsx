@@ -12,6 +12,7 @@ import * as K from "./content";
 import { HomeHero, ProductHero } from "./heroes";
 import { SolutionFinder } from "./solution-finder";
 import { ContactPanel, LeadFormSection } from "./forms-sections";
+import { PricingPlans } from "./pricing";
 
 type Comp = (p: SectionProps) => React.ReactNode;
 
@@ -48,6 +49,7 @@ const registry: Record<string, { C: Comp; client?: boolean }> = {
   identity_card: { C: G.IdentityCard },
   pillars: { C: G.Pillars },
   contact_panel: { C: ContactPanel },
+  pricing_plans: { C: PricingPlans, client: true },
 };
 
 /** کلید همهٔ انواعی که فرانت پیاده‌سازی کرده (برای اعتبارسنجی بسته) */

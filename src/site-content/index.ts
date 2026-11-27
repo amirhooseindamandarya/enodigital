@@ -15,6 +15,7 @@ import { limoc } from "./pages/limoc";
 import { limofood } from "./pages/limofood";
 import { benefits } from "./pages/benefits";
 import { about, blog, contact, customSoftware, projects } from "./pages/rest";
+import { pricing } from "./pages/pricing";
 
 export const localSite: SiteData = {
   format: "limoc-site",
@@ -29,7 +30,7 @@ export const localSite: SiteData = {
   sectionTypes,
   globalGroups,
   forms,
-  pages: [home, productsPage, limoc, limofood, benefits, customSoftware, projects, about, blog, contact],
+  pages: [home, productsPage, limoc, limofood, benefits, pricing, customSoftware, projects, about, blog, contact],
   menus,
   blog: { categories, posts },
   redirects: [
@@ -37,6 +38,5 @@ export const localSite: SiteData = {
     { from: "/products/limofood", to: "/limofood", code: 301 },
     { from: "/products/benefits", to: "/benefits", code: 301 },
     { from: "/services/custom-software", to: "/custom-software", code: 301 },
-    { from: "/admin", to: "/", code: 301 },
   ],
 };

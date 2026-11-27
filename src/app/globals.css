@@ -61,6 +61,8 @@
   }
   /* ss01 در Vazirmatn ارقام لاتین را فارسی می‌کند؛ فقط برای فارسی */
   html:not([lang="fa"]) body { font-feature-settings: normal; }
+  /* شماره، ایمیل و کد در جهت چپ‌به‌راست با ارقام لاتین */
+  [dir="ltr"] { font-feature-settings: normal; }
   html[lang="en"] body { line-height: 1.7; letter-spacing: 0; }
   h1, h2, h3, h4 {
     @apply text-ink;

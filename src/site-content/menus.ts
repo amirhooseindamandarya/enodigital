@@ -15,6 +15,7 @@ export const menus: MenuDef[] = [
           { page: "benefits", label: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا") },
         ],
       },
+      { page: "pricing", label: t("قیمت‌ها", "Pricing", "الأسعار") },
       { page: "custom-software", label: t("نرم‌افزار سفارشی", "Custom software", "برمجيات مخصصة") },
       { page: "projects", label: t("پروژه‌ها", "Projects", "المشاريع") },
       { page: "blog", label: t("مقالات", "Articles", "المقالات") },
@@ -33,6 +34,7 @@ export const menus: MenuDef[] = [
           { page: "limofood", label: t("لیموفود", "LimoFood", "ليموفود") },
           { page: "benefits", label: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا") },
           { page: "products", label: t("همهٔ محصولات", "All products", "جميع المنتجات") },
+          { page: "pricing", label: t("قیمت‌ها و خرید", "Pricing", "الأسعار") },
         ],
       },
       {

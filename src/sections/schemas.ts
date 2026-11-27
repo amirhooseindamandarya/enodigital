@@ -288,6 +288,20 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
     fields: [T("title", "عنوان", { req: true }), T("extra_title", "عنوان کارت اضافه"), T("extra_desc", "توضیح کارت اضافه"), link("extra_link", "پیوند کارت اضافه")],
   },
 
+  pricing_plans: {
+    name: "پلن‌های قیمت‌گذاری",
+    description: "پلن‌ها و قیمت‌ها به‌صورت زنده از پنل مدیریت فروش خوانده می‌شوند؛ دکمهٔ خرید به صفحهٔ پرداخت می‌رود",
+    fields: [
+      ...heading(),
+      plain("product_key", "شناسهٔ محصول", { desc: "مثل limoc؛ خالی = همهٔ محصولات" }),
+      T("buy_label", "متن دکمهٔ خرید"),
+      T("badge", "برچسب پلن پیشنهادی"),
+      T("tax_note", "یادداشت زیر قیمت", { desc: "مثلاً «۱۰٪ مالیات بر ارزش افزوده اضافه می‌شود»" }),
+      TA("note", "یادداشت پایین بخش"),
+      theme(), surface(), anchor(),
+    ],
+  },
+
   /* ---------------- درباره و تماس ---------------- */
   identity_card: {
     name: "هویت برند",

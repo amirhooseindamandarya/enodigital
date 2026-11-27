@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChevronDown, Globe, Menu, X } from "lucide-react";
+import { ChevronDown, Globe, Menu, UserRound, X } from "lucide-react";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
 import type { ResolvedMenuItem } from "@/cms/resolve";
@@ -25,6 +25,7 @@ export type HeaderProps = {
   cta?: { label: string; href: string };
   mega: { eyebrow: string; title: string; desc: string; buttons: { label: string; href: string; style?: string }[] };
   languages: { locale: Locale; href: string; name: string }[];
+  account: { href: string; label: string };
   t: { mainNav: string; openMenu: string; closeMenu: string; siteNav: string; language: string; home: string };
 };
 
@@ -164,6 +165,10 @@ export function Header(p: HeaderProps) {
 
         <div className="flex items-center gap-1.5">
           <LangSwitch p={p} onDark={onDark} />
+          <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${p.account.href}`} aria-label={p.account.label} title={p.account.label}
+            className={cn("hidden h-10 items-center gap-1.5 rounded-xl px-2.5 text-[13.5px] font-bold transition-colors sm:flex", onDark ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-ink-2 hover:bg-paper hover:text-ink")}>
+            <UserRound className="size-[18px]" aria-hidden /><span className="hidden xl:inline">{p.account.label}</span>
+          </a>
           {p.cta && <Link href={p.cta.href} className={cn(buttonVariants({ variant: onDark ? "light" : "primary", size: "sm" }), "hidden sm:inline-flex")}>{p.cta.label}</Link>}
 
           <Dialog.Root open={mobile} onOpenChange={setMobile}>
@@ -217,6 +222,9 @@ export function Header(p: HeaderProps) {
                             </div>
                           </div>
                         )}
+                      </div>
+                      <div className="border-t border-line p-5 pb-0">
+                        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${p.account.href}`} className="flex h-12 items-center justify-center gap-2 rounded-xl border border-line-2 text-[15px] font-bold"><UserRound className="size-[18px]" aria-hidden />{p.account.label}</a>
                       </div>
                       {p.cta && (
                         <div className="border-t border-line p-5">

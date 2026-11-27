@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import localFont from "next/font/local";
-import { and, eq, inArray, sql } from "drizzle-orm";
+import { and, eq, inArray, sql, count } from "drizzle-orm";
 import { Globe, LogOut } from "lucide-react";
 import "../globals.css";
 import { localeMeta, pathFor } from "@/cms/i18n";
@@ -29,8 +29,8 @@ export default async function AccountLayout({ children }: { children: React.Reac
 
   let badges = { orders: 0, tickets: 0 };
   if (user) {
-    const [o] = await db.select({ n: sql<number>`count(*)::int` }).from(schema.orders).where(and(eq(schema.orders.userId, user.id), eq(schema.orders.status, "pending")));
-    const [t] = await db.select({ n: sql<number>`count(*)::int` }).from(schema.tickets).where(and(eq(schema.tickets.userId, user.id), inArray(schema.tickets.status, ["answered"])));
+    const [o] = await db.select({ n: count() }).from(schema.orders).where(and(eq(schema.orders.userId, user.id), eq(schema.orders.status, "pending")));
+    const [t] = await db.select({ n: count() }).from(schema.tickets).where(and(eq(schema.tickets.userId, user.id), inArray(schema.tickets.status, ["answered"])));
     badges = { orders: o?.n ?? 0, tickets: t?.n ?? 0 };
   }
 

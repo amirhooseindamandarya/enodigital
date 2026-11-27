@@ -6,7 +6,8 @@
 import type { SiteData } from "./types";
 import { localSite } from "@/site-content";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://amirhooseindamandarya.github.io/enodigital").replace(/\/$/, "");
+/** آدرس عمومی سایت؛ در زمان اجرا از APP_URL خوانده می‌شود (یک خروجی برای هر دامنه) */
+export const SITE_URL = (process.env.APP_URL || process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
 
 let cache: SiteData | null = null;
 export async function getSite(): Promise<SiteData> {

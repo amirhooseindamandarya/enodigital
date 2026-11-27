@@ -2,7 +2,7 @@
 
 سایت سه‌زبانه (فارسی، انگلیسی، عربی) با **فروش آنلاین اشتراک** محصولات، **پروفایل مشتری** و **پنل مدیریت**؛ محتوای سایت آمادهٔ اتصال به CMS لیموسی است.
 
-**فناوری:** Next.js 15 (سرور Node.js، خروجی standalone) · React 19 · TypeScript · Tailwind CSS 4 · PostgreSQL + Drizzle ORM · درگاه زرین‌پال · پیامک کاوه‌نگار
+**فناوری:** Next.js 15 (سرور Node.js، خروجی standalone) · React 19 · TypeScript · Tailwind CSS 4 · MySQL 8 / MariaDB + Drizzle ORM · درگاه زرین‌پال · پیامک کاوه‌نگار
 
 ## سه بخش سامانه
 
@@ -31,24 +31,32 @@ npm run dev                       # http://localhost:3000
 
 بدون `ZARINPAL_MERCHANT_ID`، در محیط توسعه یک درگاه آزمایشی فعال است (پولی جابه‌جا نمی‌شود) و پیامک‌ها در لاگ سرور نوشته می‌شوند.
 
+## استقرار روی هاست cPanel (Setup Node.js App + MySQL)
+
+```bash
+npm run bundle:cpanel             # ← dist/enodigital-cpanel.zip
+```
+
+بسته بدون نیاز به `npm install` روی هاست اجرا می‌شود؛ راهنمای گام‌به‌گام در [`docs/cpanel.md`](docs/cpanel.md) (همان فایل `INSTALL-FA.md` داخل بسته) است.
+
 ## استقرار روی سرور (VPS)
 
 ```bash
-cp .env.example .env              # APP_URL، POSTGRES_PASSWORD، ADMIN_*، ZARINPAL_MERCHANT_ID، کاوه‌نگار
+cp .env.example .env              # APP_URL، DB_PASSWORD، ADMIN_*، ZARINPAL_MERCHANT_ID، کاوه‌نگار
 docker compose up -d --build
 ```
 
 - برنامه روی `127.0.0.1:3000` بالا می‌آید؛ آن را پشت Nginx یا Caddy با HTTPS قرار دهید (کوکی ورود فقط روی HTTPS ارسال می‌شود).
 - هر بار شروع کانتینر، migrationها و دادهٔ اولیه خودکار اجرا می‌شوند (تکرارپذیر).
 - آدرس بازگشت درگاه: `APP_URL/api/payments/callback/` — دامنه باید در پنل زرین‌پال ثبت شده باشد.
-- پشتیبان‌گیری: `docker compose exec db pg_dump -U enodigital enodigital > backup.sql`
+- پشتیبان‌گیری: `docker compose exec db sh -c 'mysqldump -uenodigital -p"$MYSQL_PASSWORD" enodigital' > backup.sql`
 
 ## تنظیمات (`.env.example`)
 
 | متغیر | کاربرد |
 |---|---|
 | `APP_URL` | آدرس عمومی سایت (بازگشت از درگاه، canonical، sitemap) |
-| `DATABASE_URL` / `POSTGRES_PASSWORD` | پایگاه داده |
+| `DATABASE_URL` / `DB_PASSWORD` | پایگاه داده MySQL/MariaDB |
 | `ADMIN_PHONE` / `ADMIN_PASSWORD` / `ADMIN_NAME` | ساخت یا ارتقای مدیر کل |
 | `ZARINPAL_MERCHANT_ID` / `ZARINPAL_SANDBOX` | درگاه زرین‌پال (v4، مبلغ به ریال) |
 | `SMS_DRIVER=kavenegar` / `KAVENEGAR_*` | پیامک کد بازیابی و اطلاع‌رسانی سفارش و تیکت |
@@ -67,7 +75,7 @@ src/account           متن‌های سه‌زبانه، اکشن‌ها و ا�
 src/admin             اکشن‌ها و اجزای پنل مدیریت
 src/cms · src/sections · src/site-content   لایهٔ CMS، ۳۳ نوع سکشن، محتوای سه‌زبانه
 drizzle/              migrationهای پایگاه داده
-scripts/              db-setup.mjs، ساخت بستهٔ CMS
+scripts/              db-setup.mjs، ساخت بستهٔ CMS و بستهٔ cPanel
 tests/e2e.cjs         آزمون سرتاسری خرید و پنل
 ```
 

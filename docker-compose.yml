@@ -1,29 +1,31 @@
 # اجرا روی سرور:  cp .env.example .env  (و پر کردن مقادیر)  →  docker compose up -d --build
 services:
   db:
-    image: postgres:16-alpine
+    image: mysql:8.4
     restart: unless-stopped
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     environment:
-      POSTGRES_DB: enodigital
-      POSTGRES_USER: enodigital
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD را در .env تعیین کنید}
+      MYSQL_DATABASE: enodigital
+      MYSQL_USER: enodigital
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD را در .env تعیین کنید}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U enodigital -d enodigital"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uenodigital -p$$MYSQL_PASSWORD --silent"]
       interval: 5s
-      retries: 10
+      retries: 20
 
   app:
     build:
       context: .
       args:
-        NEXT_PUBLIC_SITE_URL: ${APP_URL:?APP_URL را در .env تعیین کنید}
+        APP_URL: ${APP_URL:?APP_URL را در .env تعیین کنید}
         NEXT_PUBLIC_FORM_ENDPOINT: ${NEXT_PUBLIC_FORM_ENDPOINT:-}
     restart: unless-stopped
     env_file: .env
     environment:
-      DATABASE_URL: postgres://enodigital:${POSTGRES_PASSWORD}@db:5432/enodigital
+      DATABASE_URL: mysql://enodigital:${DB_PASSWORD}@db:3306/enodigital
     depends_on:
       db:
         condition: service_healthy
@@ -32,4 +34,4 @@ services:
       - "127.0.0.1:3000:3000"
 
 volumes:
-  pgdata:
+  dbdata:

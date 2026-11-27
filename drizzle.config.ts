@@ -3,6 +3,6 @@ import { defineConfig } from "drizzle-kit";
 export default defineConfig({
   schema: "./src/server/db/schema.ts",
   out: "./drizzle",
-  dialect: "postgresql",
-  dbCredentials: { url: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/eno" },
+  dialect: "mysql",
+  dbCredentials: { url: process.env.DATABASE_URL ?? "mysql://eno:eno-pass@127.0.0.1:3307/eno" },
 });

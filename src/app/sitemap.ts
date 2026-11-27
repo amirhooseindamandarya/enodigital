@@ -3,7 +3,7 @@ import { getSite, SITE_URL } from "@/cms/site";
 import { allPaths, alternatesFor, matchPath } from "@/cms/routes";
 import { localeMeta } from "@/cms/i18n";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const site = await getSite();

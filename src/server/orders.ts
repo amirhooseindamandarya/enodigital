@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql, lt } from "drizzle-orm";
 import { db, schema } from "./db";
 import { getSettings } from "./settings";
 import type { BuyerSnapshot, L10n } from "./db/schema";
@@ -24,7 +24,7 @@ export async function activeCatalog(productKey?: string) {
 export type CouponCheck = { ok: true; coupon: typeof schema.coupons.$inferSelect } | { ok: false; reason: "notfound" | "expired" | "used" | "product" | "inactive" };
 
 export async function checkCoupon(code: string, productId: number): Promise<CouponCheck> {
-  const c = await db.query.coupons.findFirst({ where: sql`upper(${schema.coupons.code}) = upper(${code.trim()})` });
+  const c = await db.query.coupons.findFirst({ where: eq(schema.coupons.code, code.trim().toUpperCase()) });
   if (!c) return { ok: false, reason: "notfound" };
   if (!c.active) return { ok: false, reason: "inactive" };
   if (c.expiresAt && c.expiresAt < new Date()) return { ok: false, reason: "expired" };
@@ -87,9 +87,10 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
 
   const orderId = await db.transaction(async (tx) => {
     const [o] = await tx.insert(schema.orders).values({
+      buyerSearch: [buyer.name, buyer.phone, buyer.company, buyer.email].filter(Boolean).join(" ").slice(0, 400),
       userId: user.id, status: totals.total === 0 ? "paid" : "pending", ...totals, taxRate: settings.taxRate,
       couponCode: coupon?.code ?? null, buyer, customerNote: input.customerNote?.slice(0, 2000) || null, locale: input.locale,
-    }).returning({ id: schema.orders.id });
+    }).$returningId();
     await tx.insert(schema.orderItems).values({
       orderId: o.id, productId: plan.productId, planId: plan.id, renewSubscriptionId: input.renewSubscriptionId ?? null,
       title, period: plan.period, durationDays: plan.durationDays, unitPrice: plan.price, quantity: 1,
@@ -119,8 +120,8 @@ export async function fulfillOrder(orderId: number, payment: { id: number; refId
     }
     if (order.paidAt && order.status !== "pending" && order.status !== "failed") return { ok: true as const, already: true };
 
-    await tx.update(schema.orders).set({ status: "paid", paidAt: now, ...(opts.manual ? { adminNote: sql`coalesce(${schema.orders.adminNote} || E'\\n', '') || 'پرداخت دستی تأیید شد'` } : {}) }).where(eq(schema.orders.id, orderId));
-    if (order.couponCode) await tx.update(schema.coupons).set({ usedCount: sql`${schema.coupons.usedCount} + 1` }).where(sql`upper(${schema.coupons.code}) = upper(${order.couponCode})`);
+    await tx.update(schema.orders).set({ status: "paid", paidAt: now, ...(opts.manual ? { adminNote: [order.adminNote, "پرداخت دستی تأیید شد"].filter(Boolean).join("\n") } : {}) }).where(eq(schema.orders.id, orderId));
+    if (order.couponCode) await tx.update(schema.coupons).set({ usedCount: sql`${schema.coupons.usedCount} + 1` }).where(eq(schema.coupons.code, order.couponCode.toUpperCase()));
 
     for (const it of already) {
       const days = it.durationDays * it.quantity;
@@ -152,7 +153,7 @@ export function effectiveSubStatus(s: { status: string; endsAt: Date | null }) {
 
 /** به‌روزرسانی دسته‌ای اشتراک‌های منقضی (در داشبورد مدیریت اجرا می‌شود) */
 export async function sweepExpired() {
-  await db.update(schema.subscriptions).set({ status: "expired" }).where(and(eq(schema.subscriptions.status, "active"), sql`${schema.subscriptions.endsAt} < now()`));
+  await db.update(schema.subscriptions).set({ status: "expired" }).where(and(eq(schema.subscriptions.status, "active"), lt(schema.subscriptions.endsAt, new Date())));
 }
 
 export async function userOrders(userId: number) {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, like, or, sql } from "drizzle-orm";
 import { Badge, Btn, PageTitle, Table, inputCls, td } from "@/account/ui";
 import { Filters, Pager } from "@/admin/pager";
 import { nFa, pageOf } from "@/admin/util";
@@ -16,12 +16,12 @@ export default async function Customers({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   const { page, limit, offset } = pageOf(sp);
   const q = latinDigits(sp.q?.trim() ?? "");
-  const where = and(eq(schema.users.role, "customer"), q ? or(ilike(schema.users.name, `%${q}%`), ilike(schema.users.phone, `%${q}%`), ilike(schema.users.email, `%${q}%`), ilike(schema.users.company, `%${q}%`)) : undefined);
+  const where = and(eq(schema.users.role, "customer"), q ? or(like(schema.users.name, `%${q}%`), like(schema.users.phone, `%${q}%`), like(schema.users.email, `%${q}%`), like(schema.users.company, `%${q}%`)) : undefined);
   const rows = await db.select({
     u: schema.users,
-    orders: sql<number>`(select count(*)::int from orders o where o.user_id = ${schema.users.id} and o.status in ('paid','completed'))`,
-    spent: sql<number>`(select coalesce(sum(o.total),0)::bigint from orders o where o.user_id = ${schema.users.id} and o.status in ('paid','completed'))`,
-    active: sql<number>`(select count(*)::int from subscriptions s where s.user_id = ${schema.users.id} and s.status = 'active')`,
+    orders: sql<number>`(select count(*) from orders o where o.user_id = ${schema.users.id} and o.status in ('paid','completed'))`.mapWith(Number),
+    spent: sql<number>`(select coalesce(sum(o.total),0) from orders o where o.user_id = ${schema.users.id} and o.status in ('paid','completed'))`.mapWith(Number),
+    active: sql<number>`(select count(*) from subscriptions s where s.user_id = ${schema.users.id} and s.status = 'active')`.mapWith(Number),
   }).from(schema.users).where(where).orderBy(desc(schema.users.id)).limit(limit + 1).offset(offset);
   return (
     <>

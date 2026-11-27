@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
+import { and, count, desc, eq, gte, inArray, lte, sql, type SQL } from "drizzle-orm";
 import { Badge, Btn, Card, Empty, PageTitle, Stat, orderTone, ticketTone } from "@/account/ui";
 import { RevenueChart } from "@/admin/revenue-chart";
 import { fa, nFa, orderStatusFa, ticketStatusFa } from "@/admin/util";
@@ -16,30 +16,37 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
   const { denied } = await searchParams;
   await sweepExpired();
   const settings = await getSettings();
-  const since30 = sql`now() - interval '30 days'`;
+  const since30 = new Date(Date.now() - 30 * 86400_000);
+  const since14 = new Date(Date.now() - 15 * 86400_000);
   const warnUntil = new Date(Date.now() + settings.expiryWarnDays * 86400_000);
-  const count = (t: Parameters<typeof db.select>[0] extends never ? never : any, w: any) => db.select({ c: sql<number>`count(*)::int` }).from(t).where(w).then((r) => r[0]?.c ?? 0); // eslint-disable-line @typescript-eslint/no-explicit-any
+  const countWhere = (t: Parameters<ReturnType<typeof db.select>["from"]>[0], w: SQL | undefined) => db.select({ c: count() }).from(t).where(w).then((r) => r[0]?.c ?? 0);
+  const paid = inArray(schema.orders.status, ["paid", "completed"]);
 
-  const [rev30, paid30, awaiting, toProcess, activeSubs, expiring, customers, newCustomers, openTickets, series, latest, expiringList, tickets] = await Promise.all([
-    db.select({ s: sql<number>`coalesce(sum(${schema.orders.total}),0)::bigint` }).from(schema.orders).where(and(inArray(schema.orders.status, ["paid", "completed"]), gte(schema.orders.paidAt, since30))).then((r) => Number(r[0]?.s ?? 0)),
-    count(schema.orders, and(inArray(schema.orders.status, ["paid", "completed"]), gte(schema.orders.paidAt, since30))),
-    count(schema.orders, eq(schema.orders.status, "pending")),
-    count(schema.orders, eq(schema.orders.status, "paid")),
-    count(schema.subscriptions, eq(schema.subscriptions.status, "active")),
-    count(schema.subscriptions, and(eq(schema.subscriptions.status, "active"), lte(schema.subscriptions.endsAt, warnUntil))),
-    count(schema.users, eq(schema.users.role, "customer")),
-    count(schema.users, and(eq(schema.users.role, "customer"), gte(schema.users.createdAt, since30))),
-    count(schema.tickets, inArray(schema.tickets.status, ["open", "customer_reply"])),
-    db.execute<{ day: string; amount: string }>(sql`
-      select to_char(d, 'YYYY-MM-DD') as day, coalesce(sum(o.total),0)::bigint as amount
-      from generate_series((now() at time zone 'Asia/Tehran')::date - 13, (now() at time zone 'Asia/Tehran')::date, interval '1 day') d
-      left join orders o on o.status in ('paid','completed') and (o.paid_at at time zone 'Asia/Tehran')::date = d::date
-      group by d order by d`),
+  const [rev30, paid30, awaiting, toProcess, activeSubs, expiring, customers, newCustomers, openTickets, recentPaid, latest, expiringList, tickets] = await Promise.all([
+    db.select({ s: sql<number>`coalesce(sum(${schema.orders.total}), 0)`.mapWith(Number) }).from(schema.orders).where(and(paid, gte(schema.orders.paidAt, since30))).then((r) => r[0]?.s ?? 0),
+    countWhere(schema.orders, and(paid, gte(schema.orders.paidAt, since30))),
+    countWhere(schema.orders, eq(schema.orders.status, "pending")),
+    countWhere(schema.orders, eq(schema.orders.status, "paid")),
+    countWhere(schema.subscriptions, eq(schema.subscriptions.status, "active")),
+    countWhere(schema.subscriptions, and(eq(schema.subscriptions.status, "active"), lte(schema.subscriptions.endsAt, warnUntil))),
+    countWhere(schema.users, eq(schema.users.role, "customer")),
+    countWhere(schema.users, and(eq(schema.users.role, "customer"), gte(schema.users.createdAt, since30))),
+    countWhere(schema.tickets, inArray(schema.tickets.status, ["open", "customer_reply"])),
+    db.select({ total: schema.orders.total, paidAt: schema.orders.paidAt }).from(schema.orders).where(and(paid, gte(schema.orders.paidAt, since14))),
     db.query.orders.findMany({ orderBy: desc(schema.orders.id), limit: 8, with: { items: true } }),
     db.query.subscriptions.findMany({ where: and(eq(schema.subscriptions.status, "active"), lte(schema.subscriptions.endsAt, warnUntil)), orderBy: schema.subscriptions.endsAt, limit: 8, with: { user: true, product: true } }),
     db.query.tickets.findMany({ where: inArray(schema.tickets.status, ["open", "customer_reply"]), orderBy: desc(schema.tickets.updatedAt), limit: 6, with: { user: true } }),
   ]);
-  const chart = [...series].map((r) => ({ day: r.day, amount: Number(r.amount), label: new Intl.DateTimeFormat("fa-IR-u-ca-persian", { month: "numeric", day: "numeric" }).format(new Date(`${r.day}T12:00:00+03:30`)) }));
+
+  // درآمد ۱۴ روز اخیر به تفکیک روز (به وقت تهران)
+  const tehranDay = (d: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tehran", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+  const byDay = new Map<string, number>();
+  for (const o of recentPaid) if (o.paidAt) byDay.set(tehranDay(o.paidAt), (byDay.get(tehranDay(o.paidAt)) ?? 0) + o.total);
+  const chart = Array.from({ length: 14 }, (_, i) => {
+    const d = new Date(Date.now() - (13 - i) * 86400_000);
+    const day = tehranDay(d);
+    return { day, amount: byDay.get(day) ?? 0, label: new Intl.DateTimeFormat("fa-IR-u-ca-persian", { month: "numeric", day: "numeric", timeZone: "Asia/Tehran" }).format(d) };
+  });
 
   return (
     <>

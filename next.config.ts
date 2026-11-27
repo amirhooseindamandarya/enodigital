@@ -14,7 +14,9 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   reactStrictMode: true,
   poweredByHeader: false,
-  serverExternalPackages: ["postgres"],
+  serverExternalPackages: ["mysql2"],
+  // در زمان اجرا لازم نیستند (پیکربندی در server.js جاسازی می‌شود و بهینه‌سازی تصویر خاموش است)
+  outputFileTracingExcludes: { "*": ["node_modules/typescript/**", "node_modules/sharp/**", "node_modules/@img/**"] },
   experimental: { globalNotFound: true },
   /** آدرس‌های قدیمی سایت (هم‌چنین در redirects بستهٔ CMS) */
   async redirects() {

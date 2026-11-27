@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { and, eq, ne, sql } from "drizzle-orm";
+import { and, eq, ne, sql, count, or } from "drizzle-orm";
 import { db, schema } from "@/server/db";
 import { hashPassword, passwordProblem, verifyPassword } from "@/server/auth/password";
 import { createSession, destroySession, revokeAllSessions } from "@/server/auth/session";
@@ -36,7 +36,7 @@ export async function adminLoginAction(_: ActionState, fd: FormData): Promise<Ac
   const phone = normalizePhone(id);
   const email = normalizeEmail(id);
   const user = phone ? await db.query.users.findFirst({ where: eq(schema.users.phone, phone) })
-    : email ? await db.query.users.findFirst({ where: sql`lower(${schema.users.email}) = ${email}` }) : undefined;
+    : email ? await db.query.users.findFirst({ where: eq(schema.users.email, email) }) : undefined;
   if (!user || user.role === "customer" || user.status !== "active" || !(await verifyPassword(pw, user.passwordHash))) return err("اطلاعات ورود درست نیست یا دسترسی مدیریت ندارید.");
   await createSession(user.id);
   await audit(user.id, "login", "user", user.id);
@@ -63,7 +63,7 @@ export async function saveProductAction(_: ActionState, fd: FormData): Promise<A
   const values = { key, name, description: l10n(fd, "desc"), active: b(fd, "active"), sort: n(fd, "sort") };
   if (id) await db.update(schema.products).set(values).where(eq(schema.products.id, id));
   else {
-    const [p] = await db.insert(schema.products).values(values).returning({ id: schema.products.id });
+    const [p] = await db.insert(schema.products).values(values).$returningId();
     await audit(me.id, "create", "product", p.id, { key });
     redirect(`/admin/products/${p.id}/`);
   }
@@ -103,7 +103,7 @@ export async function deletePlanAction(fd: FormData) {
   const id = n(fd, "id");
   const plan = await db.query.plans.findFirst({ where: eq(schema.plans.id, id) });
   if (!plan) redirect("/admin/products/");
-  const [used] = await db.select({ c: sql<number>`count(*)::int` }).from(schema.orderItems).where(eq(schema.orderItems.planId, id));
+  const [used] = await db.select({ c: count() }).from(schema.orderItems).where(eq(schema.orderItems.planId, id));
   if ((used?.c ?? 0) > 0) await db.update(schema.plans).set({ active: false }).where(eq(schema.plans.id, id));
   else await db.delete(schema.plans).where(eq(schema.plans.id, id));
   await audit(me.id, used?.c ? "deactivate" : "delete", "plan", id);
@@ -171,7 +171,7 @@ export async function saveCustomerAction(_: ActionState, fd: FormData): Promise<
   if (name.length < 2) return err("نام لازم است.");
   if (!phone) return err("شمارهٔ موبایل معتبر نیست.");
   if (emailRaw && !email) return err("ایمیل معتبر نیست.");
-  const dup = await db.query.users.findFirst({ where: and(id ? ne(schema.users.id, id) : sql`true`, email ? sql`(${schema.users.phone} = ${phone} or lower(${schema.users.email}) = ${email})` : eq(schema.users.phone, phone)) });
+  const dup = await db.query.users.findFirst({ where: and(id ? ne(schema.users.id, id) : sql`true`, email ? or(eq(schema.users.phone, phone), eq(schema.users.email, email)) : eq(schema.users.phone, phone)) });
   if (dup) return err(dup.phone === phone ? "این شماره برای کاربر دیگری ثبت شده است." : "این ایمیل برای کاربر دیگری ثبت شده است.");
   const values = {
     name, phone, email,
@@ -182,7 +182,7 @@ export async function saveCustomerAction(_: ActionState, fd: FormData): Promise<
   const pw = String(fd.get("password") ?? "");
   if (!id) {
     if (passwordProblem(pw)) return err("برای کاربر جدید رمز عبور حداقل ۸ نویسه‌ای تعیین کنید.");
-    const [u] = await db.insert(schema.users).values({ ...values, passwordHash: await hashPassword(pw) }).returning({ id: schema.users.id });
+    const [u] = await db.insert(schema.users).values({ ...values, passwordHash: await hashPassword(pw) }).$returningId();
     await audit(me.id, "create", "user", u.id);
     redirect(`/admin/customers/${u.id}/`);
   }
@@ -212,7 +212,7 @@ export async function saveCouponAction(_: ActionState, fd: FormData): Promise<Ac
   const value = Math.round(n(fd, "value"));
   if (!/^[A-Z0-9_-]{3,32}$/.test(code)) return err("کد باید ۳ تا ۳۲ نویسهٔ انگلیسی، عدد، - یا _ باشد.");
   if (value <= 0 || (kind === "percent" && value > 100)) return err("مقدار تخفیف نامعتبر است (درصد بین ۱ تا ۱۰۰).");
-  const dup = await db.query.coupons.findFirst({ where: and(sql`upper(${schema.coupons.code}) = ${code}`, id ? ne(schema.coupons.id, id) : sql`true`) });
+  const dup = await db.query.coupons.findFirst({ where: and(eq(schema.coupons.code, code), id ? ne(schema.coupons.id, id) : sql`true`) });
   if (dup) return err("این کد قبلاً ساخته شده است.");
   const exp = s(fd, "expiresAt");
   const values = {
@@ -304,7 +304,7 @@ export async function saveStaffAction(_: ActionState, fd: FormData): Promise<Act
     const pw = String(fd.get("password") ?? "");
     if (name.length < 2) return err("نام لازم است.");
     if (passwordProblem(pw)) return err("رمز عبور حداقل ۸ نویسه.");
-    const [u] = await db.insert(schema.users).values({ name, phone, passwordHash: await hashPassword(pw), role }).returning({ id: schema.users.id });
+    const [u] = await db.insert(schema.users).values({ name, phone, passwordHash: await hashPassword(pw), role }).$returningId();
     await audit(me.id, "create", "user", u.id, { role });
   }
   revalidatePath("/admin", "layout");

@@ -29,5 +29,5 @@ export async function getSettings(): Promise<StoreSettings> {
 }
 
 export async function saveSettings(v: StoreSettings) {
-  await db.insert(schema.settings).values({ key: "store", value: v }).onConflictDoUpdate({ target: schema.settings.key, set: { value: v } });
+  await db.insert(schema.settings).values({ key: "store", value: v }).onDuplicateKeyUpdate({ set: { value: v } });
 }

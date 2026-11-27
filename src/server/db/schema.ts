@@ -1,94 +1,119 @@
 /**
- * مدل دادهٔ فروش اشتراک: کاربران، محصولات و پلن‌ها، سفارش‌ها، پرداخت‌ها، اشتراک‌ها، کوپن، تیکت و تنظیمات.
- * مبالغ همه به «ریال» و عدد صحیح ذخیره می‌شوند.
+ * مدل دادهٔ فروش اشتراک (MySQL 8 / MariaDB 10.5+):
+ * کاربران، محصولات و پلن‌ها، سفارش‌ها، پرداخت‌ها، اشتراک‌ها، کوپن، تیکت و تنظیمات.
+ * مبالغ همه «ریال» و عدد صحیح‌اند؛ زمان‌ها به UTC ذخیره می‌شوند.
  */
-import { relations, sql } from "drizzle-orm";
-import { bigint, boolean, index, integer, jsonb, pgEnum, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import {
+  bigint, boolean, customType, datetime, index, int, mysqlEnum, mysqlTable, text, uniqueIndex, varchar,
+} from "drizzle-orm/mysql-core";
 
 export type L10n = { fa: string; en?: string; ar?: string };
 export type L10nList = { fa: string[]; en?: string[]; ar?: string[] };
 
-const money = (name: string) => bigint(name, { mode: "number" }).notNull().default(0);
-const created = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
-const updated = () => timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date());
+/** JSON که در MySQL (نوع JSON) و MariaDB (LONGTEXT) یکسان کار کند */
+const json = <T>(name: string) =>
+  customType<{ data: T; driverData: string | T }>({
+    dataType: () => "json",
+    toDriver: (v) => JSON.stringify(v) as unknown as T,
+    fromDriver: (v) => (typeof v === "string" ? (JSON.parse(v) as T) : v),
+  })(name);
 
-export const roleEnum = pgEnum("user_role", ["customer", "staff", "admin"]);
-export const userStatusEnum = pgEnum("user_status", ["active", "blocked"]);
-export const periodEnum = pgEnum("billing_period", ["monthly", "quarterly", "semiannual", "yearly", "one_time"]);
-export const orderStatusEnum = pgEnum("order_status", ["pending", "paid", "completed", "cancelled", "failed", "refunded"]);
-export const paymentStatusEnum = pgEnum("payment_status", ["initiated", "paid", "failed", "cancelled"]);
-export const subStatusEnum = pgEnum("subscription_status", ["pending", "active", "expired", "cancelled", "suspended"]);
-export const couponKindEnum = pgEnum("coupon_kind", ["percent", "fixed"]);
-export const ticketStatusEnum = pgEnum("ticket_status", ["open", "answered", "customer_reply", "closed"]);
-export const ticketPriorityEnum = pgEnum("ticket_priority", ["low", "normal", "high"]);
+/** کلید اصلی BIGINT UNSIGNED AUTO_INCREMENT (سازگار با MySQL و MariaDB؛ SERIAL در MariaDB خطا می‌دهد) */
+const id = () => bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey();
+/** کلید خارجی به serial (BIGINT UNSIGNED) */
+const ref = (name: string) => bigint(name, { mode: "number", unsigned: true });
+const money = (name: string) => bigint(name, { mode: "number" }).notNull().default(0);
+const time = (name: string) => datetime(name, { mode: "date", fsp: 3 });
+const created = () => time("created_at").notNull().$defaultFn(() => new Date());
+const updated = () => time("updated_at").notNull().$defaultFn(() => new Date()).$onUpdate(() => new Date());
+
+export const ROLES = ["customer", "staff", "admin"] as const;
+export const USER_STATUS = ["active", "blocked"] as const;
+export const PERIODS = ["monthly", "quarterly", "semiannual", "yearly", "one_time"] as const;
+export const ORDER_STATUS = ["pending", "paid", "completed", "cancelled", "failed", "refunded"] as const;
+export const PAYMENT_STATUS = ["initiated", "paid", "failed", "cancelled"] as const;
+export const SUB_STATUS = ["pending", "active", "expired", "cancelled", "suspended"] as const;
+export const COUPON_KIND = ["percent", "fixed"] as const;
+export const TICKET_STATUS = ["open", "answered", "customer_reply", "closed"] as const;
+export const TICKET_PRIORITY = ["low", "normal", "high"] as const;
+
+/** سازگاری با کدهای قبلی (schema.xxxEnum.enumValues) */
+const en = <T extends readonly string[]>(enumValues: T) => ({ enumValues });
+export const roleEnum = en(ROLES);
+export const periodEnum = en(PERIODS);
+export const orderStatusEnum = en(ORDER_STATUS);
+export const paymentStatusEnum = en(PAYMENT_STATUS);
+export const subStatusEnum = en(SUB_STATUS);
+export const ticketStatusEnum = en(TICKET_STATUS);
 
 /* ---------------- کاربران و نشست‌ها ---------------- */
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  phone: text("phone").notNull(),
-  email: text("email"),
-  passwordHash: text("password_hash").notNull(),
-  role: roleEnum("role").notNull().default("customer"),
-  status: userStatusEnum("status").notNull().default("active"),
-  locale: text("locale").notNull().default("fa"),
-  /** اطلاعات صورت‌حساب رسمی */
-  company: text("company"),
-  nationalId: text("national_id"),
-  economicCode: text("economic_code"),
-  postalCode: text("postal_code"),
+export const users = mysqlTable("users", {
+  id: id(),
+  name: varchar("name", { length: 120 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  /** همیشه با حروف کوچک ذخیره می‌شود */
+  email: varchar("email", { length: 190 }),
+  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+  role: mysqlEnum("role", ROLES).notNull().default("customer"),
+  status: mysqlEnum("status", USER_STATUS).notNull().default("active"),
+  locale: varchar("locale", { length: 5 }).notNull().default("fa"),
+  company: varchar("company", { length: 200 }),
+  nationalId: varchar("national_id", { length: 20 }),
+  economicCode: varchar("economic_code", { length: 20 }),
+  postalCode: varchar("postal_code", { length: 20 }),
   address: text("address"),
   createdAt: created(),
   updatedAt: updated(),
-  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
-}, (t) => [uniqueIndex("users_phone_uq").on(t.phone), uniqueIndex("users_email_uq").on(sql`lower(${t.email})`)]);
+  lastLoginAt: time("last_login_at"),
+}, (t) => [uniqueIndex("users_phone_uq").on(t.phone), uniqueIndex("users_email_uq").on(t.email)]);
 
-export const sessions = pgTable("sessions", {
+export const sessions = mysqlTable("sessions", {
   /** sha256 توکن؛ خود توکن فقط در کوکی کاربر است */
-  id: text("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  id: varchar("id", { length: 64 }).primaryKey(),
+  userId: ref("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: time("expires_at").notNull(),
   createdAt: created(),
-  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
-  ip: text("ip"),
-  userAgent: text("user_agent"),
+  lastSeenAt: time("last_seen_at").notNull().$defaultFn(() => new Date()),
+  ip: varchar("ip", { length: 64 }),
+  userAgent: varchar("user_agent", { length: 300 }),
 }, (t) => [index("sessions_user_idx").on(t.userId)]);
 
-export const otpCodes = pgTable("otp_codes", {
-  id: serial("id").primaryKey(),
-  phone: text("phone").notNull(),
-  purpose: text("purpose").notNull(),
-  codeHash: text("code_hash").notNull(),
-  attempts: integer("attempts").notNull().default(0),
-  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-  usedAt: timestamp("used_at", { withTimezone: true }),
+export const otpCodes = mysqlTable("otp_codes", {
+  id: id(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  purpose: varchar("purpose", { length: 20 }).notNull(),
+  codeHash: varchar("code_hash", { length: 64 }).notNull(),
+  attempts: int("attempts").notNull().default(0),
+  expiresAt: time("expires_at").notNull(),
+  usedAt: time("used_at"),
   createdAt: created(),
 }, (t) => [index("otp_phone_idx").on(t.phone, t.purpose)]);
 
 /* ---------------- محصولات و پلن‌ها ---------------- */
-export const products = pgTable("products", {
-  id: serial("id").primaryKey(),
-  key: text("key").notNull().unique(),
-  name: jsonb("name").$type<L10n>().notNull(),
-  description: jsonb("description").$type<L10n>().notNull().default({ fa: "" }),
+export const products = mysqlTable("products", {
+  id: id(),
+  key: varchar("key", { length: 50 }).notNull().unique(),
+  name: json<L10n>("name").notNull(),
+  description: json<L10n>("description").notNull(),
   active: boolean("active").notNull().default(true),
-  sort: integer("sort").notNull().default(0),
+  sort: int("sort").notNull().default(0),
   createdAt: created(),
   updatedAt: updated(),
 });
 
-export const plans = pgTable("plans", {
-  id: serial("id").primaryKey(),
-  productId: integer("product_id").notNull().references(() => products.id, { onDelete: "restrict" }),
-  name: jsonb("name").$type<L10n>().notNull(),
-  description: jsonb("description").$type<L10n>().notNull().default({ fa: "" }),
-  features: jsonb("features").$type<L10nList>().notNull().default({ fa: [] }),
+export const plans = mysqlTable("plans", {
+  id: id(),
+  productId: ref("product_id").notNull().references(() => products.id, { onDelete: "restrict" }),
+  name: json<L10n>("name").notNull(),
+  description: json<L10n>("description").notNull(),
+  features: json<L10nList>("features").notNull(),
   price: money("price"),
-  period: periodEnum("period").notNull().default("monthly"),
-  durationDays: integer("duration_days").notNull().default(30),
+  period: mysqlEnum("period", PERIODS).notNull().default("monthly"),
+  durationDays: int("duration_days").notNull().default(30),
   highlighted: boolean("highlighted").notNull().default(false),
   active: boolean("active").notNull().default(true),
-  sort: integer("sort").notNull().default(0),
+  sort: int("sort").notNull().default(0),
   createdAt: created(),
   updatedAt: updated(),
 }, (t) => [index("plans_product_idx").on(t.productId)]);
@@ -96,120 +121,123 @@ export const plans = pgTable("plans", {
 /* ---------------- سفارش و پرداخت ---------------- */
 export type BuyerSnapshot = { name: string; phone: string; email?: string | null; company?: string | null; nationalId?: string | null; economicCode?: string | null; postalCode?: string | null; address?: string | null };
 
-export const orders = pgTable("orders", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
-  status: orderStatusEnum("status").notNull().default("pending"),
+export const orders = mysqlTable("orders", {
+  id: id(),
+  userId: ref("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  status: mysqlEnum("status", ORDER_STATUS).notNull().default("pending"),
   subtotal: money("subtotal"),
   discount: money("discount"),
-  taxRate: integer("tax_rate").notNull().default(0),
+  taxRate: int("tax_rate").notNull().default(0),
   tax: money("tax"),
   total: money("total"),
-  couponCode: text("coupon_code"),
-  buyer: jsonb("buyer").$type<BuyerSnapshot>().notNull(),
+  couponCode: varchar("coupon_code", { length: 32 }),
+  buyer: json<BuyerSnapshot>("buyer").notNull(),
+  /** برای جست‌وجوی سریع در پنل (نام، موبایل و شرکت خریدار) */
+  buyerSearch: varchar("buyer_search", { length: 400 }),
   customerNote: text("customer_note"),
   adminNote: text("admin_note"),
-  locale: text("locale").notNull().default("fa"),
+  locale: varchar("locale", { length: 5 }).notNull().default("fa"),
   createdAt: created(),
   updatedAt: updated(),
-  paidAt: timestamp("paid_at", { withTimezone: true }),
-}, (t) => [index("orders_user_idx").on(t.userId), index("orders_status_idx").on(t.status)]);
+  paidAt: time("paid_at"),
+}, (t) => [index("orders_user_idx").on(t.userId), index("orders_status_idx").on(t.status), index("orders_paid_idx").on(t.paidAt)]);
 
-export const orderItems = pgTable("order_items", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
-  productId: integer("product_id").notNull().references(() => products.id),
-  planId: integer("plan_id").notNull().references(() => plans.id),
+export const orderItems = mysqlTable("order_items", {
+  id: id(),
+  orderId: ref("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
+  productId: ref("product_id").notNull().references(() => products.id),
+  planId: ref("plan_id").notNull().references(() => plans.id),
   /** اگر پر باشد، این قلم تمدید همین اشتراک است */
-  renewSubscriptionId: integer("renew_subscription_id"),
-  title: jsonb("title").$type<L10n>().notNull(),
-  period: periodEnum("period").notNull(),
-  durationDays: integer("duration_days").notNull(),
+  renewSubscriptionId: ref("renew_subscription_id"),
+  title: json<L10n>("title").notNull(),
+  period: mysqlEnum("period", PERIODS).notNull(),
+  durationDays: int("duration_days").notNull(),
   unitPrice: money("unit_price"),
-  quantity: integer("quantity").notNull().default(1),
-});
+  quantity: int("quantity").notNull().default(1),
+}, (t) => [index("items_order_idx").on(t.orderId), index("items_renew_idx").on(t.renewSubscriptionId)]);
 
-export const payments = pgTable("payments", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
-  gateway: text("gateway").notNull(),
+export const payments = mysqlTable("payments", {
+  id: id(),
+  orderId: ref("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
+  gateway: varchar("gateway", { length: 30 }).notNull(),
   amount: money("amount"),
-  authority: text("authority"),
-  refId: text("ref_id"),
-  cardPan: text("card_pan"),
-  status: paymentStatusEnum("status").notNull().default("initiated"),
-  message: text("message"),
-  raw: jsonb("raw"),
+  authority: varchar("authority", { length: 100 }),
+  refId: varchar("ref_id", { length: 100 }),
+  cardPan: varchar("card_pan", { length: 30 }),
+  status: mysqlEnum("status", PAYMENT_STATUS).notNull().default("initiated"),
+  message: varchar("message", { length: 500 }),
+  raw: json<unknown>("raw"),
   createdAt: created(),
-  verifiedAt: timestamp("verified_at", { withTimezone: true }),
+  verifiedAt: time("verified_at"),
 }, (t) => [uniqueIndex("payments_authority_uq").on(t.gateway, t.authority), index("payments_order_idx").on(t.orderId)]);
 
 /* ---------------- اشتراک‌ها ---------------- */
-export const subscriptions = pgTable("subscriptions", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
-  productId: integer("product_id").notNull().references(() => products.id),
-  planId: integer("plan_id").notNull().references(() => plans.id),
-  status: subStatusEnum("status").notNull().default("pending"),
-  startsAt: timestamp("starts_at", { withTimezone: true }),
-  endsAt: timestamp("ends_at", { withTimezone: true }),
+export const subscriptions = mysqlTable("subscriptions", {
+  id: id(),
+  userId: ref("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  productId: ref("product_id").notNull().references(() => products.id),
+  planId: ref("plan_id").notNull().references(() => plans.id),
+  status: mysqlEnum("status", SUB_STATUS).notNull().default("pending"),
+  startsAt: time("starts_at"),
+  endsAt: time("ends_at"),
   /** اطلاعات دسترسی که تیم پس از راه‌اندازی برای مشتری ثبت می‌کند */
-  accessUrl: text("access_url"),
+  accessUrl: varchar("access_url", { length: 500 }),
   accessNote: text("access_note"),
-  lastOrderId: integer("last_order_id"),
+  lastOrderId: ref("last_order_id"),
   createdAt: created(),
   updatedAt: updated(),
-}, (t) => [index("subs_user_idx").on(t.userId), index("subs_ends_idx").on(t.endsAt)]);
+}, (t) => [index("subs_user_idx").on(t.userId), index("subs_ends_idx").on(t.endsAt), index("subs_order_idx").on(t.lastOrderId)]);
 
 /* ---------------- کوپن ---------------- */
-export const coupons = pgTable("coupons", {
-  id: serial("id").primaryKey(),
-  code: text("code").notNull(),
-  kind: couponKindEnum("kind").notNull().default("percent"),
-  value: integer("value").notNull(),
-  productId: integer("product_id").references(() => products.id, { onDelete: "set null" }),
-  maxUses: integer("max_uses"),
-  usedCount: integer("used_count").notNull().default(0),
-  expiresAt: timestamp("expires_at", { withTimezone: true }),
+export const coupons = mysqlTable("coupons", {
+  id: id(),
+  /** همیشه با حروف بزرگ ذخیره می‌شود */
+  code: varchar("code", { length: 32 }).notNull(),
+  kind: mysqlEnum("kind", COUPON_KIND).notNull().default("percent"),
+  value: int("value").notNull(),
+  productId: ref("product_id").references(() => products.id, { onDelete: "set null" }),
+  maxUses: int("max_uses"),
+  usedCount: int("used_count").notNull().default(0),
+  expiresAt: time("expires_at"),
   active: boolean("active").notNull().default(true),
   createdAt: created(),
-}, (t) => [uniqueIndex("coupons_code_uq").on(sql`upper(${t.code})`)]);
+}, (t) => [uniqueIndex("coupons_code_uq").on(t.code)]);
 
 /* ---------------- پشتیبانی ---------------- */
-export const tickets = pgTable("tickets", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  subject: text("subject").notNull(),
-  status: ticketStatusEnum("status").notNull().default("open"),
-  priority: ticketPriorityEnum("priority").notNull().default("normal"),
-  orderId: integer("order_id").references(() => orders.id, { onDelete: "set null" }),
+export const tickets = mysqlTable("tickets", {
+  id: id(),
+  userId: ref("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  subject: varchar("subject", { length: 200 }).notNull(),
+  status: mysqlEnum("status", TICKET_STATUS).notNull().default("open"),
+  priority: mysqlEnum("priority", TICKET_PRIORITY).notNull().default("normal"),
+  orderId: ref("order_id").references(() => orders.id, { onDelete: "set null" }),
   createdAt: created(),
   updatedAt: updated(),
 }, (t) => [index("tickets_user_idx").on(t.userId), index("tickets_status_idx").on(t.status)]);
 
-export const ticketMessages = pgTable("ticket_messages", {
-  id: serial("id").primaryKey(),
-  ticketId: integer("ticket_id").notNull().references(() => tickets.id, { onDelete: "cascade" }),
-  authorId: integer("author_id").references(() => users.id, { onDelete: "set null" }),
+export const ticketMessages = mysqlTable("ticket_messages", {
+  id: id(),
+  ticketId: ref("ticket_id").notNull().references(() => tickets.id, { onDelete: "cascade" }),
+  authorId: ref("author_id").references(() => users.id, { onDelete: "set null" }),
   isStaff: boolean("is_staff").notNull().default(false),
   body: text("body").notNull(),
   createdAt: created(),
-});
+}, (t) => [index("msgs_ticket_idx").on(t.ticketId)]);
 
 /* ---------------- تنظیمات و گزارش فعالیت ---------------- */
-export const settings = pgTable("settings", {
-  key: text("key").primaryKey(),
-  value: jsonb("value").notNull(),
+export const settings = mysqlTable("settings", {
+  key: varchar("key", { length: 50 }).primaryKey(),
+  value: json<unknown>("value").notNull(),
   updatedAt: updated(),
 });
 
-export const auditLogs = pgTable("audit_logs", {
-  id: serial("id").primaryKey(),
-  actorId: integer("actor_id").references(() => users.id, { onDelete: "set null" }),
-  action: text("action").notNull(),
-  entity: text("entity").notNull(),
-  entityId: text("entity_id"),
-  data: jsonb("data"),
+export const auditLogs = mysqlTable("audit_logs", {
+  id: id(),
+  actorId: ref("actor_id").references(() => users.id, { onDelete: "set null" }),
+  action: varchar("action", { length: 30 }).notNull(),
+  entity: varchar("entity", { length: 30 }).notNull(),
+  entityId: varchar("entity_id", { length: 64 }),
+  data: json<unknown>("data"),
   createdAt: created(),
 }, (t) => [index("audit_entity_idx").on(t.entity, t.entityId)]);
 

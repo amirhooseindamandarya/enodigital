@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSite, SITE_URL } from "@/cms/site";
 import { alternatesFor, matchPath, type Match } from "@/cms/routes";
@@ -83,26 +84,12 @@ export default async function Page({ params }: Props) {
       </section>
     );
   }
-  if (m.kind === "notfound") return <NotFoundView locale={l} />;
+  if (m.kind === "notfound") notFound();
 
   const g = resolveGlobals({ site, locale: l }) as unknown as Globals;
   const ctx: SectionCtx = { site, locale: l, dir: localeMeta[l].dir, g, pageKey: m.page.key, crumbs: crumbsFor(site, m, g), siteUrl: SITE_URL };
   if (m.kind === "post") return <PostView ctx={ctx} slug={m.slug} />;
   return <RenderSections sections={m.page.sections} ctx={ctx} />;
-}
-
-function NotFoundView({ locale }: { locale: Locale }) {
-  return (
-    <section className="surface-dark grid min-h-[80vh] place-items-center pt-[72px] text-center">
-      <div className="container-x">
-        <p className="text-[14px] font-bold text-[#f5b82e]">{ui("notFoundCode", locale)}</p>
-        <h1 className="h-section mt-4 text-white">{ui("notFoundTitle", locale)}</h1>
-        <div className="mt-8 flex justify-center gap-3">
-          <Link href={pathFor(locale)} className={buttonVariants({ variant: "light" })}>{ui("home", locale)}</Link>
-        </div>
-      </div>
-    </section>
-  );
 }
 
 function PostView({ ctx, slug }: { ctx: SectionCtx; slug: string }) {

@@ -9,13 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
-      postgres:
-        image: postgres:16
-        env: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: eno }
-        ports: ["5432:5432"]
-        options: --health-cmd pg_isready --health-interval 5s --health-retries 10
+      mysql:
+        image: mysql:8.4
+        env: { MYSQL_ROOT_PASSWORD: root, MYSQL_DATABASE: eno }
+        ports: ["3306:3306"]
+        options: --health-cmd "mysqladmin ping -h 127.0.0.1 -proot --silent" --health-interval 5s --health-retries 20
+      mariadb:
+        image: mariadb:10.11
+        env: { MARIADB_ROOT_PASSWORD: root, MARIADB_DATABASE: eno }
+        ports: ["3307:3306"]
+        options: --health-cmd "healthcheck.sh --connect --innodb_initialized" --health-interval 5s --health-retries 20
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/eno
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/eno
       NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v4
@@ -24,8 +29,11 @@ jobs:
       - run: npm ci
       - name: Typecheck
         run: npx tsc --noEmit
-      - name: Migrations apply cleanly
+      - name: Migrations apply cleanly (MySQL 8)
         run: node scripts/db-setup.mjs
+      - name: Migrations apply cleanly (MariaDB)
+        run: node scripts/db-setup.mjs
+        env: { DATABASE_URL: "mysql://root:root@127.0.0.1:3307/eno" }
       - name: Build
         run: npm run build
       - name: CMS package (validate + zip)
@@ -34,3 +42,9 @@ jobs:
         with:
           name: enodigital-site-package
           path: dist/enodigital-site.zip
+      - name: cPanel bundle
+        run: npm run bundle:cpanel
+      - uses: actions/upload-artifact@v4
+        with:
+          name: enodigital-cpanel
+          path: dist/enodigital-cpanel.zip

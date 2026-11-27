@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql, count } from "drizzle-orm";
 import type { Locale } from "@/cms/types";
 import { db, schema } from "@/server/db";
 import type { L10n, L10nList } from "@/server/db/schema";
@@ -17,8 +17,8 @@ export async function dashboardData(userId: number) {
   const [subs, recent, pending, tickets] = await Promise.all([
     userSubscriptions(userId),
     db.query.orders.findMany({ where: eq(schema.orders.userId, userId), orderBy: desc(schema.orders.id), limit: 5, with: { items: true } }),
-    db.select({ n: sql<number>`count(*)::int` }).from(schema.orders).where(and(eq(schema.orders.userId, userId), eq(schema.orders.status, "pending"))),
-    db.select({ n: sql<number>`count(*)::int` }).from(schema.tickets).where(and(eq(schema.tickets.userId, userId), inArray(schema.tickets.status, ["open", "answered", "customer_reply"]))),
+    db.select({ n: count() }).from(schema.orders).where(and(eq(schema.orders.userId, userId), eq(schema.orders.status, "pending"))),
+    db.select({ n: count() }).from(schema.tickets).where(and(eq(schema.tickets.userId, userId), inArray(schema.tickets.status, ["open", "answered", "customer_reply"]))),
   ]);
   return { subs, recent, pending: pending[0]?.n ?? 0, openTickets: tickets[0]?.n ?? 0 };
 }

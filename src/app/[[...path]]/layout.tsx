@@ -15,8 +15,13 @@ import { at } from "@/account/i18n";
 const vazir = localFont({ src: "../../fonts/Vazirmatn-Variable.woff2", weight: "100 900", display: "swap", variable: "--font-vazir", preload: true });
 
 export const viewport: Viewport = { themeColor: "#071c35", width: "device-width", initialScale: 1 };
-export const dynamicParams = false;
+/**
+ * صفحات یک‌بار ساخته و نگه داشته می‌شوند. با PRERENDER=0 (بستهٔ cPanel) ساخت به اولین درخواست
+ * روی خود سرور موکول می‌شود تا آدرس دامنه از APP_URL همان سرور خوانده شود.
+ */
+export const dynamicParams = true;
 export async function generateStaticParams() {
+  if (process.env.PRERENDER === "0") return [];
   return allPaths(await getSite()).map((path) => ({ path }));
 }
 

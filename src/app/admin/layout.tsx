@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import localFont from "next/font/local";
-import { inArray, eq, sql } from "drizzle-orm";
+import { inArray, eq, sql, count } from "drizzle-orm";
 import { ExternalLink, LogOut } from "lucide-react";
 import "../globals.css";
 import { AdminNav } from "@/admin/nav";
@@ -21,8 +21,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const staff = user && user.role !== "customer" ? user : null;
   let badges = { orders: 0, tickets: 0 };
   if (staff) {
-    const [o] = await db.select({ c: sql<number>`count(*)::int` }).from(schema.orders).where(eq(schema.orders.status, "paid"));
-    const [t] = await db.select({ c: sql<number>`count(*)::int` }).from(schema.tickets).where(inArray(schema.tickets.status, ["open", "customer_reply"]));
+    const [o] = await db.select({ c: count() }).from(schema.orders).where(eq(schema.orders.status, "paid"));
+    const [t] = await db.select({ c: count() }).from(schema.tickets).where(inArray(schema.tickets.status, ["open", "customer_reply"]));
     badges = { orders: o?.c ?? 0, tickets: t?.c ?? 0 };
   }
   return (

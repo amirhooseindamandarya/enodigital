@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { and, eq, or, sql } from "drizzle-orm";
+import { and, eq, or, sql, ne } from "drizzle-orm";
 import { isLocale } from "@/cms/i18n";
 import type { Locale } from "@/cms/types";
 import { db, schema } from "@/server/db";
@@ -42,7 +42,7 @@ export async function loginAction(_: ActionState, fd: FormData): Promise<ActionS
   const email = normalizeEmail(id);
   if (!phone && !email) return fail(l, "errCredentials");
   const user = await db.query.users.findFirst({
-    where: phone ? eq(schema.users.phone, phone) : sql`lower(${schema.users.email}) = ${email}`,
+    where: phone ? eq(schema.users.phone, phone) : eq(schema.users.email, email!),
   });
   if (!user || user.status !== "active" || !(await verifyPassword(password, user.passwordHash))) return fail(l, "errCredentials");
   await createSession(user.id);
@@ -61,9 +61,9 @@ export async function registerAction(_: ActionState, fd: FormData): Promise<Acti
   if (!phone) return fail(l, "errPhone");
   if (emailRaw && !email) return fail(l, "errEmail");
   if (passwordProblem(password)) return fail(l, "errPasswordShort");
-  const exists = await db.query.users.findFirst({ where: email ? or(eq(schema.users.phone, phone), sql`lower(${schema.users.email}) = ${email}`) : eq(schema.users.phone, phone) });
+  const exists = await db.query.users.findFirst({ where: email ? or(eq(schema.users.phone, phone), eq(schema.users.email, email)) : eq(schema.users.phone, phone) });
   if (exists) return fail(l, exists.phone === phone ? "errPhoneTaken" : "errEmailTaken");
-  const [u] = await db.insert(schema.users).values({ name: name.slice(0, 120), phone, email, passwordHash: await hashPassword(password), locale: l }).returning({ id: schema.users.id });
+  const [u] = await db.insert(schema.users).values({ name: name.slice(0, 120), phone, email, passwordHash: await hashPassword(password), locale: l }).$returningId();
   await createSession(u.id);
   redirect(safeNext(str(fd, "next"), l));
 }
@@ -118,7 +118,7 @@ export async function profileAction(_: ActionState, fd: FormData): Promise<Actio
   if (name.length < 2) return fail(l, "errName");
   if (emailRaw && !email) return fail(l, "errEmail");
   if (email) {
-    const other = await db.query.users.findFirst({ where: and(sql`lower(${schema.users.email}) = ${email}`, sql`${schema.users.id} <> ${u.id}`) });
+    const other = await db.query.users.findFirst({ where: and(eq(schema.users.email, email), ne(schema.users.id, u.id)) });
     if (other) return fail(l, "errEmailTaken");
   }
   const pref = str(fd, "pref_locale");
@@ -219,7 +219,7 @@ export async function newTicketAction(_: ActionState, fd: FormData): Promise<Act
   const ownOrder = orderId ? await db.query.orders.findFirst({ where: and(eq(schema.orders.id, orderId), eq(schema.orders.userId, u.id)) }) : null;
   const [t] = await db.insert(schema.tickets).values({
     userId: u.id, subject, priority: pr === "low" || pr === "high" ? pr : "normal", orderId: ownOrder ? ownOrder.id : null,
-  }).returning({ id: schema.tickets.id });
+  }).$returningId();
   await db.insert(schema.ticketMessages).values({ ticketId: t.id, authorId: u.id, isStaff: false, body });
   redirect(accHref(l, `tickets/${t.id}`));
 }

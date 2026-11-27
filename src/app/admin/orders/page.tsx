@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { and, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
+import { and, desc, eq, like, or, sql, type SQL } from "drizzle-orm";
 import { Badge, PageTitle, Table, orderTone, td, inputCls } from "@/account/ui";
 import { Filters, Pager } from "@/admin/pager";
 import { fa, orderStatusFa, pageOf } from "@/admin/util";
@@ -24,9 +24,7 @@ export default async function AdminOrders({ searchParams }: { searchParams: Prom
     const num = Number(q.replace(/^ENO-/i, "")) - 1000;
     conds.push(or(
       Number.isInteger(num) && num > 0 ? eq(schema.orders.id, num) : sql`false`,
-      ilike(sql`${schema.orders.buyer}->>'name'`, `%${q}%`),
-      ilike(sql`${schema.orders.buyer}->>'phone'`, `%${q}%`),
-      ilike(sql`coalesce(${schema.orders.buyer}->>'company','')`, `%${q}%`),
+      like(schema.orders.buyerSearch, `%${q}%`),
     )!);
   }
   const rows = await db.query.orders.findMany({ where: conds.length ? and(...conds) : undefined, orderBy: desc(schema.orders.id), limit: limit + 1, offset, with: { items: true } });

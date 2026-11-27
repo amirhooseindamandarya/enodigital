@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash, randomInt } from "node:crypto";
-import { and, desc, eq, gt, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, gt, isNull, sql, count } from "drizzle-orm";
 import { db, schema } from "./db";
 
 /**
@@ -41,7 +41,7 @@ const OTP_TTL = 5 * 60_000;
 
 /** ساخت و ارسال کد؛ برمی‌گرداند آیا ارسال شد (و در محیط توسعه خود کد را) */
 export async function issueOtp(phone: string, purpose: string) {
-  const recent = await db.select({ n: sql<number>`count(*)::int` }).from(schema.otpCodes)
+  const recent = await db.select({ n: count() }).from(schema.otpCodes)
     .where(and(eq(schema.otpCodes.phone, phone), eq(schema.otpCodes.purpose, purpose), gt(schema.otpCodes.createdAt, new Date(Date.now() - 60 * 60_000))));
   if ((recent[0]?.n ?? 0) >= 5) return { ok: false as const, reason: "limit" as const };
   const code = String(randomInt(100000, 1000000));

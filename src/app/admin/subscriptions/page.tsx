@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { and, desc, eq, lte, ilike, or, type SQL } from "drizzle-orm";
+import { and, desc, eq, lte, like, or, type SQL } from "drizzle-orm";
 import { Badge, PageTitle, Table, inputCls, subTone, td } from "@/account/ui";
 import { Filters, Pager } from "@/admin/pager";
 import { fa, nFa, pageOf, subStatusFa } from "@/admin/util";
@@ -25,7 +25,7 @@ export default async function AdminSubs({ searchParams }: { searchParams: Promis
   if (sp.product) conds.push(eq(schema.subscriptions.productId, Number(sp.product)));
   if (sp.expiring) conds.push(eq(schema.subscriptions.status, "active"), lte(schema.subscriptions.endsAt, new Date(Date.now() + settings.expiryWarnDays * 86400_000)));
   if (sp.q?.trim()) {
-    const users = await db.select({ id: schema.users.id }).from(schema.users).where(or(ilike(schema.users.name, `%${sp.q.trim()}%`), ilike(schema.users.phone, `%${sp.q.trim()}%`), ilike(schema.users.company, `%${sp.q.trim()}%`)));
+    const users = await db.select({ id: schema.users.id }).from(schema.users).where(or(like(schema.users.name, `%${sp.q.trim()}%`), like(schema.users.phone, `%${sp.q.trim()}%`), like(schema.users.company, `%${sp.q.trim()}%`)));
     conds.push(users.length ? or(...users.map((u) => eq(schema.subscriptions.userId, u.id)))! : eq(schema.subscriptions.id, -1));
   }
   const rows = await db.query.subscriptions.findMany({ where: conds.length ? and(...conds) : undefined, orderBy: sp.expiring ? schema.subscriptions.endsAt : desc(schema.subscriptions.id), limit: limit + 1, offset, with: { user: true, product: true, plan: true } });

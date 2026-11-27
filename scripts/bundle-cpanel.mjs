@@ -36,40 +36,12 @@ cpSync(join(ROOT, "scripts/db-setup.mjs"), join(S, "scripts/db-setup.mjs"));
 // migrator دریزل در خروجی standalone ردیابی نمی‌شود
 cpSync(join(ROOT, "node_modules/drizzle-orm"), join(S, "node_modules/drizzle-orm"), { recursive: true });
 for (const f of [".env", ".env.local", ".env.production"]) rmSync(join(S, f), { force: true });
+// کش صفحه‌هایی که ممکن است هنگام آزمون محلی ساخته شده باشند (آدرس دامنهٔ اشتباه دارند)
+for (const d of [".next/cache", ".next/server/route-cache"]) rmSync(join(S, d), { recursive: true, force: true });
+rmSync(join(S, "logs"), { recursive: true, force: true });
 
-writeFileSync(join(APP, "app.js"), `/**
- * فایل شروع برنامه در cPanel (Setup Node.js App → Application startup file: app.js)
- * ۱. تنظیمات را از .env (کنار همین فایل) می‌خواند
- * ۲. جدول‌های پایگاه داده را می‌سازد/به‌روز می‌کند و مدیر کل را ایجاد می‌کند
- * ۳. سرور سایت را اجرا می‌کند
- */
-const fs = require("fs");
-const path = require("path");
-
-const envFile = path.join(__dirname, ".env");
-if (fs.existsSync(envFile)) {
-  for (const line of fs.readFileSync(envFile, "utf8").split(/\\r?\\n/)) {
-    const m = line.match(/^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.*)\\s*$/);
-    if (!m || line.trim().startsWith("#")) continue;
-    let v = m[2];
-    if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1);
-    if (process.env[m[1]] === undefined) process.env[m[1]] = v;
-  }
-}
-process.env.NODE_ENV = "production";
-process.env.NEXT_TELEMETRY_DISABLED = "1";
-if (!process.env.HOSTNAME || !/^[\\d.:]+$|^localhost$/.test(process.env.HOSTNAME)) process.env.HOSTNAME = "0.0.0.0";
-
-(async () => {
-  try {
-    const { setupDatabase } = await import("./server/scripts/db-setup.mjs");
-    await setupDatabase({ log: (m) => console.log("[setup]", m) });
-  } catch (e) {
-    console.error("[setup] آماده‌سازی پایگاه داده ناموفق بود:", e && e.message ? e.message : e);
-  }
-  require("./server/server.js");
-})();
-`);
+// فایل شروع: لاگ در logs/app.log، بررسی نسخهٔ Node، migration و نمایش علت خطا در مرورگر
+cpSync(join(ROOT, "scripts/cpanel-app.js"), join(APP, "app.js"));
 
 writeFileSync(join(APP, "package.json"), JSON.stringify({
   name: "enodigital",

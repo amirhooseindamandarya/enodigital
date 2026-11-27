@@ -45,6 +45,9 @@ SMS_DRIVER=log
 
 ## ۵. ساخت جدول‌ها و اجرا
 
+> **روش دیگر:** به‌جای `npm run db:setup` می‌توانید فایل `database/enodigital.sql` را در phpMyAdmin ← تب Import ایمپورت کنید.
+
+
 ```bash
 npm run db:setup
 ```

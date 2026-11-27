@@ -9,6 +9,7 @@ import { adminLogoutAction } from "@/admin/actions";
 import { roleFa } from "@/admin/util";
 import { getCurrentUser } from "@/server/auth/session";
 import { db, schema } from "@/server/db";
+import { dbProblem } from "@/server/db/health";
 
 const vazir = localFont({ src: "../../fonts/Vazirmatn-Variable.woff2", weight: "100 900", display: "swap", variable: "--font-vazir" });
 
@@ -17,6 +18,24 @@ export const viewport: Viewport = { themeColor: "#071c35", width: "device-width"
 export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  // به‌جای خطای ۵۰۰، علت مشکل پایگاه داده و راه‌حل را نشان بده
+  const problem = await dbProblem();
+  if (problem) {
+    return (
+      <html lang="fa" dir="rtl" className={vazir.variable}>
+        <body className="min-h-dvh bg-paper">
+          <main className="mx-auto grid min-h-dvh max-w-2xl place-items-center px-4 py-10">
+            <div className="w-full rounded-3xl border border-line bg-white p-7 shadow-[var(--shadow-soft)]">
+              <p className="text-[13px] font-bold text-[#c8333a]">پنل مدیریت به پایگاه داده دسترسی ندارد</p>
+              <h1 className="mt-2 text-[22px] font-extrabold leading-9">{problem.title}</h1>
+              <ol className="mt-5 grid list-decimal gap-2.5 ps-5 text-[15px] leading-7 text-ink-2">{problem.fix.map((f, i) => <li key={i}>{f}</li>)}</ol>
+              <p className="mt-6 rounded-xl bg-paper px-4 py-3 text-[13px] text-ink-3">کد خطا: <code dir="ltr" className="font-bold text-ink">{problem.code}</code> · پس از رفع مشکل، صفحه را دوباره بارگذاری کنید.</p>
+            </div>
+          </main>
+        </body>
+      </html>
+    );
+  }
   const user = await getCurrentUser();
   const staff = user && user.role !== "customer" ? user : null;
   let badges = { orders: 0, tickets: 0 };

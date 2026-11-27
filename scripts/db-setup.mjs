@@ -3,10 +3,8 @@
  * تکرارپذیر است؛ اجرای دوباره چیزی را خراب نمی‌کند.
  *   node scripts/db-setup.mjs
  * متغیرها: DATABASE_URL (الزامی، مثل mysql://user:pass@localhost:3306/db)
- *          ADMIN_PHONE و ADMIN_PASSWORD و ADMIN_NAME (ساخت/ارتقای مدیر کل؛ اختیاری)
  */
-import { randomBytes, scrypt as _scrypt } from "node:crypto";
-import { promisify } from "node:util";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import mysql from "mysql2/promise";
@@ -18,12 +16,6 @@ export async function setupDatabase({ log = console.log } = {}) {
   if (!url) throw new Error("DATABASE_URL تنظیم نشده است");
   const here = dirname(fileURLToPath(import.meta.url));
   const conn = await mysql.createConnection({ uri: url, timezone: "Z", charset: "utf8mb4_unicode_ci", multipleStatements: false });
-  const scrypt = promisify(_scrypt);
-  const hash = async (pw) => {
-    const salt = randomBytes(16);
-    const h = await scrypt(pw, salt, 64, { N: 16384, r: 8, p: 1, maxmem: 64 * 1024 * 1024 });
-    return ["scrypt", 16384, 8, 1, salt.toString("base64"), h.toString("base64")].join("$");
-  };
   try {
     // برای متن فارسی: پیش‌فرض پایگاه داده utf8mb4 (جدول‌های جدید از آن پیروی می‌کنند)
     try {
@@ -48,23 +40,24 @@ export async function setupDatabase({ log = console.log } = {}) {
     }
     log("✓ products");
 
-    const phone = process.env.ADMIN_PHONE, password = process.env.ADMIN_PASSWORD;
-    if (phone && password) {
-      if (password.length < 8) throw new Error("ADMIN_PASSWORD باید حداقل ۸ نویسه باشد");
-      const [rows] = await conn.execute("SELECT `id` FROM `users` WHERE `phone` = ?", [phone]);
-      if (rows.length) await conn.execute("UPDATE `users` SET `role` = 'admin', `status` = 'active' WHERE `id` = ?", [rows[0].id]);
-      else await conn.execute(
-        "INSERT INTO `users` (`name`, `phone`, `password_hash`, `role`, `status`, `locale`, `created_at`, `updated_at`) VALUES (?, ?, ?, 'admin', 'active', 'fa', ?, ?)",
-        [process.env.ADMIN_NAME || "مدیر", phone, await hash(password), now, now],
-      );
-      log(`✓ admin ${phone}`);
-    }
+    // مدیر کل در پایگاه داده نگه‌داری می‌شود و در اولین ورود از صفحهٔ /admin/setup/ ساخته می‌شود
+    const [admins] = await conn.query("SELECT COUNT(*) AS c FROM `users` WHERE `role` = 'admin'");
+    log(Number(admins[0].c) ? "✓ admin" : "! هنوز مدیر کل ساخته نشده؛ به /admin/setup/ بروید");
   } finally {
     await conn.end();
   }
 }
 
-// اجرای مستقیم: node scripts/db-setup.mjs
+// اجرای مستقیم: node scripts/db-setup.mjs (متغیرها از محیط، یا از .env.local / .env در پوشهٔ جاری)
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  for (const f of [".env.local", ".env"]) {
+    if (!existsSync(f)) continue;
+    for (const line of readFileSync(f, "utf8").split(/\r?\n/)) {
+      const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+      if (!m || line.trim().startsWith("#")) continue;
+      const v = m[2].replace(/^(['"])(.*)\1$/, "$2");
+      if (process.env[m[1]] === undefined) process.env[m[1]] = v;
+    }
+  }
   setupDatabase().catch((e) => { console.error(e); process.exit(1); });
 }

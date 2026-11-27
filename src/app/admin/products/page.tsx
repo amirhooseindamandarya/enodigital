@@ -4,10 +4,9 @@ import { ActionForm, Submit } from "@/account/form";
 import { Badge, Card, Field, Input, PageTitle } from "@/account/ui";
 import { saveProductAction } from "@/admin/actions";
 import { L10nInput } from "@/admin/l10n-fields";
-import { fa, nFa } from "@/admin/util";
+import { fa, nFa, priceFa } from "@/admin/util";
 import { requireStaff } from "@/server/auth/guards";
 import { db, schema } from "@/server/db";
-import { fmtToman } from "@/lib/money";
 
 export const metadata = { title: "محصولات و پلن‌ها" };
 
@@ -24,7 +23,7 @@ export default async function Products() {
             <Link key={p.id} href={`/admin/products/${p.id}/`} className="rounded-2xl border border-line bg-white p-5 transition-shadow hover:shadow-[var(--shadow-soft)]">
               <div className="flex items-start justify-between gap-2"><span className="text-[18px] font-extrabold">{fa(p.name)}</span>{p.active ? <Badge tone="green">فعال</Badge> : <Badge tone="gray">غیرفعال</Badge>}</div>
               <p className="text-[13px] text-ink-3" dir="ltr">{p.key}</p>
-              <p className="mt-3 text-[14px] text-ink-2">{nFa(active.length)} پلن فعال{active.length ? ` · از ${fmtToman(Math.min(...active.map((x) => x.price)))}` : ""}</p>
+              <p className="mt-3 text-[14px] text-ink-2">{nFa(active.length)} پلن فعال{active.length ? ` · از ${priceFa(active.reduce((a, x) => (x.price < a.price ? x : a)).price, active.reduce((a, x) => (x.price < a.price ? x : a)).currency)}` : ""}</p>
             </Link>
           );
         })}

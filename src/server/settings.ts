@@ -12,6 +12,11 @@ export type StoreSettings = {
   /** امکان ثبت سفارش با پرداخت دستی (کارت‌به‌کارت) */
   allowManualPayment: boolean;
   manualPaymentNote: string;
+  /** نرخ دلار به تومان برای تبدیل قیمت‌های دلاری (۰ = تعیین نشده؛ خرید کالای دلاری ممکن نیست) */
+  usdRate: number;
+  /** مبلغ تبدیل‌شده به بالا گرد می‌شود (تومان؛ مثلاً ۱۰۰۰) */
+  usdRounding: number;
+  usdRateUpdatedAt: string | null;
 };
 
 export const DEFAULT_SETTINGS: StoreSettings = {
@@ -20,6 +25,9 @@ export const DEFAULT_SETTINGS: StoreSettings = {
   expiryWarnDays: 14,
   allowManualPayment: false,
   manualPaymentNote: "",
+  usdRate: 0,
+  usdRounding: 1000,
+  usdRateUpdatedAt: null,
 };
 
 export async function getSettings(): Promise<StoreSettings> {

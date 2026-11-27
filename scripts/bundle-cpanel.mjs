@@ -91,10 +91,8 @@ APP_URL=https://example.com
 # mysql://کاربر:رمز@localhost:3306/نام_پایگاه_داده   (اگر رمز نویسهٔ خاص دارد، URL-encode کنید)
 DATABASE_URL=mysql://cpuser_eno:PASSWORD@localhost:3306/cpuser_eno
 
-# مدیر کل (در اولین اجرا ساخته می‌شود؛ بعد از ورود، رمز را از پنل عوض کنید)
-ADMIN_PHONE=09120000000
-ADMIN_PASSWORD=change-me-strong-password
-ADMIN_NAME=مدیر سایت
+# مدیر کل این‌جا تعریف نمی‌شود: بعد از اجرای برنامه به https://دامنه/admin/setup/ بروید
+# و شماره و رمز مدیر را بسازید (در پایگاه داده ذخیره می‌شود)
 
 # درگاه زرین‌پال
 ZARINPAL_MERCHANT_ID=

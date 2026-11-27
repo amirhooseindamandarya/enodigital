@@ -15,6 +15,7 @@ export const menus: MenuDef[] = [
           { page: "benefits", label: t("سامانهٔ رفاهیات", "Benefits Platform", "منصة المزايا") },
         ],
       },
+      { page: "services", label: t("خدمات دیجیتال", "Digital services", "الخدمات الرقمية") },
       { page: "pricing", label: t("قیمت‌ها", "Pricing", "الأسعار") },
       { page: "custom-software", label: t("نرم‌افزار سفارشی", "Custom software", "برمجيات مخصصة") },
       { page: "projects", label: t("پروژه‌ها", "Projects", "المشاريع") },
@@ -40,6 +41,7 @@ export const menus: MenuDef[] = [
       {
         label: t("خدمات", "Services", "الخدمات"),
         children: [
+          { page: "services", label: t("خدمات دیجیتال", "Digital services", "الخدمات الرقمية") },
           { page: "custom-software", label: t("توسعهٔ نرم‌افزار سفارشی", "Custom software development", "تطوير البرمجيات المخصصة") },
           { page: "projects", label: t("نمونه‌کارها", "Case studies", "أعمالنا") },
         ],

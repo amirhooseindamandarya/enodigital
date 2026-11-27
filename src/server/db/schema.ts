@@ -1,7 +1,8 @@
 /**
  * مدل دادهٔ فروش اشتراک (MySQL 8 / MariaDB 10.5+):
  * کاربران، محصولات و پلن‌ها، سفارش‌ها، پرداخت‌ها، اشتراک‌ها، کوپن، تیکت و تنظیمات.
- * مبالغ همه «ریال» و عدد صحیح‌اند؛ زمان‌ها به UTC ذخیره می‌شوند.
+ * مبالغ همه عدد صحیح‌اند: قیمت ریالی به «ریال» و قیمت دلاری به «سنت»؛ مبلغ سفارش همیشه ریال است.
+ * زمان‌ها به UTC ذخیره می‌شوند.
  */
 import { relations } from "drizzle-orm";
 import {
@@ -37,6 +38,11 @@ export const SUB_STATUS = ["pending", "active", "expired", "cancelled", "suspend
 export const COUPON_KIND = ["percent", "fixed"] as const;
 export const TICKET_STATUS = ["open", "answered", "customer_reply", "closed"] as const;
 export const TICKET_PRIORITY = ["low", "normal", "high"] as const;
+/** IRR: قیمت به ریال · USD: قیمت به سنت (هنگام خرید با نرخ روز به ریال تبدیل می‌شود) */
+export const CURRENCIES = ["IRR", "USD"] as const;
+export type Currency = (typeof CURRENCIES)[number];
+/** fixed: قابل خرید آنلاین · quote: قیمت توافقی (درخواست مشاوره) */
+export const SERVICE_PRICING = ["fixed", "quote"] as const;
 
 /** سازگاری با کدهای قبلی (schema.xxxEnum.enumValues) */
 const en = <T extends readonly string[]>(enumValues: T) => ({ enumValues });
@@ -109,6 +115,7 @@ export const plans = mysqlTable("plans", {
   description: json<L10n>("description").notNull(),
   features: json<L10nList>("features").notNull(),
   price: money("price"),
+  currency: mysqlEnum("currency", CURRENCIES).notNull().default("IRR"),
   period: mysqlEnum("period", PERIODS).notNull().default("monthly"),
   durationDays: int("duration_days").notNull().default(30),
   highlighted: boolean("highlighted").notNull().default(false),
@@ -117,6 +124,39 @@ export const plans = mysqlTable("plans", {
   createdAt: created(),
   updatedAt: updated(),
 }, (t) => [index("plans_product_idx").on(t.productId)]);
+
+/* ---------------- خدمات دیجیتال ---------------- */
+export const serviceCategories = mysqlTable("service_categories", {
+  id: id(),
+  slug: varchar("slug", { length: 60 }).notNull(),
+  name: json<L10n>("name").notNull(),
+  description: json<L10n>("description").notNull(),
+  active: boolean("active").notNull().default(true),
+  sort: int("sort").notNull().default(0),
+  createdAt: created(),
+  updatedAt: updated(),
+}, (t) => [uniqueIndex("svc_cat_slug_uq").on(t.slug)]);
+
+export const services = mysqlTable("services", {
+  id: id(),
+  categoryId: ref("category_id").notNull().references(() => serviceCategories.id, { onDelete: "restrict" }),
+  slug: varchar("slug", { length: 80 }).notNull(),
+  name: json<L10n>("name").notNull(),
+  summary: json<L10n>("summary").notNull(),
+  features: json<L10nList>("features").notNull(),
+  pricing: mysqlEnum("pricing", SERVICE_PRICING).notNull().default("fixed"),
+  price: money("price"),
+  currency: mysqlEnum("currency", CURRENCIES).notNull().default("IRR"),
+  /** واحد قیمت، مثلاً «هر صفحه» یا «ماهانه» (اختیاری) */
+  unit: json<L10n>("unit").notNull(),
+  /** مدت تحویل (روز کاری؛ ۰ = نمایش داده نشود) */
+  deliveryDays: int("delivery_days").notNull().default(0),
+  highlighted: boolean("highlighted").notNull().default(false),
+  active: boolean("active").notNull().default(true),
+  sort: int("sort").notNull().default(0),
+  createdAt: created(),
+  updatedAt: updated(),
+}, (t) => [uniqueIndex("svc_slug_uq").on(t.slug), index("svc_cat_idx").on(t.categoryId)]);
 
 /* ---------------- سفارش و پرداخت ---------------- */
 export type BuyerSnapshot = { name: string; phone: string; email?: string | null; company?: string | null; nationalId?: string | null; economicCode?: string | null; postalCode?: string | null; address?: string | null };
@@ -145,16 +185,23 @@ export const orders = mysqlTable("orders", {
 export const orderItems = mysqlTable("order_items", {
   id: id(),
   orderId: ref("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
-  productId: ref("product_id").notNull().references(() => products.id),
-  planId: ref("plan_id").notNull().references(() => plans.id),
+  /** قلم اشتراک: productId + planId · قلم خدمت: serviceId */
+  productId: ref("product_id").references(() => products.id),
+  planId: ref("plan_id").references(() => plans.id),
+  serviceId: ref("service_id").references(() => services.id),
   /** اگر پر باشد، این قلم تمدید همین اشتراک است */
   renewSubscriptionId: ref("renew_subscription_id"),
   title: json<L10n>("title").notNull(),
   period: mysqlEnum("period", PERIODS).notNull(),
   durationDays: int("duration_days").notNull(),
+  /** مبلغ ریالی هر واحد (پس از تبدیل ارز) */
   unitPrice: money("unit_price"),
   quantity: int("quantity").notNull().default(1),
-}, (t) => [index("items_order_idx").on(t.orderId), index("items_renew_idx").on(t.renewSubscriptionId)]);
+  /** قیمت اصلی کالا در زمان خرید (ریال یا سنت) و نرخ دلار به تومان که برای تبدیل استفاده شد */
+  currency: mysqlEnum("currency", CURRENCIES).notNull().default("IRR"),
+  listPrice: money("list_price"),
+  exchangeRate: int("exchange_rate"),
+}, (t) => [index("items_order_idx").on(t.orderId), index("items_renew_idx").on(t.renewSubscriptionId), index("items_service_idx").on(t.serviceId)]);
 
 export const payments = mysqlTable("payments", {
   id: id(),
@@ -246,7 +293,9 @@ export const usersRel = relations(users, ({ many }) => ({ orders: many(orders), 
 export const productsRel = relations(products, ({ many }) => ({ plans: many(plans) }));
 export const plansRel = relations(plans, ({ one }) => ({ product: one(products, { fields: [plans.productId], references: [products.id] }) }));
 export const ordersRel = relations(orders, ({ one, many }) => ({ user: one(users, { fields: [orders.userId], references: [users.id] }), items: many(orderItems), payments: many(payments) }));
-export const orderItemsRel = relations(orderItems, ({ one }) => ({ order: one(orders, { fields: [orderItems.orderId], references: [orders.id] }), plan: one(plans, { fields: [orderItems.planId], references: [plans.id] }), product: one(products, { fields: [orderItems.productId], references: [products.id] }) }));
+export const orderItemsRel = relations(orderItems, ({ one }) => ({ order: one(orders, { fields: [orderItems.orderId], references: [orders.id] }), plan: one(plans, { fields: [orderItems.planId], references: [plans.id] }), product: one(products, { fields: [orderItems.productId], references: [products.id] }), service: one(services, { fields: [orderItems.serviceId], references: [services.id] }) }));
+export const serviceCategoriesRel = relations(serviceCategories, ({ many }) => ({ services: many(services) }));
+export const servicesRel = relations(services, ({ one }) => ({ category: one(serviceCategories, { fields: [services.categoryId], references: [serviceCategories.id] }) }));
 export const paymentsRel = relations(payments, ({ one }) => ({ order: one(orders, { fields: [payments.orderId], references: [orders.id] }) }));
 export const subscriptionsRel = relations(subscriptions, ({ one }) => ({ user: one(users, { fields: [subscriptions.userId], references: [users.id] }), product: one(products, { fields: [subscriptions.productId], references: [products.id] }), plan: one(plans, { fields: [subscriptions.planId], references: [plans.id] }) }));
 export const ticketsRel = relations(tickets, ({ one, many }) => ({ user: one(users, { fields: [tickets.userId], references: [users.id] }), messages: many(ticketMessages) }));

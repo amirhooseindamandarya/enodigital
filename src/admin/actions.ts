@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { and, eq, ne, sql, count, or } from "drizzle-orm";
 import { db, schema } from "@/server/db";
 import { hashPassword, passwordProblem, verifyPassword } from "@/server/auth/password";
-import { createSession, destroySession, revokeAllSessions } from "@/server/auth/session";
+import { createSession, destroySession, revokeAllSessions, revokeOtherSessions } from "@/server/auth/session";
 import { requireStaff } from "@/server/auth/guards";
 import { limited } from "@/server/rate-limit";
 import { latinDigits, normalizeEmail, normalizePhone } from "@/server/phone";
@@ -15,7 +15,15 @@ import { getSettings, saveSettings, type StoreSettings } from "@/server/settings
 import type { ActionState } from "@/account/form";
 
 const s = (fd: FormData, k: string) => String(fd.get(k) ?? "").trim();
-const n = (fd: FormData, k: string) => { const v = Number(latinDigits(s(fd, k)).replace(/[,٬\s]/g, "")); return Number.isFinite(v) ? v : 0; };
+const n = (fd: FormData, k: string) => { const v = Number(latinDigits(s(fd, k)).replace(/[,٬\s]/g, "").replace("٫", ".")); return Number.isFinite(v) ? v : 0; };
+const CURRENCIES = schema.CURRENCIES;
+/** قیمت فرم → مقدار ذخیره‌شده (تومان → ریال، دلار → سنت) */
+function priceFrom(fd: FormData): { price: number; currency: (typeof CURRENCIES)[number] } | null {
+  const currency = s(fd, "currency") === "USD" ? "USD" : "IRR";
+  const v = n(fd, "price");
+  if (v < 0) return null;
+  return { currency, price: currency === "USD" ? Math.round(v * 100) : Math.round(v) * 10 };
+}
 const b = (fd: FormData, k: string) => fd.get(k) === "on" || fd.get(k) === "1";
 const nul = (v: string) => v || null;
 const l10n = (fd: FormData, k: string) => ({ fa: s(fd, `${k}_fa`), en: s(fd, `${k}_en`), ar: s(fd, `${k}_ar`) });
@@ -78,22 +86,22 @@ export async function savePlanAction(_: ActionState, fd: FormData): Promise<Acti
   const productId = n(fd, "productId");
   const name = l10n(fd, "name");
   const period = s(fd, "period") as (typeof PERIODS)[number];
-  const priceToman = n(fd, "price");
+  const pr = priceFrom(fd);
   const durationDays = Math.round(n(fd, "durationDays"));
   if (!name.fa) return err("نام فارسی پلن لازم است.");
   if (!PERIODS.includes(period)) return err("دورهٔ پرداخت نامعتبر است.");
-  if (priceToman < 0) return err("قیمت نمی‌تواند منفی باشد.");
+  if (!pr) return err("قیمت نمی‌تواند منفی باشد.");
   if (durationDays < 0 || (period !== "one_time" && durationDays < 1)) return err("مدت اشتراک (روز) را وارد کنید.");
   const product = await db.query.products.findFirst({ where: eq(schema.products.id, productId) });
   if (!product) return err("محصول پیدا نشد.");
   const values = {
     productId, name, description: l10n(fd, "desc"),
     features: { fa: lines(fd, "features_fa"), en: lines(fd, "features_en"), ar: lines(fd, "features_ar") },
-    price: Math.round(priceToman) * 10, period, durationDays, highlighted: b(fd, "highlighted"), active: b(fd, "active"), sort: n(fd, "sort"),
+    price: pr.price, currency: pr.currency, period, durationDays, highlighted: b(fd, "highlighted"), active: b(fd, "active"), sort: n(fd, "sort"),
   };
   if (id) await db.update(schema.plans).set(values).where(eq(schema.plans.id, id));
   else await db.insert(schema.plans).values(values);
-  await audit(me.id, id ? "update" : "create", "plan", id || undefined, { productId, price: values.price });
+  await audit(me.id, id ? "update" : "create", "plan", id || undefined, { productId, price: values.price, currency: values.currency });
   revalidatePath("/admin", "layout");
   return ok(id ? "ذخیره شد." : "پلن اضافه شد.");
 }
@@ -265,19 +273,25 @@ export async function saveSettingsAction(_: ActionState, fd: FormData): Promise<
   const cur = await getSettings();
   const tax = n(fd, "taxRate");
   if (tax < 0 || tax > 50) return err("درصد مالیات نامعتبر است.");
+  const usdRate = Math.round(n(fd, "usdRate"));
+  if (usdRate < 0) return err("نرخ دلار نامعتبر است.");
   const v: StoreSettings = {
     ...cur,
     taxRate: tax,
     expiryWarnDays: Math.max(1, Math.round(n(fd, "expiryWarnDays")) || 14),
     allowManualPayment: b(fd, "allowManualPayment"),
     manualPaymentNote: s(fd, "manualPaymentNote").slice(0, 1000),
+    usdRate,
+    usdRounding: Math.max(1, Math.round(n(fd, "usdRounding")) || 1000),
+    usdRateUpdatedAt: usdRate !== cur.usdRate ? new Date().toISOString() : cur.usdRateUpdatedAt,
     seller: {
       name: s(fd, "seller_name"), nationalId: latinDigits(s(fd, "seller_nationalId")), economicCode: latinDigits(s(fd, "seller_economicCode")),
       registrationNo: latinDigits(s(fd, "seller_registrationNo")), postalCode: latinDigits(s(fd, "seller_postalCode")), address: s(fd, "seller_address"), phone: s(fd, "seller_phone"),
     },
   };
   await saveSettings(v);
-  await audit(me.id, "update", "settings", "store");
+  await audit(me.id, "update", "settings", "store", usdRate !== cur.usdRate ? { usdRate: { from: cur.usdRate, to: usdRate } } : undefined);
+  revalidatePath("/admin", "layout");
   return ok();
 }
 
@@ -309,4 +323,131 @@ export async function saveStaffAction(_: ActionState, fd: FormData): Promise<Act
   }
   revalidatePath("/admin", "layout");
   return ok("کاربر به کارکنان اضافه شد.");
+}
+
+/* ------------------------------------------------------------------ */
+/* خدمات دیجیتال                                                        */
+/* ------------------------------------------------------------------ */
+const SLUG = /^[a-z0-9][a-z0-9-]*$/;
+
+export async function saveServiceCategoryAction(_: ActionState, fd: FormData): Promise<ActionState> {
+  const me = await requireStaff(true);
+  const id = n(fd, "id");
+  const slug = s(fd, "slug").toLowerCase();
+  const name = l10n(fd, "name");
+  if (!SLUG.test(slug)) return err("نامک باید فقط حروف کوچک انگلیسی، عدد و - باشد.");
+  if (!name.fa) return err("نام فارسی دسته لازم است.");
+  const dup = await db.query.serviceCategories.findFirst({ where: id ? and(eq(schema.serviceCategories.slug, slug), ne(schema.serviceCategories.id, id)) : eq(schema.serviceCategories.slug, slug) });
+  if (dup) return err("این نامک برای دستهٔ دیگری استفاده شده است.");
+  const values = { slug, name, description: l10n(fd, "desc"), active: b(fd, "active"), sort: n(fd, "sort") };
+  if (id) await db.update(schema.serviceCategories).set(values).where(eq(schema.serviceCategories.id, id));
+  else await db.insert(schema.serviceCategories).values(values);
+  await audit(me.id, id ? "update" : "create", "service_category", id || slug);
+  revalidatePath("/admin", "layout");
+  return ok(id ? "ذخیره شد." : "دسته ساخته شد.");
+}
+
+export async function deleteServiceCategoryAction(fd: FormData) {
+  const me = await requireStaff(true);
+  const id = n(fd, "id");
+  const [used] = await db.select({ c: count() }).from(schema.services).where(eq(schema.services.categoryId, id));
+  if ((used?.c ?? 0) > 0) await db.update(schema.serviceCategories).set({ active: false }).where(eq(schema.serviceCategories.id, id));
+  else await db.delete(schema.serviceCategories).where(eq(schema.serviceCategories.id, id));
+  await audit(me.id, used?.c ? "deactivate" : "delete", "service_category", id);
+  redirect("/admin/services/");
+}
+
+export async function saveServiceAction(_: ActionState, fd: FormData): Promise<ActionState> {
+  const me = await requireStaff(true);
+  const id = n(fd, "id");
+  const slug = s(fd, "slug").toLowerCase();
+  const name = l10n(fd, "name");
+  const categoryId = n(fd, "categoryId");
+  const pricing = s(fd, "pricing") === "quote" ? "quote" : "fixed";
+  const pr = priceFrom(fd);
+  if (!SLUG.test(slug)) return err("نامک باید فقط حروف کوچک انگلیسی، عدد و - باشد.");
+  if (!name.fa) return err("نام فارسی خدمت لازم است.");
+  if (!pr) return err("قیمت نمی‌تواند منفی باشد.");
+  if (pricing === "fixed" && pr.price === 0) return err("برای خدمت قابل خرید، قیمت را وارد کنید (یا «قیمت توافقی» را انتخاب کنید).");
+  if (!(await db.query.serviceCategories.findFirst({ where: eq(schema.serviceCategories.id, categoryId) }))) return err("دسته را انتخاب کنید.");
+  const dup = await db.query.services.findFirst({ where: id ? and(eq(schema.services.slug, slug), ne(schema.services.id, id)) : eq(schema.services.slug, slug) });
+  if (dup) return err("این نامک برای خدمت دیگری استفاده شده است.");
+  const values = {
+    categoryId, slug, name, summary: l10n(fd, "summary"), unit: l10n(fd, "unit"),
+    features: { fa: lines(fd, "features_fa"), en: lines(fd, "features_en"), ar: lines(fd, "features_ar") },
+    pricing: pricing as "fixed" | "quote", price: pricing === "quote" ? 0 : pr.price, currency: pr.currency,
+    deliveryDays: Math.max(0, Math.round(n(fd, "deliveryDays"))), highlighted: b(fd, "highlighted"), active: b(fd, "active"), sort: n(fd, "sort"),
+  };
+  if (id) await db.update(schema.services).set(values).where(eq(schema.services.id, id));
+  else await db.insert(schema.services).values(values);
+  await audit(me.id, id ? "update" : "create", "service", id || slug, { price: values.price, currency: values.currency });
+  revalidatePath("/admin", "layout");
+  return ok(id ? "ذخیره شد." : "خدمت اضافه شد.");
+}
+
+export async function deleteServiceAction(fd: FormData) {
+  const me = await requireStaff(true);
+  const id = n(fd, "id");
+  const [used] = await db.select({ c: count() }).from(schema.orderItems).where(eq(schema.orderItems.serviceId, id));
+  if ((used?.c ?? 0) > 0) await db.update(schema.services).set({ active: false }).where(eq(schema.services.id, id));
+  else await db.delete(schema.services).where(eq(schema.services.id, id));
+  await audit(me.id, used?.c ? "deactivate" : "delete", "service", id);
+  redirect("/admin/services/");
+}
+
+/* ------------------------------------------------------------------ */
+/* راه‌اندازی اولیه و حساب مدیر                                          */
+/* ------------------------------------------------------------------ */
+export async function setupAdminAction(_: ActionState, fd: FormData): Promise<ActionState> {
+  if (await limited("admin-setup", 10, 15 * 60_000, "global")) return err("تلاش‌ها بیش از حد بود؛ چند دقیقهٔ دیگر امتحان کنید.");
+  const name = s(fd, "name");
+  const phone = normalizePhone(s(fd, "phone"));
+  const pw = String(fd.get("password") ?? "");
+  if (name.length < 2) return err("نام لازم است.");
+  if (!phone) return err("شمارهٔ موبایل معتبر نیست.");
+  if (passwordProblem(pw) || pw.length < 10) return err("رمز عبور مدیر کل باید حداقل ۱۰ نویسه باشد.");
+  if (pw !== String(fd.get("password2") ?? "")) return err("تکرار رمز عبور یکسان نیست.");
+  const passwordHash = await hashPassword(pw);
+  // فقط وقتی هیچ مدیر کلی نیست؛ بررسی و ساخت در یک تراکنش با قفل
+  const userId = await db.transaction(async (tx) => {
+    const admins = await tx.select({ id: schema.users.id }).from(schema.users).where(eq(schema.users.role, "admin")).for("update");
+    if (admins.length) return null;
+    const [existing] = await tx.select().from(schema.users).where(eq(schema.users.phone, phone)).for("update");
+    if (existing) {
+      await tx.update(schema.users).set({ name, role: "admin", status: "active", passwordHash }).where(eq(schema.users.id, existing.id));
+      return existing.id;
+    }
+    const [u] = await tx.insert(schema.users).values({ name, phone, passwordHash, role: "admin" }).$returningId();
+    return u.id;
+  });
+  if (!userId) redirect("/admin/login/");
+  await revokeAllSessions(userId);
+  await createSession(userId);
+  await audit(userId, "setup", "user", userId);
+  redirect("/admin/");
+}
+
+export async function saveMyAccountAction(_: ActionState, fd: FormData): Promise<ActionState> {
+  const me = await requireStaff();
+  const row = await db.query.users.findFirst({ where: eq(schema.users.id, me.id) });
+  if (!row || !(await verifyPassword(String(fd.get("current") ?? ""), row.passwordHash))) return err("رمز عبور فعلی درست نیست.");
+  const name = s(fd, "name");
+  const phone = normalizePhone(s(fd, "phone"));
+  const emailRaw = s(fd, "email");
+  const email = emailRaw ? normalizeEmail(emailRaw) : null;
+  if (name.length < 2) return err("نام لازم است.");
+  if (!phone) return err("شمارهٔ موبایل معتبر نیست.");
+  if (emailRaw && !email) return err("ایمیل معتبر نیست.");
+  const dup = await db.query.users.findFirst({ where: and(ne(schema.users.id, me.id), email ? or(eq(schema.users.phone, phone), eq(schema.users.email, email)) : eq(schema.users.phone, phone)) });
+  if (dup) return err(dup.phone === phone ? "این شماره برای کاربر دیگری ثبت شده است." : "این ایمیل برای کاربر دیگری ثبت شده است.");
+  const pw = String(fd.get("password") ?? "");
+  if (pw) {
+    if (passwordProblem(pw)) return err("رمز عبور جدید باید حداقل ۸ نویسه باشد.");
+    if (pw !== String(fd.get("password2") ?? "")) return err("تکرار رمز عبور جدید یکسان نیست.");
+  }
+  await db.update(schema.users).set({ name, phone, email, ...(pw ? { passwordHash: await hashPassword(pw) } : {}) }).where(eq(schema.users.id, me.id));
+  if (pw) await revokeOtherSessions(me.id, me.sessionId);
+  await audit(me.id, "update", "user", me.id, { self: true, phone: phone !== row.phone, password: !!pw });
+  revalidatePath("/admin", "layout");
+  return ok(pw ? "ذخیره شد؛ رمز عبور عوض شد و نشست‌های دیگر بسته شدند." : "ذخیره شد.");
 }

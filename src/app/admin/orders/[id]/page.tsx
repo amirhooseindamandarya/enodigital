@@ -8,7 +8,7 @@ import { fa, orderStatusFa, payStatusFa, periodFa, subStatusFa, nFa } from "@/ad
 import { requireStaff } from "@/server/auth/guards";
 import { db, schema } from "@/server/db";
 import { orderNumber } from "@/server/orders";
-import { fmtDate, fmtToman } from "@/lib/money";
+import { fmtDate, fmtToman, fmtUsd } from "@/lib/money";
 
 export const metadata = { title: "جزئیات سفارش" };
 
@@ -27,7 +27,7 @@ export default async function AdminOrder({ params }: { params: Promise<{ id: str
             <ul className="divide-y divide-line">
               {o.items.map((it) => (
                 <li key={it.id} className="flex justify-between gap-4 py-3">
-                  <span><b>{fa(it.title)}</b><span className="block text-[13px] text-ink-3">{periodFa[it.period]} · {nFa(it.durationDays)} روز{it.renewSubscriptionId ? ` · تمدید اشتراک #${it.renewSubscriptionId}` : ""}</span></span>
+                  <span><b>{fa(it.title)}</b><span className="block text-[13px] text-ink-3">{it.serviceId ? "خدمت دیجیتال" : `${periodFa[it.period]} · ${nFa(it.durationDays)} روز`}{it.renewSubscriptionId ? ` · تمدید اشتراک #${it.renewSubscriptionId}` : ""}</span>{it.currency === "USD" && it.exchangeRate ? <span className="block text-[12.5px] text-ink-3">قیمت دلاری {fmtUsd(it.listPrice)} با نرخ {nFa(it.exchangeRate)} تومان</span> : null}</span>
                   <b>{fmtToman(it.unitPrice * it.quantity)}</b>
                 </li>
               ))}

@@ -2,7 +2,7 @@ import { ActionForm, Submit } from "@/account/form";
 import { Field, Input, Select, Textarea } from "@/account/ui";
 import { savePlanAction } from "@/admin/actions";
 import { L10nInput } from "@/admin/l10n-fields";
-import { periodFa } from "@/admin/util";
+import { currencyFa, periodFa, priceInput } from "@/admin/util";
 import type { schema } from "@/server/db";
 
 type Plan = typeof schema.plans.$inferSelect;
@@ -14,8 +14,9 @@ export function PlanForm({ productId, plan }: { productId: number; plan?: Plan }
       <input type="hidden" name="productId" value={productId} />
       {plan && <input type="hidden" name="id" value={plan.id} />}
       <L10nInput name="name" label="نام پلن" value={plan?.name} required />
-      <div className="grid gap-4 sm:grid-cols-4">
-        <Field label="قیمت (تومان، بدون مالیات)"><Input name="price" inputMode="numeric" ltr defaultValue={plan ? String(plan.price / 10) : ""} required /></Field>
+      <div className="grid gap-4 sm:grid-cols-5">
+        <Field label="قیمت (بدون مالیات)" hint="تومان؛ یا دلار مثل 19.99"><Input name="price" inputMode="decimal" ltr defaultValue={plan ? priceInput(plan.price, plan.currency) : ""} required /></Field>
+        <Field label="واحد پول" hint="قیمت دلاری هنگام خرید با نرخ روز به تومان تبدیل می‌شود"><Select name="currency" defaultValue={plan?.currency ?? "IRR"}>{Object.entries(currencyFa).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</Select></Field>
         <Field label="دورهٔ پرداخت"><Select name="period" defaultValue={plan?.period ?? "monthly"}>{Object.entries(periodFa).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</Select></Field>
         <Field label="مدت اشتراک (روز)" hint={`پیش‌فرض: ماهانه ۳۰، سالانه ۳۶۵`}><Input name="durationDays" inputMode="numeric" ltr defaultValue={String(plan?.durationDays ?? DEFAULT_DAYS.monthly)} /></Field>
         <Field label="ترتیب نمایش"><Input name="sort" inputMode="numeric" ltr defaultValue={String(plan?.sort ?? 0)} /></Field>

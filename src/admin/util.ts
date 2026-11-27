@@ -1,4 +1,11 @@
 import type { L10n } from "@/server/db/schema";
+import { fmtToman, fmtUsd } from "@/lib/money";
+
+/** قیمت کالا در پنل: ریال → «… تومان» · دلار (سنت) → «$…» */
+export const priceFa = (price: number, currency: "IRR" | "USD") => (currency === "USD" ? fmtUsd(price) : fmtToman(price));
+/** مقدار پیش‌فرض فیلد قیمت در فرم (تومان یا دلار) */
+export const priceInput = (price: number, currency: "IRR" | "USD") => String(currency === "USD" ? price / 100 : price / 10);
+export const currencyFa: Record<string, string> = { IRR: "تومان", USD: "دلار آمریکا" };
 
 export const fa = (v?: L10n | null) => v?.fa ?? "";
 export const nFa = (n: number) => n.toLocaleString("fa-IR");

@@ -6,6 +6,7 @@ import { gateway } from "@/server/payments";
 import { smsDriver } from "@/server/sms";
 import { getSettings } from "@/server/settings";
 import { Badge } from "@/account/ui";
+import { fmtDate, fmtToman, usdToRial } from "@/lib/money";
 
 export const metadata = { title: "تنظیمات فروشگاه" };
 
@@ -34,6 +35,16 @@ export default async function Settings() {
           </div>
           <label className="mt-4 flex items-center gap-2 text-[14px] font-semibold"><input type="checkbox" name="allowManualPayment" defaultChecked={s.allowManualPayment} className="size-4 accent-[var(--color-amber)]" />اگر درگاه در دسترس نبود، ثبت سفارش با پرداخت دستی مجاز باشد</label>
           <Field label="راهنمای پرداخت دستی برای مشتری" className="mt-3" hint="مثلاً شمارهٔ کارت/حساب و روش ارسال رسید"><Textarea name="manualPaymentNote" defaultValue={s.manualPaymentNote} /></Field>
+        </Card>
+        <Card title="نرخ دلار">
+          <p className="-mt-2 mb-4 text-[13.5px] leading-6 text-ink-3">
+            پلن‌ها و خدماتی که قیمتشان دلاری است، هنگام نمایش و خرید با این نرخ به تومان تبدیل می‌شوند. مبلغ سفارش‌های ثبت‌شده با تغییر نرخ عوض نمی‌شود.
+            {s.usdRateUpdatedAt && <> آخرین تغییر: {fmtDate(s.usdRateUpdatedAt, "fa", true)}.</>}
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="هر دلار = ؟ تومان" hint={s.usdRate ? `نمونه: ۱۰ دلار ≈ ${fmtToman(usdToRial(1000, s) ?? 0)}` : "تا تعیین نرخ، کالاهای دلاری قابل خرید نیستند."}><Input name="usdRate" inputMode="numeric" ltr defaultValue={s.usdRate ? String(s.usdRate) : ""} placeholder="مثلاً 95000" /></Field>
+            <Field label="گرد کردن مبلغ به بالا (تومان)" hint="مثلاً ۱۰۰۰ ← مبلغ به مضرب ۱۰۰۰ تومان گرد می‌شود"><Input name="usdRounding" inputMode="numeric" ltr defaultValue={String(s.usdRounding)} /></Field>
+          </div>
         </Card>
         <Card title="اطلاعات فروشنده روی صورت‌حساب">
           <div className="grid gap-4 sm:grid-cols-2">

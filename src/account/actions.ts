@@ -168,13 +168,14 @@ export async function checkoutAction(_: ActionState, fd: FormData): Promise<Acti
   const g = gateway();
   const r = await createOrder({
     userId: u.id,
-    planId: Number(fd.get("plan")),
+    planId: Number(fd.get("plan")) || null,
+    serviceId: Number(fd.get("service")) || null,
     renewSubscriptionId: Number(fd.get("renew")) || null,
     couponCode: str(fd, "coupon") || null,
     customerNote: str(fd, "note") || null,
     locale: l,
   });
-  if (!r.ok) return fail(l, r.error === "plan" || r.error === "subscription" || r.error === "user" ? "planUnavailable" : (r.error as AKey));
+  if (!r.ok) return fail(l, r.error === "rate" ? "rateMissing" : r.error === "plan" || r.error === "subscription" || r.error === "user" ? (fd.get("service") ? "serviceUnavailable" : "planUnavailable") : (r.error as AKey));
   const order = await db.query.orders.findFirst({ where: eq(schema.orders.id, r.orderId) });
   if (!order || order.status !== "pending") redirect(accHref(l, `orders/${r.orderId}`, { pay: "ok" }));
   if (!g) {

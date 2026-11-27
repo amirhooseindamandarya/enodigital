@@ -13,6 +13,7 @@ import { HomeHero, ProductHero } from "./heroes";
 import { SolutionFinder } from "./solution-finder";
 import { ContactPanel, LeadFormSection } from "./forms-sections";
 import { PricingPlans } from "./pricing";
+import { ServicesCatalog } from "./services";
 
 type Comp = (p: SectionProps) => React.ReactNode;
 
@@ -50,6 +51,7 @@ const registry: Record<string, { C: Comp; client?: boolean }> = {
   pillars: { C: G.Pillars },
   contact_panel: { C: ContactPanel },
   pricing_plans: { C: PricingPlans, client: true },
+  services_catalog: { C: ServicesCatalog, client: true },
 };
 
 /** کلید همهٔ انواعی که فرانت پیاده‌سازی کرده (برای اعتبارسنجی بسته) */

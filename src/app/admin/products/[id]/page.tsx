@@ -6,10 +6,9 @@ import { Badge, Card, Field, Input, PageTitle } from "@/account/ui";
 import { saveProductAction } from "@/admin/actions";
 import { L10nInput } from "@/admin/l10n-fields";
 import { PlanForm } from "@/admin/plan-form";
-import { fa, nFa, periodFa } from "@/admin/util";
+import { fa, nFa, periodFa, priceFa } from "@/admin/util";
 import { requireStaff } from "@/server/auth/guards";
 import { db, schema } from "@/server/db";
-import { fmtToman } from "@/lib/money";
 
 export const metadata = { title: "محصول" };
 
@@ -30,7 +29,7 @@ export default async function Product({ params }: { params: Promise<{ id: string
                   <Link href={`/admin/plans/${pl.id}/`} className="block rounded-xl border border-line p-4 hover:border-ink-3">
                     <div className="flex items-start justify-between gap-2"><b>{fa(pl.name)}</b><span className="flex gap-1">{pl.highlighted && <Badge tone="amber">پیشنهادی</Badge>}{pl.active ? <Badge tone="green">فعال</Badge> : <Badge tone="gray">غیرفعال</Badge>}</span></div>
                     <p className="mt-1 text-[13px] text-ink-3">{periodFa[pl.period]} · {nFa(pl.durationDays)} روز</p>
-                    <p className="mt-2 text-[18px] font-extrabold">{fmtToman(pl.price)}</p>
+                    <p className="mt-2 text-[18px] font-extrabold">{priceFa(pl.price, pl.currency)}</p>
                   </Link>
                 </li>
               ))}

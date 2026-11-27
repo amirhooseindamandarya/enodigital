@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Briefcase, Cog, History, LifeBuoy, Package, Receipt, Tag, UserCog, Users } from "lucide-react";
+import { BarChart3, Briefcase, Cog, History, LayoutGrid, LifeBuoy, Package, Receipt, Tag, UserCog, UserRound, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -11,10 +11,12 @@ const items = [
   { href: "/admin/customers/", label: "مشتریان", icon: Users },
   { href: "/admin/tickets/", label: "پشتیبانی", icon: LifeBuoy, badge: "tickets" },
   { href: "/admin/products/", label: "محصولات و پلن‌ها", icon: Package, admin: true },
+  { href: "/admin/services/", label: "خدمات دیجیتال", icon: LayoutGrid, admin: true },
   { href: "/admin/coupons/", label: "کدهای تخفیف", icon: Tag, admin: true },
   { href: "/admin/settings/", label: "تنظیمات فروشگاه", icon: Cog, admin: true },
   { href: "/admin/staff/", label: "کارکنان", icon: UserCog, admin: true },
   { href: "/admin/audit/", label: "گزارش فعالیت", icon: History, admin: true },
+  { href: "/admin/me/", label: "حساب من", icon: UserRound },
 ] as const;
 
 export function AdminNav({ isAdmin, badges }: { isAdmin: boolean; badges: Record<string, number> }) {

@@ -200,6 +200,19 @@ const d = {
   noPayments: ["تراکنشی ثبت نشده است.", "No payments yet.", "لا توجد معاملات بعد."],
   back: ["بازگشت", "Back", "رجوع"],
   notFound: ["پیدا نشد.", "Not found.", "غير موجود."],
+
+  /* خدمات دیجیتال و ارز */
+  services: ["خدمات دیجیتال", "Digital services", "الخدمات الرقمية"],
+  service: ["خدمت", "Service", "الخدمة"],
+  buyService: ["سفارش خدمت", "Order service", "اطلب الخدمة"],
+  deliveryIn: ["تحویل", "Delivery", "التسليم"],
+  workDays: ["روز کاری", "business days", "أيام عمل"],
+  startsFrom: ["قیمت توافقی", "Custom quote", "سعر حسب الطلب"],
+  requestQuote: ["درخواست مشاوره", "Request a quote", "اطلب عرض سعر"],
+  rate: ["قیمت دلاری با نرخ روز محاسبه می‌شود؛ نرخ امروز هر دلار", "Priced in USD and converted at today’s rate; today’s rate per dollar", "السعر بالدولار ويُحوَّل بسعر اليوم؛ سعر الدولار اليوم"],
+  rateMissing: ["قیمت این مورد دلاری است و نرخ ارز هنوز تعیین نشده؛ لطفاً با پشتیبانی تماس بگیرید.", "This item is priced in USD and today’s exchange rate isn’t set yet. Please contact support.", "سعر هذا البند بالدولار ولم يُحدَّد سعر الصرف بعد؛ تواصل مع الدعم."],
+  serviceAfterPay: ["پس از پرداخت، کارشناس ما برای شروع کار با شما تماس می‌گیرد.", "After payment, our team will contact you to get started.", "بعد الدفع سيتواصل معك فريقنا لبدء العمل."],
+  serviceUnavailable: ["این خدمت در دسترس نیست.", "This service isn’t available.", "هذه الخدمة غير متاحة."],
 } satisfies Record<string, [string, string, string]>;
 
 export type AKey = keyof typeof d;

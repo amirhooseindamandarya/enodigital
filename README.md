@@ -24,10 +24,12 @@
 
 ```bash
 npm install
-cp .env.example .env.local        # DATABASE_URL و ADMIN_* را پر کنید
-npm run db:setup                  # migration + محصولات + مدیر کل
-npm run dev                       # http://localhost:3000
+cp .env.example .env.local        # DATABASE_URL را پر کنید
+npm run db:setup                  # migration + محصولات
+npm run dev                       # http://localhost:3000 ← /admin/setup/ برای ساخت مدیر کل
 ```
+
+راهنمای کامل اجرای محلی (ویندوز/مک/لینوکس با XAMPP یا MySQL): [`docs/local.md`](docs/local.md)
 
 بدون `ZARINPAL_MERCHANT_ID`، در محیط توسعه یک درگاه آزمایشی فعال است (پولی جابه‌جا نمی‌شود) و پیامک‌ها در لاگ سرور نوشته می‌شوند.
 
@@ -42,7 +44,7 @@ npm run bundle:cpanel             # ← dist/enodigital-cpanel.zip
 ## استقرار روی سرور (VPS)
 
 ```bash
-cp .env.example .env              # APP_URL، DB_PASSWORD، ADMIN_*، ZARINPAL_MERCHANT_ID، کاوه‌نگار
+cp .env.example .env              # APP_URL، DB_PASSWORD، ZARINPAL_MERCHANT_ID، کاوه‌نگار
 docker compose up -d --build
 ```
 
@@ -57,7 +59,6 @@ docker compose up -d --build
 |---|---|
 | `APP_URL` | آدرس عمومی سایت (بازگشت از درگاه، canonical، sitemap) |
 | `DATABASE_URL` / `DB_PASSWORD` | پایگاه داده MySQL/MariaDB |
-| `ADMIN_PHONE` / `ADMIN_PASSWORD` / `ADMIN_NAME` | ساخت یا ارتقای مدیر کل |
 | `ZARINPAL_MERCHANT_ID` / `ZARINPAL_SANDBOX` | درگاه زرین‌پال (v4، مبلغ به ریال) |
 | `SMS_DRIVER=kavenegar` / `KAVENEGAR_*` | پیامک کد بازیابی و اطلاع‌رسانی سفارش و تیکت |
 | `PAYMENT_MOCK` | درگاه آزمایشی (فقط برای تست) |

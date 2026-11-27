@@ -302,6 +302,21 @@ export const sectionTypes: Record<string, SectionTypeDef> = {
     ],
   },
 
+  services_catalog: {
+    name: "کاتالوگ خدمات دیجیتال",
+    description: "دسته‌ها، خدمات و قیمت‌ها به‌صورت زنده از پنل مدیریت (بخش خدمات دیجیتال) خوانده می‌شوند؛ قیمت دلاری با نرخ روز به تومان نمایش داده می‌شود",
+    fields: [
+      ...heading(),
+      plain("category", "نامک دسته", { desc: "مثل web-design؛ خالی = همهٔ دسته‌ها با زبانه" }),
+      T("buy_label", "متن دکمهٔ خرید"),
+      T("quote_label", "متن دکمهٔ خدمات توافقی"),
+      link("quote_link", "مقصد دکمهٔ خدمات توافقی"),
+      T("badge", "برچسب خدمت برجسته"),
+      TA("note", "یادداشت پایین بخش"),
+      theme(), surface(), anchor(),
+    ],
+  },
+
   /* ---------------- درباره و تماس ---------------- */
   identity_card: {
     name: "هویت برند",

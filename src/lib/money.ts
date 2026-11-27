@@ -21,3 +21,14 @@ export function fmtDate(d: Date | string | null | undefined, l: Locale = "fa", w
 }
 
 export const daysLeft = (end: Date | string | null | undefined) => (end ? Math.ceil((new Date(end).getTime() - Date.now()) / 86400_000) : 0);
+
+/** قیمت دلاری (سنت) */
+export const fmtUsd = (cents: number, l: Locale = "fa") =>
+  `$${(cents / 100).toLocaleString(l === "fa" ? "fa-IR" : "en-US", { maximumFractionDigits: 2 })}`;
+
+/** همان محاسبهٔ سرور (src/server/pricing.ts) برای نمایش */
+export function usdToRial(cents: number, rate: { usdRate: number; usdRounding: number }) {
+  if (!rate.usdRate) return null;
+  const step = Math.max(1, Math.round(rate.usdRounding || 1));
+  return Math.ceil(((cents / 100) * rate.usdRate) / step) * step * 10;
+}

@@ -10,7 +10,7 @@ import { requireUser } from "@/server/auth/guards";
 import { orderNumber } from "@/server/orders";
 import { gateway } from "@/server/payments";
 import { getSettings } from "@/server/settings";
-import { fmtDate, fmtToman } from "@/lib/money";
+import { fmtDate, fmtNum, fmtToman, fmtUsd } from "@/lib/money";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
@@ -59,7 +59,8 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
               <li key={it.id} className="flex items-start justify-between gap-4 py-3">
                 <span>
                   <span className="block font-bold">{lt(it.title, l)}</span>
-                  <span className="text-[13px] text-ink-3">{at(`per_${it.period}`, l)} · {it.durationDays.toLocaleString(l === "fa" ? "fa-IR" : "en-US")} {at("days", l)}{it.renewSubscriptionId ? ` · ${at("renew", l)}` : ""}</span>
+                  <span className="text-[13px] text-ink-3">{it.serviceId ? at("services", l) : <>{at(`per_${it.period}`, l)} · {it.durationDays.toLocaleString(l === "fa" ? "fa-IR" : "en-US")} {at("days", l)}</>}{it.renewSubscriptionId ? ` · ${at("renew", l)}` : ""}</span>
+                  {it.currency === "USD" && it.exchangeRate && <span className="block text-[12.5px] text-ink-3">{fmtUsd(it.listPrice, l)} × {fmtNum(it.exchangeRate, l)} {l === "en" ? "Toman" : "تومان"}</span>}
                 </span>
                 <span className="shrink-0 font-bold">{fmtToman(it.unitPrice * it.quantity, l)}</span>
               </li>

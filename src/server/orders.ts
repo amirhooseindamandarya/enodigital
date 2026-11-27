@@ -2,7 +2,8 @@ import "server-only";
 import { and, asc, desc, eq, inArray, sql, lt } from "drizzle-orm";
 import { db, schema } from "./db";
 import { getSettings } from "./settings";
-import type { BuyerSnapshot, L10n } from "./db/schema";
+import { toRial } from "./pricing";
+import type { BuyerSnapshot, Currency, L10n } from "./db/schema";
 
 export type Period = (typeof schema.periodEnum.enumValues)[number];
 
@@ -18,12 +19,23 @@ export async function activeCatalog(productKey?: string) {
   return prods.filter((p) => p.plans.length > 0);
 }
 
+/** دسته‌ها و خدمات فعال */
+export async function serviceCatalog(categorySlug?: string) {
+  const cats = await db.query.serviceCategories.findMany({
+    where: categorySlug ? and(eq(schema.serviceCategories.active, true), eq(schema.serviceCategories.slug, categorySlug)) : eq(schema.serviceCategories.active, true),
+    orderBy: [asc(schema.serviceCategories.sort), asc(schema.serviceCategories.id)],
+    with: { services: { where: eq(schema.services.active, true), orderBy: [asc(schema.services.sort), asc(schema.services.id)] } },
+  });
+  return cats.filter((c) => c.services.length > 0);
+}
+
 /* ------------------------------------------------------------------ */
 /* کوپن                                                                 */
 /* ------------------------------------------------------------------ */
 export type CouponCheck = { ok: true; coupon: typeof schema.coupons.$inferSelect } | { ok: false; reason: "notfound" | "expired" | "used" | "product" | "inactive" };
 
-export async function checkCoupon(code: string, productId: number): Promise<CouponCheck> {
+/** productId = null برای خدمات دیجیتال (کوپن‌های مخصوص یک محصول روی آن‌ها اعمال نمی‌شود) */
+export async function checkCoupon(code: string, productId: number | null): Promise<CouponCheck> {
   const c = await db.query.coupons.findFirst({ where: eq(schema.coupons.code, code.trim().toUpperCase()) });
   if (!c) return { ok: false, reason: "notfound" };
   if (!c.active) return { ok: false, reason: "inactive" };
@@ -50,40 +62,73 @@ export function computeTotals(unitPrice: number, quantity: number, coupon: { kin
 /* ------------------------------------------------------------------ */
 export type CreateOrderInput = {
   userId: number;
-  planId: number;
+  planId?: number | null;
+  serviceId?: number | null;
   renewSubscriptionId?: number | null;
   couponCode?: string | null;
   customerNote?: string | null;
   locale: string;
 };
-export type CreateOrderResult = { ok: true; orderId: number } | { ok: false; error: "plan" | "subscription" | `coupon_${Exclude<CouponCheck, { ok: true }>["reason"]}` | "user" };
+export type CreateOrderResult = { ok: true; orderId: number } | { ok: false; error: "plan" | "subscription" | "rate" | `coupon_${Exclude<CouponCheck, { ok: true }>["reason"]}` | "user" };
+
+/** کالای قابل خرید (پلن اشتراک یا خدمت) با قیمت ریالی محاسبه‌شده */
+export type Purchasable = {
+  kind: "plan" | "service";
+  productId: number | null; planId: number | null; serviceId: number | null;
+  title: L10n; period: Period; durationDays: number;
+  listPrice: number; currency: Currency; unitPrice: number | null; exchangeRate: number | null;
+};
+
+const join2 = (a: L10n, b: L10n): L10n => ({
+  fa: `${a.fa} — ${b.fa}`,
+  en: `${a.en || a.fa} — ${b.en || b.fa}`,
+  ar: `${a.ar || a.fa} — ${b.ar || b.fa}`,
+});
+
+export async function findPurchasable(input: { planId?: number | null; serviceId?: number | null }, rate: { usdRate: number; usdRounding: number }): Promise<Purchasable | null> {
+  if (input.serviceId) {
+    const sv = await db.query.services.findFirst({ where: and(eq(schema.services.id, input.serviceId), eq(schema.services.active, true)), with: { category: true } });
+    if (!sv || !sv.category.active || sv.pricing !== "fixed") return null;
+    return {
+      kind: "service", productId: null, planId: null, serviceId: sv.id,
+      title: join2(sv.category.name, sv.name), period: "one_time", durationDays: 0,
+      listPrice: sv.price, currency: sv.currency, unitPrice: toRial(sv.price, sv.currency, rate), exchangeRate: sv.currency === "USD" ? rate.usdRate : null,
+    };
+  }
+  if (!input.planId) return null;
+  const plan = await db.query.plans.findFirst({ where: and(eq(schema.plans.id, input.planId), eq(schema.plans.active, true)), with: { product: true } });
+  if (!plan || !plan.product.active) return null;
+  return {
+    kind: "plan", productId: plan.productId, planId: plan.id, serviceId: null,
+    title: join2(plan.product.name, plan.name), period: plan.period, durationDays: plan.durationDays,
+    listPrice: plan.price, currency: plan.currency, unitPrice: toRial(plan.price, plan.currency, rate), exchangeRate: plan.currency === "USD" ? rate.usdRate : null,
+  };
+}
 
 export async function createOrder(input: CreateOrderInput): Promise<CreateOrderResult> {
-  const plan = await db.query.plans.findFirst({ where: and(eq(schema.plans.id, input.planId), eq(schema.plans.active, true)), with: { product: true } });
-  if (!plan || !plan.product.active) return { ok: false, error: "plan" };
+  const settings = await getSettings();
+  const item = await findPurchasable(input, settings);
+  if (!item) return { ok: false, error: "plan" };
+  // قیمت دلاری بدون نرخ روز قابل خرید نیست
+  if (item.unitPrice === null) return { ok: false, error: "rate" };
   const user = await db.query.users.findFirst({ where: eq(schema.users.id, input.userId) });
   if (!user || user.status !== "active") return { ok: false, error: "user" };
 
-  if (input.renewSubscriptionId) {
-    const sub = await db.query.subscriptions.findFirst({ where: and(eq(schema.subscriptions.id, input.renewSubscriptionId), eq(schema.subscriptions.userId, user.id)) });
-    if (!sub || sub.productId !== plan.productId || sub.status === "cancelled") return { ok: false, error: "subscription" };
+  const renewId = item.kind === "plan" ? input.renewSubscriptionId ?? null : null;
+  if (renewId) {
+    const sub = await db.query.subscriptions.findFirst({ where: and(eq(schema.subscriptions.id, renewId), eq(schema.subscriptions.userId, user.id)) });
+    if (!sub || sub.productId !== item.productId || sub.status === "cancelled") return { ok: false, error: "subscription" };
   }
 
   let coupon: { kind: "percent" | "fixed"; value: number; code: string } | null = null;
   if (input.couponCode?.trim()) {
-    const c = await checkCoupon(input.couponCode, plan.productId);
+    const c = await checkCoupon(input.couponCode, item.productId);
     if (!c.ok) return { ok: false, error: `coupon_${c.reason}` };
     coupon = { kind: c.coupon.kind, value: c.coupon.value, code: c.coupon.code };
   }
 
-  const settings = await getSettings();
-  const totals = computeTotals(plan.price, 1, coupon, settings.taxRate);
+  const totals = computeTotals(item.unitPrice, 1, coupon, settings.taxRate);
   const buyer: BuyerSnapshot = { name: user.name, phone: user.phone, email: user.email, company: user.company, nationalId: user.nationalId, economicCode: user.economicCode, postalCode: user.postalCode, address: user.address };
-  const title: L10n = {
-    fa: `${plan.product.name.fa} — ${plan.name.fa}`,
-    en: `${plan.product.name.en || plan.product.name.fa} — ${plan.name.en || plan.name.fa}`,
-    ar: `${plan.product.name.ar || plan.product.name.fa} — ${plan.name.ar || plan.name.fa}`,
-  };
 
   const orderId = await db.transaction(async (tx) => {
     const [o] = await tx.insert(schema.orders).values({
@@ -92,8 +137,9 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       couponCode: coupon?.code ?? null, buyer, customerNote: input.customerNote?.slice(0, 2000) || null, locale: input.locale,
     }).$returningId();
     await tx.insert(schema.orderItems).values({
-      orderId: o.id, productId: plan.productId, planId: plan.id, renewSubscriptionId: input.renewSubscriptionId ?? null,
-      title, period: plan.period, durationDays: plan.durationDays, unitPrice: plan.price, quantity: 1,
+      orderId: o.id, productId: item.productId, planId: item.planId, serviceId: item.serviceId, renewSubscriptionId: renewId,
+      title: item.title, period: item.period, durationDays: item.durationDays, unitPrice: item.unitPrice!, quantity: 1,
+      currency: item.currency, listPrice: item.listPrice, exchangeRate: item.exchangeRate,
     });
     return o.id;
   });
@@ -124,6 +170,8 @@ export async function fulfillOrder(orderId: number, payment: { id: number; refId
     if (order.couponCode) await tx.update(schema.coupons).set({ usedCount: sql`${schema.coupons.usedCount} + 1` }).where(eq(schema.coupons.code, order.couponCode.toUpperCase()));
 
     for (const it of already) {
+      // خدمات دیجیتال اشتراک نمی‌سازند؛ سفارش «پرداخت‌شده» می‌ماند تا تیم آن را تحویل دهد
+      if (!it.planId || !it.productId) continue;
       const days = it.durationDays * it.quantity;
       if (it.renewSubscriptionId) {
         const [sub] = await tx.select().from(schema.subscriptions).where(eq(schema.subscriptions.id, it.renewSubscriptionId)).for("update");

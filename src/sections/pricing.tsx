@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { at } from "@/account/i18n";
-import { fmtNum, toToman, tomanUnit } from "@/lib/money";
+import { fmtNum, fmtUsd, toToman, tomanUnit } from "@/lib/money";
 import type { Locale } from "@/cms/types";
 import { cn } from "@/lib/utils";
 import { Heading, th, type SectionProps } from "./kit";
 
 type L = { fa: string; en?: string; ar?: string };
-type Plan = { id: number; name: L; description: L; features: { fa: string[]; en?: string[]; ar?: string[] }; price: number; period: string; durationDays: number; highlighted: boolean };
+type Plan = { id: number; name: L; description: L; features: { fa: string[]; en?: string[]; ar?: string[] }; price: number | null; usd: number | null; period: string; durationDays: number; highlighted: boolean };
 type Product = { key: string; name: L; plans: Plan[] };
 
 const pick = (v: L | undefined, l: Locale) => (v ? v[l] || v.fa : "");
@@ -53,9 +53,10 @@ export function PricingPlans({ c, ctx }: SectionProps) {
                     <p className="text-[17px] font-extrabold">{pick(pl.name, l)}</p>
                     {pick(pl.description, l) && <p className="mt-1 text-[14px] leading-7 text-ink-3">{pick(pl.description, l)}</p>}
                     <p className="mt-5 flex items-baseline gap-1.5">
-                      <span className="text-[34px] font-extrabold leading-none">{pl.price ? fmtNum(toToman(pl.price), l) : at("free", l)}</span>
-                      {pl.price > 0 && <span className="text-[14px] text-ink-3">{tomanUnit(l)} / {at(`per_${pl.period}` as never, l)}</span>}
+                      <span className="text-[34px] font-extrabold leading-none">{pl.price === null ? fmtUsd(Math.round((pl.usd ?? 0) * 100), l) : pl.price ? fmtNum(toToman(pl.price), l) : at("free", l)}</span>
+                      {pl.price !== null && pl.price > 0 && <span className="text-[14px] text-ink-3">{tomanUnit(l)} / {at(`per_${pl.period}` as never, l)}</span>}
                     </p>
+                    {pl.usd !== null && pl.price !== null && <p className="mt-1 text-[12.5px] text-ink-3">{fmtUsd(Math.round(pl.usd * 100), l)}</p>}
                     {c.tax_note && <p className="mt-1 text-[12.5px] text-ink-3">{c.tax_note}</p>}
                     <ul className="mt-6 grid flex-1 content-start gap-2.5 text-[14.5px]">
                       {feats.map((f, i) => <li key={i} className="flex items-start gap-2.5"><Check className={cn("mt-1 size-4 shrink-0", t.accent)} strokeWidth={2.5} aria-hidden />{f}</li>)}

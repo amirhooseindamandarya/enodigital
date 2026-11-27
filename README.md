@@ -1,60 +1,95 @@
-# وب‌سایت اِنو دیجیتال
+# وب‌سایت و فروشگاه اشتراک اِنو دیجیتال
 
-وب‌سایت شرکتی فارسی (RTL) برای یک شرکت توسعهٔ نرم‌افزار با دو حوزه: محصولات آماده (لیموسی، لیموفود، سامانهٔ رفاهیات) و توسعهٔ نرم‌افزار سفارشی.
+سایت سه‌زبانه (فارسی، انگلیسی، عربی) با **فروش آنلاین اشتراک** محصولات، **پروفایل مشتری** و **پنل مدیریت**؛ محتوای سایت آمادهٔ اتصال به CMS لیموسی است.
 
-**فناوری:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · کامپوننت‌های سبک shadcn (Radix) · Lucide · Motion · فونت Vazirmatn (میزبانی داخلی)
+**فناوری:** Next.js 15 (سرور Node.js، خروجی standalone) · React 19 · TypeScript · Tailwind CSS 4 · MySQL 8 / MariaDB + Drizzle ORM · درگاه زرین‌پال · پیامک کاوه‌نگار
 
-## اجرا
+## سه بخش سامانه
+
+| بخش | آدرس | توضیح |
+|---|---|---|
+| سایت | `/` · `/en/` · `/ar/` | صفحات ایستا از دادهٔ CMS؛ بخش «پلن‌های قیمت‌گذاری» زنده از پایگاه داده |
+| حساب مشتری | `/account/` · `/en/account/` · `/ar/account/` | سه‌زبانه |
+| پنل مدیریت | `/admin/` | فارسی؛ برای کارکنان |
+
+### حساب مشتری
+ثبت‌نام و ورود با موبایل یا ایمیل · بازیابی رمز با کد پیامکی · پیشخوان (اشتراک فعال، در انتظار پرداخت، تیکت باز) · خرید پلن با کد تخفیف و مالیات بر ارزش افزوده · پرداخت زرین‌پال و تلاش دوباره · لغو سفارش پرداخت‌نشده · صورت‌حساب/پیش‌فاکتور قابل چاپ با اطلاعات حقوقی · اشتراک‌ها با روزهای باقی‌مانده، هشدار پایان، اطلاعات دسترسی و تمدید · تیکت پشتیبانی مرتبط با سفارش · اطلاعات صورت‌حساب رسمی (شرکت، شناسه ملی، کد اقتصادی) · تغییر رمز و مدیریت دستگاه‌های واردشده
+
+### پنل مدیریت
+پیشخوان (درآمد ۳۰ روز، نمودار روزانه، سفارش‌های نیازمند رسیدگی، اشتراک‌های رو به پایان، تیکت‌های باز) · سفارش‌ها (جست‌وجو، فیلتر، تأیید پرداخت دستی، یادداشت داخلی) · اشتراک‌ها (تمدید دستی، تاریخ‌ها، ثبت آدرس و توضیح دسترسی برای مشتری) · مشتریان (ساخت، ویرایش، مسدودسازی، تعیین رمز) · محصولات و پلن‌ها (سه‌زبانه، قیمت، دوره، امکانات، پلن پیشنهادی) · کدهای تخفیف · پشتیبانی · تنظیمات (مالیات، اطلاعات فروشنده روی صورت‌حساب، پرداخت دستی) · کارکنان با دو نقش (کارشناس / مدیر کل) · گزارش فعالیت
+
+**روند فروش:** خرید ← پرداخت ← اشتراک خودکار فعال یا تمدید می‌شود ← کارشناس آدرس ورود را در اشتراک ثبت می‌کند ← مشتری آن را در پروفایلش می‌بیند ← سفارش «تکمیل‌شده».
+
+## اجرای محلی
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # خروجی ایستا در out/
+cp .env.example .env.local        # DATABASE_URL را پر کنید
+npm run db:setup                  # migration + محصولات
+npm run dev                       # http://localhost:3000 ← /admin/setup/ برای ساخت مدیر کل
 ```
 
-## ساختار
+راهنمای کامل اجرای محلی (ویندوز/مک/لینوکس با XAMPP یا MySQL): [`docs/local.md`](docs/local.md)
 
+بدون `ZARINPAL_MERCHANT_ID`، در محیط توسعه یک درگاه آزمایشی فعال است (پولی جابه‌جا نمی‌شود) و پیامک‌ها در لاگ سرور نوشته می‌شوند.
+
+## استقرار روی هاست cPanel (Setup Node.js App + MySQL)
+
+```bash
+npm run bundle:cpanel             # ← dist/enodigital-cpanel.zip
 ```
-src/app/                      صفحات (App Router)
-  page.tsx                    صفحهٔ اصلی
-  products/                   همهٔ محصولات + limoc / limofood / benefits
-  services/custom-software/   توسعهٔ نرم‌افزار سفارشی
-  projects/ about/ blog/ contact/
-  sitemap.ts robots.ts not-found.tsx
-src/lib/                      داده‌های ساخت‌یافته (مستقل از JSX)
-  site.ts                     نام شرکت، لوگو، اطلاعات تماس، منو
-  products.ts                 اطلاعات سه محصول
-  content.ts                  خدمات، فرایند، پروژه‌ها، مقالات
-  seo.tsx                     متادیتا و JSON-LD
-src/components/
-  layout/                     هدر (Mega Menu، منوی موبایل)، فوتر، لوگو
-  home/                       بخش‌های صفحهٔ اصلی و انتخاب راهکار
-  product/                    Heroهای اختصاصی و بلوک‌های صفحات محصول
-  mockups/                    ماکاپ‌های مفهومی و تصاویر واقعی رفاهیات
-  forms/lead-form.tsx         فرم تماس / دمو / درخواست پروژه
-  ui/ motion/                 دکمه، آکاردئون، آیکون، انیمیشن نمایش
-src/assets/screens/           اسکرین‌شات‌های واقعی سامانهٔ رفاهیات (دادهٔ آزمایشی)
+
+بسته بدون نیاز به `npm install` روی هاست اجرا می‌شود؛ راهنمای گام‌به‌گام در [`docs/cpanel.md`](docs/cpanel.md) (همان فایل `INSTALL-FA.md` داخل بسته) است.
+
+## استقرار روی سرور (VPS)
+
+```bash
+cp .env.example .env              # APP_URL، DB_PASSWORD، ZARINPAL_MERCHANT_ID، کاوه‌نگار
+docker compose up -d --build
 ```
+
+- برنامه روی `127.0.0.1:3000` بالا می‌آید؛ آن را پشت Nginx یا Caddy با HTTPS قرار دهید (کوکی ورود فقط روی HTTPS ارسال می‌شود).
+- هر بار شروع کانتینر، migrationها و دادهٔ اولیه خودکار اجرا می‌شوند (تکرارپذیر).
+- آدرس بازگشت درگاه: `APP_URL/api/payments/callback/` — دامنه باید در پنل زرین‌پال ثبت شده باشد.
+- پشتیبان‌گیری: `docker compose exec db sh -c 'mysqldump -uenodigital -p"$MYSQL_PASSWORD" enodigital' > backup.sql`
 
 ## تنظیمات (`.env.example`)
 
 | متغیر | کاربرد |
 |---|---|
-| `NEXT_PUBLIC_BASE_PATH` | مسیر پایه؛ برای GitHub Pages `/enodigital`، برای دامنهٔ اختصاصی خالی |
-| `NEXT_PUBLIC_SITE_URL` | آدرس کامل سایت برای canonical و sitemap |
-| `NEXT_PUBLIC_FORM_ENDPOINT` | نقطهٔ اتصال API فرم‌ها (POST، `multipart/form-data`) |
+| `APP_URL` | آدرس عمومی سایت (بازگشت از درگاه، canonical، sitemap) |
+| `DATABASE_URL` / `DB_PASSWORD` | پایگاه داده MySQL/MariaDB |
+| `ZARINPAL_MERCHANT_ID` / `ZARINPAL_SANDBOX` | درگاه زرین‌پال (v4، مبلغ به ریال) |
+| `SMS_DRIVER=kavenegar` / `KAVENEGAR_*` | پیامک کد بازیابی و اطلاع‌رسانی سفارش و تیکت |
+| `PAYMENT_MOCK` | درگاه آزمایشی (فقط برای تست) |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | ارسال فرم‌های تماس/دمو |
 
-فرم‌ها اعتبارسنجی کامل دارند. تا `NEXT_PUBLIC_FORM_ENDPOINT` تنظیم نشود، **هیچ پیام موفقیت ساختگی نمایش داده نمی‌شود** و کاربر مطلع می‌شود که ارسال آنلاین فعال نیست. فیلدهای ارسالی: `name`, `organization`, `contact`, `topic`/`projectType`/`teamSize`, `message`, `attachment`, `product`, `formType`, `page`.
+## معماری
 
-## انتشار
+```
+src/app/[[...path]]   صفحات سایت (ایستا، از دادهٔ CMS)
+src/app/account       حساب مشتری (پویا؛ /en و /ar با middleware)
+src/app/admin         پنل مدیریت
+src/app/api           پلن‌ها، بازگشت درگاه، درگاه آزمایشی
+src/server            پایگاه داده (schema)، احراز هویت، سفارش، پرداخت، پیامک، تنظیمات
+src/account           متن‌های سه‌زبانه، اکشن‌ها و اجزای حساب مشتری
+src/admin             اکشن‌ها و اجزای پنل مدیریت
+src/cms · src/sections · src/site-content   لایهٔ CMS، ۳۳ نوع سکشن، محتوای سه‌زبانه
+drizzle/              migrationهای پایگاه داده
+scripts/              db-setup.mjs، ساخت بستهٔ CMS و بستهٔ cPanel
+tests/e2e.cjs         آزمون سرتاسری خرید و پنل
+```
 
-گردش‌کار `.github/workflows/deploy.yml` با هر push سایت را می‌سازد و روی GitHub Pages منتشر می‌کند.
-در تنظیمات مخزن: **Settings → Pages → Source = GitHub Actions**.
-برای فرم: **Settings → Secrets and variables → Actions → Variables → `FORM_ENDPOINT`**.
+- مبالغ در پایگاه داده **ریال** و در نمایش **تومان** است؛ قیمت‌ها در پنل به تومان وارد می‌شوند.
+- رمزها با scrypt، نشست‌ها با توکن تصادفی (فقط هش آن در پایگاه داده)، محدودیت تلاش برای ورود و کد پیامکی، و جلوگیری از فعال‌سازی دوبارهٔ سفارش در پرداخت‌های هم‌زمان.
 
-## محتوای قابل جایگزینی (TODO)
+## بستهٔ CMS لیموسی
 
-- نام نهایی شرکت، لوگو و اطلاعات تماس: `src/lib/site.ts`
-- اسکرین‌شات واقعی لیموسی و لیموفود (فعلاً ماکاپ مفهومی با برچسب): `src/components/mockups/`
-- نمونه‌کارهای واقعی و نتایج قابل‌استناد: `src/lib/content.ts` → `projects`
-- داستان و تیم شرکت: `src/app/about/page.tsx`
+`npm run package` ← `dist/enodigital-site.zip` (site.json + media) با اعتبارسنجی کامل طبق راهنمای بستهٔ سایت لیموسی. کلید وب‌سایت: `enodigital`. منبع داده در `src/cms/site.ts` است تا پس از دریافت مستند API فقط همان‌جا عوض شود. فروش، سفارش‌ها و حساب مشتری در پایگاه دادهٔ همین سامانه‌اند، نه در CMS.
+
+## آزمون
+
+```bash
+npm run build && PAYMENT_MOCK=true SMS_DRIVER=log COOKIE_SECURE=false npm start > server.log &
+BASE_URL=http://localhost:3000 SERVER_LOG=server.log node tests/e2e.cjs
+```

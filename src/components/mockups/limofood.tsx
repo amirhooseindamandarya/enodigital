@@ -1,116 +1,116 @@
 import { cn } from "@/lib/utils";
-import storeImg from "@/assets/screens/limofood-store.webp";
-import menuImg from "@/assets/screens/limofood-menu.webp";
+import type { Locale } from "@/cms/types";
 
-/** تصاویر واقعی لیموفود (صفحهٔ فروشگاه نمونه روی پلتفرم) */
-export const limofoodScreens = {
-  store: { src: storeImg, alt: "صفحهٔ فروشگاه در لیموفود: بنر فروشگاه، اطلاعات، منوی فروشگاه و دسته‌بندی محصولات" },
-  menu: { src: menuImg, alt: "منوی آنلاین فروشگاه در لیموفود: دسته‌بندی محصولات، قیمت‌ها و افزودن به سبد" },
-};
+/** ماکاپ‌های تزئینی لیموفود (منوی موبایل، کارت سفارش، تابلوی عملیات) به سه زبان */
+const T = {
+  fa: {
+    store: "رستوران نمونه", open: "باز است · ارسال با پیک", initial: "ر", cur: "تومان", curShort: "ت",
+    cats: ["پرفروش‌ها", "غذای اصلی", "سالاد", "نوشیدنی"], cart: "مشاهدهٔ سبد · ۱ قلم",
+    items: [["برگر کلاسیک", "گوشت گوساله، پنیر چدار، سس مخصوص", "۳۸۵٬۰۰۰"], ["پاستا آلفردو", "مرغ، قارچ، سس خامه", "۳۲۰٬۰۰۰"], ["سالاد سزار", "کاهو، مرغ گریل، نان تست", "۲۴۵٬۰۰۰"], ["لیموناد تازه", "لیمو، نعناع", "۹۵٬۰۰۰"]],
+    order: "سفارش #۲۱۸", lines: [["برگر کلاسیک × ۲", "۷۷۰٬۰۰۰"], ["لیموناد تازه × ۱", "۹۵٬۰۰۰"], ["کد تخفیف", "−۵۰٬۰۰۰"]], paid: "پرداخت آنلاین", total: "۸۱۵٬۰۰۰",
+    status: { new: "سفارش جدید", prep: "در حال آماده‌سازی", send: "ارسال با پیک" },
+    board: "سفارش‌های امروز", auto: "به‌روزرسانی خودکار", kpis: [["فروش امروز", "۱۸٫۴ م"], ["سفارش", "۴۶"]],
+    cols: [["جدید", [["#۲۱۸", "۲ قلم · پرداخت شد"], ["#۲۱۹", "۴ قلم · پرداخت شد"]]], ["آماده‌سازی", [["#۲۱۵", "۳ قلم"], ["#۲۱۶", "۱ قلم"], ["#۲۱۷", "۲ قلم"]]], ["ارسال", [["#۲۱۲", "پیک: علی"], ["#۲۱۳", "پیک: رضا"]]], ["تحویل‌شده", [["#۲۱۰", "۱۲:۴۰"], ["#۲۱۱", "۱۲:۵۵"]]]],
+  },
+  en: {
+    store: "Sample Kitchen", open: "Open · Delivery available", initial: "S", cur: "", curShort: "",
+    cats: ["Popular", "Mains", "Salads", "Drinks"], cart: "View cart · 1 item",
+    items: [["Classic burger", "Beef, cheddar, house sauce", "$14.50"], ["Pasta Alfredo", "Chicken, mushroom, cream", "$12.90"], ["Caesar salad", "Lettuce, grilled chicken, croutons", "$9.80"], ["Fresh lemonade", "Lemon, mint", "$3.90"]],
+    order: "Order #218", lines: [["Classic burger × 2", "$29.00"], ["Fresh lemonade × 1", "$3.90"], ["Discount code", "−$2.00"]], paid: "Paid online", total: "$30.90",
+    status: { new: "New order", prep: "Preparing", send: "Out for delivery" },
+    board: "Today’s orders", auto: "Live updates", kpis: [["Sales today", "$1.8k"], ["Orders", "46"]],
+    cols: [["New", [["#218", "2 items · paid"], ["#219", "4 items · paid"]]], ["Preparing", [["#215", "3 items"], ["#216", "1 item"], ["#217", "2 items"]]], ["Delivery", [["#212", "Courier: Ali"], ["#213", "Courier: Reza"]]], ["Delivered", [["#210", "12:40"], ["#211", "12:55"]]]],
+  },
+  ar: {
+    store: "مطعم نموذجي", open: "مفتوح · التوصيل متاح", initial: "م", cur: "ر.س", curShort: "ر.س",
+    cats: ["الأكثر طلباً", "أطباق رئيسية", "سلطات", "مشروبات"], cart: "عرض السلة · صنف واحد",
+    items: [["برغر كلاسيك", "لحم بقري، جبن شيدر، صلصة خاصة", "54"], ["باستا ألفريدو", "دجاج، فطر، صلصة كريمة", "48"], ["سلطة سيزر", "خس، دجاج مشوي، خبز محمص", "36"], ["ليموناضة طازجة", "ليمون، نعناع", "15"]],
+    order: "الطلب #218", lines: [["برغر كلاسيك × 2", "108"], ["ليموناضة طازجة × 1", "15"], ["رمز خصم", "−8"]], paid: "دفع إلكتروني", total: "115",
+    status: { new: "طلب جديد", prep: "قيد التحضير", send: "قيد التوصيل" },
+    board: "طلبات اليوم", auto: "تحديث تلقائي", kpis: [["مبيعات اليوم", "6.9 ألف"], ["الطلبات", "46"]],
+    cols: [["جديد", [["#218", "صنفان · مدفوع"], ["#219", "4 أصناف · مدفوع"]]], ["التحضير", [["#215", "3 أصناف"], ["#216", "صنف واحد"], ["#217", "صنفان"]]], ["التوصيل", [["#212", "المندوب: علي"], ["#213", "المندوب: رضا"]]], ["تم التسليم", [["#210", "12:40"], ["#211", "12:55"]]]],
+  },
+} as const;
 
-/**
- * ماکاپ‌های مفهومی لیموفود (منوی موبایلی، کارت سفارش، تابلوی عملیات).
- * TODO: اسکرین‌شات واقعی پنل مدیریت سفارش‌ها و منوی موبایل جایگزین شود.
- */
-const items = [
-  { n: "برگر کلاسیک", d: "گوشت گوساله، پنیر چدار، سس مخصوص", p: "۳۸۵٬۰۰۰", c: "from-[#ffe2b8] to-[#ffc98a]" },
-  { n: "پاستا آلفردو", d: "مرغ، قارچ، سس خامه", p: "۳۲۰٬۰۰۰", c: "from-[#fff1c7] to-[#ffe08a]" },
-  { n: "سالاد سزار", d: "کاهو، مرغ گریل، نان تست", p: "۲۴۵٬۰۰۰", c: "from-[#e5f6d8] to-[#c6eaa8]" },
-  { n: "لیموناد تازه", d: "لیمو، نعناع", p: "۹۵٬۰۰۰", c: "from-[#fff7c2] to-[#ffe96e]" },
-];
+const swatches = ["from-[#ffe2b8] to-[#ffc98a]", "from-[#fff1c7] to-[#ffe08a]", "from-[#e5f6d8] to-[#c6eaa8]", "from-[#fff7c2] to-[#ffe96e]"];
 
-export function LimoFoodMenu({ className }: { className?: string }) {
+export function LimoFoodMenu({ className, locale = "fa" }: { className?: string; locale?: Locale }) {
+  const d = T[locale];
   return (
     <div className={cn("bg-[#fffaf1] pb-3 text-[11px] leading-5 text-ink", className)} aria-hidden>
       <div className="bg-gradient-to-b from-[#d7193a] to-[#b3102b] px-4 pb-4 pt-9">
         <div className="flex items-center gap-2.5">
-          <span className="grid size-10 place-items-center rounded-xl bg-white text-[16px] font-black text-sun-700 shadow-sm">ر</span>
+          <span className="grid size-10 place-items-center rounded-xl bg-white text-[16px] font-black text-sun-700 shadow-sm">{d.initial}</span>
           <div>
-            <p className="text-[14px] font-extrabold text-white">رستوران نمونه</p>
-            <p className="text-[10px] text-white/75">باز است · ارسال با پیک</p>
+            <p className="text-[14px] font-extrabold text-white">{d.store}</p>
+            <p className="text-[10px] text-white/75">{d.open}</p>
           </div>
         </div>
       </div>
       <div className="-mt-3 mx-3 flex gap-1.5 overflow-hidden rounded-xl bg-white p-1.5 shadow-sm">
-        {["پرفروش‌ها", "غذای اصلی", "سالاد", "نوشیدنی"].map((c, i) => (
-          <span key={c} className={cn("shrink-0 rounded-lg px-2.5 py-1 text-[10.5px] font-semibold", i === 0 ? "bg-navy text-white" : "text-ink-2")}>{c}</span>
-        ))}
+        {d.cats.map((c, i) => <span key={c} className={cn("shrink-0 rounded-lg px-2.5 py-1 text-[10.5px] font-semibold", i === 0 ? "bg-navy text-white" : "text-ink-2")}>{c}</span>)}
       </div>
       <div className="mt-3 space-y-2 px-3">
-        {items.map((it, i) => (
-          <div key={it.n} className="flex gap-2.5 rounded-xl bg-white p-2 shadow-[0_1px_2px_rgb(0_0_0/0.04)]">
-            <div className={cn("size-14 shrink-0 rounded-lg bg-gradient-to-br", it.c)} />
+        {d.items.map(([n, desc, p], i) => (
+          <div key={n} className="flex gap-2.5 rounded-xl bg-white p-2 shadow-[0_1px_2px_rgb(0_0_0/0.04)]">
+            <div className={cn("size-14 shrink-0 rounded-lg bg-gradient-to-br", swatches[i])} />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-extrabold">{it.n}</p>
-              <p className="truncate text-[9.5px] text-ink-3">{it.d}</p>
+              <p className="truncate text-[12px] font-extrabold">{n}</p>
+              <p className="truncate text-[9.5px] text-ink-3">{desc}</p>
               <div className="mt-1 flex items-center justify-between">
-                <span className="font-bold">{it.p} <span className="text-[9px] font-normal text-ink-3">تومان</span></span>
-                {i === 0 ? (
-                  <span className="flex items-center gap-1.5 rounded-lg bg-sun/25 px-1.5 font-bold text-sun-700"><b>−</b>۱<b>+</b></span>
-                ) : (
-                  <span className="grid size-6 place-items-center rounded-lg bg-navy text-[13px] font-bold text-white">+</span>
-                )}
+                <span className="font-bold">{p} {d.cur && <span className="text-[9px] font-normal text-ink-3">{d.cur}</span>}</span>
+                {i === 0 ? <span className="flex items-center gap-1.5 rounded-lg bg-sun/25 px-1.5 font-bold text-sun-700"><b>−</b>1<b>+</b></span>
+                  : <span className="grid size-6 place-items-center rounded-lg bg-navy text-[13px] font-bold text-white">+</span>}
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="mx-3 mt-3 flex items-center justify-between rounded-xl bg-navy px-3 py-2.5 text-white">
-        <span className="font-bold">مشاهدهٔ سبد · ۱ قلم</span>
-        <span className="font-extrabold">۳۸۵٬۰۰۰ ت</span>
+        <span className="font-bold">{d.cart}</span>
+        <span className="font-extrabold">{d.items[0][2]} {d.curShort}</span>
       </div>
     </div>
   );
 }
 
-export function OrderCard({ className, status = "new" }: { className?: string; status?: "new" | "prep" | "send" }) {
-  const s = {
-    new: { t: "سفارش جدید", c: "bg-sun/25 text-sun-700" },
-    prep: { t: "در حال آماده‌سازی", c: "bg-amber/15 text-amber-ink" },
-    send: { t: "ارسال با پیک", c: "bg-teal/12 text-teal-700" },
-  }[status];
+export function OrderCard({ className, status = "new", locale = "fa" }: { className?: string; status?: "new" | "prep" | "send"; locale?: Locale }) {
+  const d = T[locale];
+  const cls = { new: "bg-sun/25 text-sun-700", prep: "bg-amber/15 text-amber-ink", send: "bg-teal/12 text-teal-700" }[status];
   return (
     <div className={cn("rounded-2xl border border-line bg-white p-3.5 text-[11.5px] leading-6 text-ink", className)} aria-hidden>
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-[13px] font-extrabold">سفارش #۲۱۸</p>
-        <span className={cn("rounded-full px-2 text-[10px] font-bold", s.c)}>{s.t}</span>
+        <p className="text-[13px] font-extrabold">{d.order}</p>
+        <span className={cn("rounded-full px-2 text-[10px] font-bold", cls)}>{d.status[status]}</span>
       </div>
       <div className="space-y-0.5 text-ink-2">
-        <p className="flex justify-between"><span>برگر کلاسیک × ۲</span><span>۷۷۰٬۰۰۰</span></p>
-        <p className="flex justify-between"><span>لیموناد تازه × ۱</span><span>۹۵٬۰۰۰</span></p>
-        <p className="flex justify-between text-teal-700"><span>کد تخفیف</span><span>−۵۰٬۰۰۰</span></p>
+        {d.lines.map(([a, b], i) => <p key={a} className={cn("flex justify-between", i === 2 && "text-teal-700")}><span>{a}</span><span>{b}</span></p>)}
       </div>
       <div className="mt-2 flex items-center justify-between border-t border-dashed border-line-2 pt-2">
-        <span className="text-ink-3">پرداخت آنلاین</span>
-        <span className="text-[13px] font-extrabold">۸۱۵٬۰۰۰ ت</span>
+        <span className="text-ink-3">{d.paid}</span>
+        <span className="text-[13px] font-extrabold">{d.total} {d.curShort}</span>
       </div>
     </div>
   );
 }
 
-const cols = [
-  { t: "جدید", c: "bg-sun", orders: [["#۲۱۸", "۲ قلم · پرداخت شد"], ["#۲۱۹", "۴ قلم · پرداخت شد"]] },
-  { t: "آماده‌سازی", c: "bg-amber", orders: [["#۲۱۵", "۳ قلم"], ["#۲۱۶", "۱ قلم"], ["#۲۱۷", "۲ قلم"]] },
-  { t: "ارسال", c: "bg-teal", orders: [["#۲۱۲", "پیک: علی"], ["#۲۱۳", "پیک: رضا"]] },
-  { t: "تحویل‌شده", c: "bg-ink-3", orders: [["#۲۱۰", "۱۲:۴۰"], ["#۲۱۱", "۱۲:۵۵"]] },
-];
+const dots = ["bg-sun", "bg-amber", "bg-teal", "bg-ink-3"];
 
-export function LimoFoodBoard({ className }: { className?: string }) {
+export function LimoFoodBoard({ className, locale = "fa" }: { className?: string; locale?: Locale }) {
+  const d = T[locale];
   return (
     <div className={cn("bg-white p-3.5 text-[11px] leading-5 text-ink", className)} aria-hidden>
       <div className="mb-3 flex items-center justify-between">
-        <div><p className="text-[13px] font-extrabold">سفارش‌های امروز</p><p className="text-[10px] text-ink-3">به‌روزرسانی خودکار</p></div>
+        <div><p className="text-[13px] font-extrabold">{d.board}</p><p className="text-[10px] text-ink-3">{d.auto}</p></div>
         <div className="flex gap-1.5">
-          {[["فروش امروز", "۱۸٫۴ م"], ["سفارش", "۴۶"]].map(([k, v]) => (
-            <span key={k} className="rounded-lg border border-line px-2 py-1 text-[10px] text-ink-3">{k} <b className="text-ink">{v}</b></span>
-          ))}
+          {d.kpis.map(([k, v]) => <span key={k} className="rounded-lg border border-line px-2 py-1 text-[10px] text-ink-3">{k} <b className="text-ink">{v}</b></span>)}
         </div>
       </div>
       <div className="grid grid-cols-4 gap-2">
-        {cols.map((c) => (
-          <div key={c.t} className="rounded-lg bg-paper p-1.5">
-            <p className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold text-ink-2"><i className={cn("size-1.5 rounded-full", c.c)} />{c.t}</p>
-            {c.orders.map(([id, m]) => (
+        {d.cols.map(([title, orders], i) => (
+          <div key={title} className="rounded-lg bg-paper p-1.5">
+            <p className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold text-ink-2"><i className={cn("size-1.5 rounded-full", dots[i])} />{title}</p>
+            {orders.map(([id, m]) => (
               <div key={id} className="mb-1.5 rounded-md border border-line bg-white p-1.5">
                 <p className="text-[10.5px] font-bold">{id}</p>
                 <p className="truncate text-[9.5px] text-ink-3">{m}</p>
